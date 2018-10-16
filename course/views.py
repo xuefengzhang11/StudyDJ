@@ -29,8 +29,8 @@ def getDegree(request):
     return JsonResponse({"degrees": list(degrees)}, json_dumps_params={'ensure_ascii': False})
 
 
-# 按条件查询课程
-def getCourses(request, direid, cateid, degrid, pindex):
+# 按条件查询课程（多条件筛选）
+def getCourses(request, direid, cateid, degrid, con, pindex):
     '''
     :param direid: 课程方向ID
     :param cateid: 课程分类ID
@@ -38,6 +38,7 @@ def getCourses(request, direid, cateid, degrid, pindex):
     :param pindex: 查询的课程页码
     :return: 返回符合要求的所有课程信息
     '''
+    print(":" + con)
     direid = int(direid)
     cateid = int(cateid)
     degrid = int(degrid)
@@ -45,41 +46,42 @@ def getCourses(request, direid, cateid, degrid, pindex):
     pageSize = 4
     start = pageSize * (pindex - 1)
     end = pageSize * pindex
-    # 未选择课程难度
-    if degrid == 0:
-        # 未选择分类
-        if cateid == 0:
-            # 未选择方向
-            if direid == 0:
-                courses = course.objects.all().values(
-                    'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-            # 选择了方向
-            else:
-                courses = course.objects.filter(cs_direction_id=direid).values(
-                    'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-        # 选择了分类（自动选择方向）
-        else:
-            courses = course.objects.filter(cs_direction_id=direid, cs_category_id=cateid).values(
-                'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-    # 选择了课程难度
-    else:
-        # 未选择分类
-        if cateid == 0:
-            # 未选择方向
-            if direid == 0:
-                courses = course.objects.filter(cs_degree_id=degrid).values(
-                    'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-            # 选择了方向
-            else:
-                courses = course.objects.filter(cs_direction_id=direid, cs_degree_id=degrid).values(
-                    'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-        # 选择了分类（自动选择方向）
-        else:
-            courses = course.objects.filter(
-                cs_direction_id=direid, cs_category_id=cateid, cs_degree_id=degrid).values(
-                'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
-    print(courses)
+    all_con = {}
+    if direid:
+        all_con['cs_direction_id'] = direid
+    if cateid:
+        all_con['cs_category_id'] = cateid
+    if degrid:
+        all_con['cs_degree_id'] = degrid
+    if con:
+        all_con['name__regex'] = con
+    courses = course.objects.filter(**all_con).values(
+        'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
     return JsonResponse({"courses": list(courses)}, json_dumps_params={'ensure_ascii': False})
+
+
+# 按条件查询课程总数量
+def getCoursesCount(request, direid, cateid, degrid, con):
+    '''
+    :param direid: 课程方向ID
+    :param cateid: 课程分类ID
+    :param degrid: 课程难度ID
+    :return: 返回符合要求的所有课程信息
+    '''
+    direid = int(direid)
+    cateid = int(cateid)
+    degrid = int(degrid)
+    all_con = {}
+    if direid:
+        all_con['cs_direction_id'] = direid
+    if cateid:
+        all_con['cs_category_id'] = cateid
+    if degrid:
+        all_con['cs_degree_id'] = degrid
+    if con:
+        all_con['name__regex'] = con
+    alls = course.objects.filter(**all_con).count()
+    return JsonResponse({"alllength": alls}, json_dumps_params={'ensure_ascii': False})
 
 
 # 得到热门课程
