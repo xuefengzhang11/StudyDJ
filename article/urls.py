@@ -6,7 +6,7 @@ app_name = 'article'
 
 urlpatterns = [
     path('hotArticle/', views.hotArticle, name='hotArticle'),  # 得到热门文章
-    url(r'getArticle/(?P<id>\d+)', views.getArticle, name='getArticle'),  # 根据ID得到文章信息
+    url(r'getArticleById/(?P<id>\d+)', views.getArticleById, name='getArticleById'),  # 根据ID得到文章信息
 
 url(r'^acountArticle\w*/(?P<con>\w*)/', views.acount, name='acount'),# 求文章总数
     url(r'^getArticle/(?P<pageIndex>\d*)/(?P<con>\w*)/', views.getArticle, name='getArticle'),  # 得到文章
