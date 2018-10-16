@@ -1,0 +1,19 @@
+from django.db import models
+
+
+# Create your models here.
+
+
+# 订单表
+class order(models.Model):
+    # 订单编号
+    number = models.CharField(max_length=100)
+    ordertime = models.DateTimeField(auto_now_add=True)
+    status = models.ForeignKey(to='status', to_field='id', on_delete=True)
+    course = models.ForeignKey(to='course.course', to_field='id', on_delete=True)
+    user = models.ForeignKey(to='user.user', to_field='id', on_delete=True)
+
+
+# 订单状态表
+class status(models.Model):
+    name = models.CharField(max_length=20)
