@@ -38,12 +38,11 @@ def getCourses(request, direid, cateid, degrid, con, pindex):
     :param pindex: 查询的课程页码
     :return: 返回符合要求的所有课程信息
     '''
-    print(":" + con)
     direid = int(direid)
     cateid = int(cateid)
     degrid = int(degrid)
     pindex = int(pindex)
-    pageSize = 8
+    pageSize = 12
     start = pageSize * (pindex - 1)
     end = pageSize * pindex
     all_con = {}

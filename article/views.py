@@ -29,7 +29,7 @@ def getUserArticle(request, id):
 
 # 获取所有文章（多条件筛选分页）
 def getArticle(request, con, pageIndex):
-    pageSize = 3
+    pageSize = 12
     pageIndex = int(pageIndex)
     start = (pageIndex - 1) * pageSize
     end = pageIndex * pageSize
@@ -37,14 +37,8 @@ def getArticle(request, con, pageIndex):
     if con:
         all_con['title__icontains'] = con
     try:
-        # if not con:
-        #     articles = article.objects.all().values(
-        #         'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
-        # else:
-        #     articles = article.objects.filter(title__regex=con).values(
-        #         'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
         articles = article.objects.filter(**all_con).order_by('id').values(
-                'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
+            'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
         return JsonResponse({"articles": list(articles)}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         return JsonResponse({"code": "409"})
