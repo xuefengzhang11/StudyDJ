@@ -40,9 +40,13 @@ def hotCareer(request):
         json_dumps_params={'ensure_ascii': False})
 
 # 获取所有职业计划
-def getCareer(request):
+def getCareer(request, pageIndex):
+    pageSize = 8
+    pageIndex = int(pageIndex)
+    start = (pageIndex - 1) * pageSize
+    end = pageIndex * pageSize
     careers_list = []
-    careers = career.objects.order_by('-learn').all()
+    careers = career.objects.order_by('-learn').all()[start:end]
     for care in careers:
         care_dict = model_to_dict(care)
         courses_list = getCourseByCareer(care)
@@ -81,50 +85,24 @@ def getSectionByChapter(chap):
         sections_list.append(model_to_dict(sect))
     return sections_list
 
+# 通过职业id获取详细课程
+def getCareerDetail(request,careerid):
+    care = career.objects.get(id=careerid)
+    course_all={}
+    courses_list = getCourseByCareer(care)
+    course_all['courses'] = courses_list
+    return JsonResponse({"careers": course_all}, json_dumps_params={'ensure_ascii': False})
 
-# -----
 
-# 职业计划详情信息
-def getCareerDetail(request, id):
-    m_career = career.objects.filter(id=id).first()
-    dict_career = model_to_dict(m_career)
-    courses = []
-    cours = m_career.course_set.all()
-    # 每个课程小节数
-    sects_num = 0
-    # 每个课程章数
-    chaps_num = 0
-    for cour in cours:
-        cour_dict = model_to_dict(cour)
-        # 同理：将章封装到各自的节中
-        chapters = []
-        chaps = cour.chapter_set.all()
-        chaps_num += len(list(chaps))
-        for chap in chaps:
-            chap_dict = model_to_dict(chap)
-            # 同理：将节封装到各自的章中
-            sections = []
-            sects = cour.chapter_set.all()
-            sects_num += len(list(sects))
-            for sect in sects:
-                sect_dict = model_to_dict(sect)
-                # 将当前课程节追加到课程节列表中
-                sections.append(sect_dict)
-            # 将所有课程节封装到对应的课程章中
 
-            chap_dict['sections'] = sections
 
-            # 将当前课程章追加到课程章列表中
-            chapters.append(chap_dict)
 
-        # 将小节数加入到课程当中
-        cour_dict['sects_num'] = sects_num
-        # 将小节数加入到课程当中
-        cour_dict['chaps_num'] = chaps_num
-        # 将所有课程章封装到对应的课程中
-        cour_dict['chapters'] = chapters
-        # 将当前课程追加到课程列表中
-        courses.append(cour_dict)
-    # 将所有课程封装到职业计划中
-    dict_career['courses'] = courses
-    return JsonResponse({"career": dict_career}, json_dumps_params={'ensure_ascii': False})
+# ----
+# 返回职业的数量
+def getCount(request):
+    try:
+        len = career.objects.all().count()
+        print(len)
+        return JsonResponse({'account':len})
+    except Exception as ex:
+        return JsonResponse({"code":"409"})
