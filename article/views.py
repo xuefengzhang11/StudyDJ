@@ -27,18 +27,23 @@ def getUserArticle(request, id):
     return JsonResponse({"nums": nums, "uu_articles": list(uu_articles)}, json_dumps_params={'ensure_ascii': False})
 
 
-# 文章获取每一章所有需要的数据
+# 获取所有文章（多条件筛选分页）
 def getArticle(request, con, pageIndex):
     pageSize = 3
     pageIndex = int(pageIndex)
     start = (pageIndex - 1) * pageSize
     end = pageIndex * pageSize
+    all_con = {}
+    if con:
+        all_con['title__icontains'] = con
     try:
-        if not con:
-            articles = article.objects.all().values(
-                'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
-        else:
-            articles = article.objects.filter(title__regex=con).values(
+        # if not con:
+        #     articles = article.objects.all().values(
+        #         'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
+        # else:
+        #     articles = article.objects.filter(title__regex=con).values(
+        #         'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
+        articles = article.objects.filter(**all_con).order_by('id').values(
                 'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
         return JsonResponse({"articles": list(articles)}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:

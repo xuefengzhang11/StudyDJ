@@ -43,7 +43,7 @@ def getCourses(request, direid, cateid, degrid, con, pindex):
     cateid = int(cateid)
     degrid = int(degrid)
     pindex = int(pindex)
-    pageSize = 4
+    pageSize = 8
     start = pageSize * (pindex - 1)
     end = pageSize * pindex
     all_con = {}
@@ -54,8 +54,8 @@ def getCourses(request, direid, cateid, degrid, con, pindex):
     if degrid:
         all_con['cs_degree_id'] = degrid
     if con:
-        all_con['name__regex'] = con
-    courses = course.objects.filter(**all_con).values(
+        all_con['name__icontains'] = con
+    courses = course.objects.filter(**all_con).order_by('id').values(
         'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[start:end]
     return JsonResponse({"courses": list(courses)}, json_dumps_params={'ensure_ascii': False})
 
@@ -79,7 +79,7 @@ def getCoursesCount(request, direid, cateid, degrid, con):
     if degrid:
         all_con['cs_degree_id'] = degrid
     if con:
-        all_con['name__regex'] = con
+        all_con['name__icontains'] = con
     alls = course.objects.filter(**all_con).count()
     return JsonResponse({"alllength": alls}, json_dumps_params={'ensure_ascii': False})
 
