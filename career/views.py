@@ -6,40 +6,19 @@ from django.forms.models import model_to_dict
 from career.models import career
 import json
 
-
+# 热门职业
 def hotCareer(request):
     careers = career.objects.order_by('-learn').all()[0:4]
-    careers_temp = career.objects.order_by('-learn').all()[0:4].values()
-    # 统计有多少课程
-    course_count = []
-    # 统计有多少个章
-    chapter_count = []
-    # 统计有多少个小节
-    section_count = []
+    careers_list=[]
     for care in careers:
-        # 通过career_id 找到所有课程
-        courses = care.course_set.all()
-        # 课程数
-        course_count.append({care.id: len(list(courses))})
-        # 这里开始找章数
-        chap_num = 0
-        sect_num = 0
-        for cour in courses:
-            chapters = cour.chapter_set.all()
-            # 课程章数
-            chap_num += len(list(chapters))
-            # 这里开始找小节数
-            for chap in chapters:
-                sections = chap.section_set.all()
-                sect_num += len(list(sections))
-        section_count.append({care.id: sect_num})
-        chapter_count.append({care.id: chap_num})
+        care_dict = model_to_dict(care)
+        courses_list = getCourseByCareer(care)
+        care_dict['courses'] = courses_list
+        care_dict['coursesNum'] = len(courses_list)
+        careers_list.append(care_dict)
     return JsonResponse(
-        {"hotCareers": list(careers_temp), "course_count": course_count, "chapter_count": chapter_count,
-         "section_count": section_count},
-        json_dumps_params={'ensure_ascii': False})
+            {"hotCareers": careers_list},json_dumps_params ={'ensure_ascii': False})
 
-# 获取所有职业计划
 def getCareer(request, pageIndex):
     pageSize = 8
     pageIndex = int(pageIndex)
