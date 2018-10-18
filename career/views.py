@@ -41,7 +41,7 @@ def hotCareer(request):
 
 # 获取所有职业计划
 def getCareer(request, pageIndex):
-    pageSize = 8
+    pageSize = 12
     pageIndex = int(pageIndex)
     start = (pageIndex - 1) * pageSize
     end = pageIndex * pageSize
