@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse, JsonResponse
 from .models import user
+import json
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -18,7 +19,8 @@ def login(request):
         else:
             # 电话号码登录
             res = loginTel(tel_email, pwd)
-        return JsonResponse({"结果": res})
+        return JsonResponse({"res": res})
+
 
 # 邮箱登录
 def loginEmail(email, pwd):
@@ -32,6 +34,7 @@ def loginEmail(email, pwd):
     else:
         res = '该用户未注册'
     return res
+
 
 # 电话登录
 def loginTel(tel, pwd):
@@ -47,10 +50,20 @@ def loginTel(tel, pwd):
     return res
 
 
-
 # 用户注册
 def register(request):
-    return HttpResponse('用户注册')
+    res = None
+    if request.method == 'POST':
+        tel = request.POST['tel']
+        pwd = request.POST['pwd']
+        validate = request.POST['validate']
+        res = regist(tel, pwd, validate)
+        return JsonResponse({"res": res})
+
+
+# 注册方法
+def regist(tel, pwd, validate):
+    pass
 
 
 # 个人信息页

@@ -20,7 +20,7 @@ def hotCareer(request):
             {"hotCareers": careers_list},json_dumps_params ={'ensure_ascii': False})
 
 def getCareer(request, pageIndex):
-    pageSize = 8
+    pageSize = 12
     pageIndex = int(pageIndex)
     start = (pageIndex - 1) * pageSize
     end = pageIndex * pageSize
