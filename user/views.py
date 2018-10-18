@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import user
+from . import models
 import json
 
 
@@ -24,10 +24,10 @@ def login(request):
 
 # 邮箱登录
 def loginEmail(email, pwd):
-    uu = user.objects.filter(email=email)
+    uu = models.user.objects.filter(email=email)
     if uu:
         if uu[0].password == pwd:
-            res = '登录成功'
+            res = '登录成功', uu[0].telephone
         else:
             res = '用户邮箱或密码错误'
         pass
@@ -38,10 +38,10 @@ def loginEmail(email, pwd):
 
 # 电话登录
 def loginTel(tel, pwd):
-    uu = user.objects.filter(telephone=tel)
+    uu = models.user.objects.filter(telephone=tel)
     if uu:
         if uu[0].password == pwd:
-            res = '登录成功'
+            res = '登录成功', uu[0].telephone
         else:
             res = '电话号或密码错误'
         pass
@@ -58,6 +58,7 @@ def register(request):
         pwd = request.POST['pwd']
         validate = request.POST['validate']
         res = regist(tel, pwd, validate)
+
         return JsonResponse({"res": res})
 
 
@@ -66,9 +67,12 @@ def regist(tel, pwd, validate):
     pass
 
 
-# 个人信息页
-def info(request, userid):
-    return HttpResponse('个人信息页' + userid)
+# 个人信息页(通过手机号码获取用户信息)
+def getUser(request, usertel):
+    uu = models.userdetail.objects.filter(telephone=usertel).values(
+        'name','gender__name','job__name','introduce','icon__iconurl'
+    )
+    return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
 
 # 个人设置页

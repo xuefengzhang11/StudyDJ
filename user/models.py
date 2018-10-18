@@ -23,9 +23,22 @@ class userdetail(models.Model):
     job = models.ForeignKey(to='job', to_field='id', on_delete=True)
 
 
+# 用户注册暂存信息
+class registertemp(models.Model):
+    telephone = models.CharField(max_length=20)
+    validate = models.CharField(max_length=20)
+    expiretime = models.BigIntegerField()
+
+
+# 验证码图片表(登录时的图片验证)
+class validate(models.Model):
+    name = models.CharField(max_length=20)
+    url = models.CharField(max_length=255)
+
+
 # 用户头像
 class icon(models.Model):
-    iconurl = models.CharField(max_length=200)
+    iconurl = models.CharField(max_length=255)
 
 
 # 用户性别表
