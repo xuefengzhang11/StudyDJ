@@ -1,6 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 import json
 from django.forms.models import model_to_dict
+from user.models import user  #导入user模块
+from . import models
+
+from utils.utils import dictfetchall
+from django.db import connection, connections
 
 # from . import models
 # 导入模型
@@ -151,3 +156,21 @@ def hotCourse(request):
         chapters.append(chap_dict)
     # hotcourses = getHotCourse()
 '''
+
+
+# 个人中心页（获取免费课程）
+#
+def getFreeCourse(request, tel):
+    print(tel)
+    try:
+        cursor = connection.cursor()  # cursor = connections['default'].cursor()
+        cursor.execute("""select cs.id,cs.name,ch.watchtime from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs
+on u.id = ch.user_id and ch.section_id = cs.id
+where u.telephone=%s ORDER BY ch.watchtime desc limit 3""", [14796686075])
+        row = dictfetchall(cursor)
+        print(row)
+        return JsonResponse({"nextstudy":row})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+

@@ -70,8 +70,9 @@ def regist(tel, pwd, validate):
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values(
-        'name','gender__name','job__name','introduce','icon__iconurl'
+        'name','gender__name','job__name','introduce','icon__iconurl','city','birthday'
     )
+    print(uu)
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
 
