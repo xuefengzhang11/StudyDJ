@@ -37,14 +37,14 @@ class section(models.Model):
 # 课程收藏表
 class collection(models.Model):
     collecttime = models.DateTimeField(auto_now_add=True)
-    course = models.ForeignKey(to='section', to_field='id', on_delete=True)
+    section = models.ForeignKey(to='section', to_field='id', on_delete=True)
     user = models.ForeignKey(to='user.user', to_field='id', on_delete=True)
 
 
 # 课程的观看历史纪录
 class history(models.Model):
     watchtime = models.DateTimeField(auto_now_add=True)
-    course = models.ForeignKey(to='section', to_field='id', on_delete=True)
+    section = models.ForeignKey(to='section', to_field='id', on_delete=True)
     user = models.ForeignKey(to='user.user', to_field='id', on_delete=True)
 
 
