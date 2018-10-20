@@ -8,3 +8,4 @@ class career(models.Model):
     learn = models.IntegerField(null=False, default=0)
     imgurl = models.CharField(max_length=100, null=True)
     finish = models.CharField(max_length=255)
+

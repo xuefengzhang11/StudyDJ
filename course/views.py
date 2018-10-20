@@ -135,10 +135,10 @@ def hotCourse(request):
     courses = getHotCourse()
     return JsonResponse({"hotCourses": list(courses)}, json_dumps_params={'ensure_ascii': False})
 
+
 # 个人中心页（获取免费课程）
 #最近学习
 def getFreeCourse(request, tel):
-    print(tel)
     try:
         cursor = connection.cursor()  # cursor = connections['default'].cursor()
         cursor.execute("""select cs.id as section_id,cs.name as section_name,ch.watchtime as history_watchtime,ccou.name as course_name,
