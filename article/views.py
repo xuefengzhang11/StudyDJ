@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from .models import article
+from .models import article_collection
 from django.forms import model_to_dict
 from . import models
+from user.models import userdetail
 
 
 # 根据ID得到文章信息
@@ -70,3 +72,47 @@ def hotArticle(request):
         art_dict['upload'] = art.upload.strftime("%Y-%m-%d")
         arts.append(art_dict)
     return JsonResponse({"articles": arts}, json_dumps_params={'ensure_ascii': False})
+
+
+# 根据用户的tel获取用户收藏的信息
+def getCollectArticle(request, tel):
+    res = {}
+    userid = userdetail.objects.filter(telephone=tel).values('id')
+    # uu = userdetail.objects.filter(telephone=tel).values('name')[0]
+    # res['user'] = uu
+    arts = article_collection.objects.filter(userinfo_id=list(userid)[0]['id']).values('article_id')
+    print(arts)
+    arti = []
+    res['article'] = arti
+    for a in range(len(arts)):
+        arttitle = article.objects.filter(id = list(arts)[a]['article_id']).order_by('-id').values('id','title','introduce','upload','userinfo__name','like')[0]
+        arti.append(arttitle)
+    return JsonResponse(res)
+
+ # 个人中心删除节
+def deleteArticle(request, id):
+    try:
+        delete_section = models.article_collection.objects.filter(article_id=id).delete()
+        # print(delete_section)
+        if delete_section[0]:
+            return JsonResponse({"code":"888"})
+        else:
+            return JsonResponse({"code": "444"})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+
+# 根据用户的tel获取用户写的文章
+def getMyArticle(request, tel):
+    res = {}
+    userid = userdetail.objects.filter(telephone=tel).values('id')
+    # uu = userdetail.objects.filter(telephone=tel).values('name')[0]
+    # res['user'] = uu
+    arts = article.objects.filter(userinfo_id=list(userid)[0]['id']).values('id')
+    print(arts)
+    arti = []
+    res['article'] = arti
+    for a in range(len(arts)):
+        arttitle = article.objects.filter(id = list(arts)[a]['id']).order_by('-id').values('id','title','introduce','upload','like')[0]
+        arti.append(arttitle)
+    return JsonResponse(res)

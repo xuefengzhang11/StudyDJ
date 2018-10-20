@@ -116,3 +116,5 @@ def sendToken(request):
         token = q.upload_token(bucket_name, key, 3600)
 
         return JsonResponse({"token": token, "filename": key})
+
+

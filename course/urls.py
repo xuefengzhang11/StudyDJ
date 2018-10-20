@@ -22,4 +22,7 @@ urlpatterns = [
     # url(r'getCourse/dire/(?P<id>\d*)', views.getCourseByDirectionId, name='getCourseByDirectionId'),  # 根据课程方向ID得到视频
     # url(r'getCourse/degr/(?P<id>\d*)', views.getCourseByDegreeId, name='getCourseByDegreeId'),  # 根据课程难度ID得到视频
 
+    # 个人中心
+    url(r'getnextstudy/(?P<tel>\w*)', views.getFreeCourse, name='getnextstudy'),  # 个人中心页
+    # url(r'deletenextstudy/(?P<courid>\w*)', views.deleteFreeCourse, name='deletenextstudy'),  # 个人中心页
 ]
