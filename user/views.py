@@ -4,6 +4,7 @@ from . import models
 import json
 import uuid
 from qiniu import Auth
+import random
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -74,7 +75,6 @@ def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values(
         'name', 'gender__name', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
-    print(uu)
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -100,6 +100,13 @@ def upIcon(request, fname, tel):
         print(e)
         return JsonResponse({"res": "修改失败"}, json_dumps_params={'ensure_ascii': False})
 
+# 用户随机更换头像
+def randomIcon(request):
+    allicon = models.icon.objects.all().values_list('iconurl')
+    # 随机数据库icon表中的用户头像
+    usericon = list(allicon)[random.randint(0,len(allicon))][0]
+    return JsonResponse({"userIcon":usericon})
+
 
 # 七牛云token
 def sendToken(request):
@@ -114,7 +121,6 @@ def sendToken(request):
         key = str(uuid.uuid4()) + '.' + str(request.GET.get('key')).split('.')[-1]
         # 生成上传 Token，可以指定过期时间等 一天
         token = q.upload_token(bucket_name, key, 3600)
-
         return JsonResponse({"token": token, "filename": key})
 
 

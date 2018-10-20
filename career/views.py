@@ -81,7 +81,6 @@ def getCareerDetail(request,careerid):
 def getCount(request):
     try:
         len = career.objects.all().count()
-        print(len)
         return JsonResponse({'account':len})
     except Exception as ex:
         return JsonResponse({"code":"409"})

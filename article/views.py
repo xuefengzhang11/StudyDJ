@@ -16,8 +16,6 @@ def getArticleById(request, id):
     user_dict = model_to_dict(user)
     user_dict['user_job'] = user.job.name
     user_dict['user_img'] = user.icon.iconurl
-    print(art_dict)
-    print(user_dict)
     return JsonResponse({"article": art_dict, "user": user_dict}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -81,7 +79,6 @@ def getCollectArticle(request, tel):
     # uu = userdetail.objects.filter(telephone=tel).values('name')[0]
     # res['user'] = uu
     arts = article_collection.objects.filter(userinfo_id=list(userid)[0]['id']).values('article_id')
-    print(arts)
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
@@ -93,7 +90,6 @@ def getCollectArticle(request, tel):
 def deleteArticle(request, id):
     try:
         delete_section = models.article_collection.objects.filter(article_id=id).delete()
-        # print(delete_section)
         if delete_section[0]:
             return JsonResponse({"code":"888"})
         else:
@@ -106,10 +102,7 @@ def deleteArticle(request, id):
 def getMyArticle(request, tel):
     res = {}
     userid = userdetail.objects.filter(telephone=tel).values('id')
-    # uu = userdetail.objects.filter(telephone=tel).values('name')[0]
-    # res['user'] = uu
     arts = article.objects.filter(userinfo_id=list(userid)[0]['id']).values('id')
-    print(arts)
     arti = []
     res['article'] = arti
     for a in range(len(arts)):

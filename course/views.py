@@ -136,39 +136,15 @@ def hotCourse(request):
     return JsonResponse({"hotCourses": list(courses)}, json_dumps_params={'ensure_ascii': False})
 
 
-'''
-# 将模型对象转化为字典
-    cour_dict = model_to_dict(cour)
-    # 课程难度
-    cour_dict['degree'] = cour.cs_degree.name
-    # 课程方向
-    cour_dict['direction'] = cour.cs_direction.name
-    # 课程分类
-    cour_dict['category'] = cour.cs_category.name
-    # 得到所有的章
-    chaps = cour.chapter_set.all()
-    chapters = []
-    for chap in chaps:
-        chap_dict = model_to_dict(chap)
-        # 得到所有的小节
-        sects = chap.section_set.all().values()
-        chap_dict['sections'] = list(sects)
-        chapters.append(chap_dict)
-    # hotcourses = getHotCourse()
-'''
-
-
 # 个人中心页（获取免费课程）
 #
 def getFreeCourse(request, tel):
-    print(tel)
     try:
         cursor = connection.cursor()  # cursor = connections['default'].cursor()
         cursor.execute("""select cs.id,cs.name,ch.watchtime from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs
 on u.id = ch.user_id and ch.section_id = cs.id
 where u.telephone=%s ORDER BY ch.watchtime desc limit 3""", [14796686075])
         row = dictfetchall(cursor)
-        print(row)
         return JsonResponse({"nextstudy":row})
     except Exception as ex:
         print(ex)
