@@ -6,7 +6,7 @@ from . import models
 
 from utils.utils import dictfetchall
 from django.db import connection, connections
-
+from datetime import datetime,timedelta
 # from . import models
 # 导入模型
 from course.models import course, direction, category, degree
@@ -130,6 +130,12 @@ def getSectionsByChapter(chap):
 # --------------------
 
 
+# 热门课程
+def hotCourse(request):
+    courses = getHotCourse()
+    return JsonResponse({"hotCourses": list(courses)}, json_dumps_params={'ensure_ascii': False})
+
+
 # 个人中心页（获取免费课程）
 #最近学习
 def getFreeCourse(request, tel):
@@ -200,29 +206,58 @@ def deleteCollectCourse(request, courid):
         print(ex)
         return JsonResponse({"code": 404})
 
+# 课程详情页收藏课程
+def getCollectCourse(request,courid,tel):
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        collect={
+            "collecttime":datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "section_id":section_id,
+            "user_id":user_id
+        }
+        res=models.collection.objects.create(**collect)
+        return JsonResponse({"code": 888})  #收藏成功
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+# 判断是否收藏
+def collectJudge(request,courid,tel):
+    print(courid)
+    print(tel)
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        res=models.collection.objects.filter(section_id=section_id,user_id=user_id).values().count()
+        print(res)
+        if res:
+            return JsonResponse({"code":888}) # 收藏状态
+        else:
+            return JsonResponse({"code": 444})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 热门课程
-def hotCourse(request):
-    courses = getHotCourse()
-    return JsonResponse({"hotCourses": list(courses)}, json_dumps_params={'ensure_ascii': False})
-
-
-
+# s删除收藏课程
+def deteleCollectCourse(request,courid,tel):
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        res=models.collection.objects.filter(section_id=section_id,user_id=user_id).values().count()
+        if res:
+            affected_rows = models.collection.objects.filter(section_id=section_id, user_id=user_id).delete()
+            if affected_rows[0]:
+                return JsonResponse({"code": "888"})  #删除成功
+            else:
+                return JsonResponse({"code": "444"})
+        else:
+            return JsonResponse({"code": 414})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})

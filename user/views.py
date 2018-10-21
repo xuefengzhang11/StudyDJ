@@ -77,7 +77,6 @@ def getUser(request, usertel):
     )
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
-
 # 个人设置页
 def set(request):
     return HttpResponse('个人设置页')
