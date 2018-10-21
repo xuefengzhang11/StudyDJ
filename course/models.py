@@ -37,7 +37,7 @@ class section(models.Model):
 # 课程收藏表
 class collection(models.Model):
     collecttime = models.DateTimeField(auto_now_add=True)
-    section = models.ForeignKey(to='section', to_field='id', on_delete=True)
+    course = models.ForeignKey(to='course', to_field='id', on_delete=True)
     user = models.ForeignKey(to='user.user', to_field='id', on_delete=True)
 
 
