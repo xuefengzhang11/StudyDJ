@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from . import models
 import json
+import uuid
+from qiniu import Auth
+import random
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -72,9 +75,7 @@ def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values(
         'name','gender__name','gender_id','job_id','job__name','introduce','icon__iconurl','city','birthday'
     )
-    print(uu)
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
-
 
 # 个人设置页
 def set(request):
@@ -136,5 +137,41 @@ def getjob(request):
     jobs = models.job.objects.all().values()
 
     return JsonResponse({"job": list(jobs)}, json_dumps_params={'ensure_ascii': False})
+
+
+# 用户上传头像（保存头像文件名称）（更改用户头像）
+def upIcon(request, fname, tel):
+    try:
+        obj = models.icon.objects.create(iconurl=fname)
+        # 当前插入图片的ID为obj.id
+        # 修改用户的头像
+        count = models.userdetail.objects.filter(telephone=tel).update(icon_id=obj.id)
+        return JsonResponse({"res": "修改成功"}, json_dumps_params={'ensure_ascii': False})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": "修改失败"}, json_dumps_params={'ensure_ascii': False})
+
+# 用户随机更换头像
+def randomIcon(request):
+    allicon = models.icon.objects.all().values_list('iconurl')
+    # 随机数据库icon表中的用户头像
+    usericon = list(allicon)[random.randint(0,len(allicon))][0]
+    return JsonResponse({"userIcon":usericon})
+
+
+# 七牛云token
+def sendToken(request):
+    if request.method == 'GET':
+        access_key = 'uFy_2nTo_c-fCDvigBum8ZnwvFZPwRceTAbw7zVS'
+        secret_key = '6rGh9INqH0vQWj4BXc0yEfPsz1dLyvUk0H8JtNPe'
+        # 构建鉴权对象
+        q = Auth(access_key, secret_key)
+        # 要上传的空间
+        bucket_name = 'studyapp'
+        # 上传到七牛后保存的文件名
+        key = str(uuid.uuid4()) + '.' + str(request.GET.get('key')).split('.')[-1]
+        # 生成上传 Token，可以指定过期时间等 一天
+        token = q.upload_token(bucket_name, key, 3600)
+        return JsonResponse({"token": token, "filename": key})
 
 

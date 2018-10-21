@@ -6,7 +6,7 @@ from . import models
 
 from utils.utils import dictfetchall
 from django.db import connection, connections
-
+from datetime import datetime,timedelta
 # from . import models
 # 导入模型
 from course.models import course, direction, category, degree
@@ -136,41 +136,128 @@ def hotCourse(request):
     return JsonResponse({"hotCourses": list(courses)}, json_dumps_params={'ensure_ascii': False})
 
 
-'''
-# 将模型对象转化为字典
-    cour_dict = model_to_dict(cour)
-    # 课程难度
-    cour_dict['degree'] = cour.cs_degree.name
-    # 课程方向
-    cour_dict['direction'] = cour.cs_direction.name
-    # 课程分类
-    cour_dict['category'] = cour.cs_category.name
-    # 得到所有的章
-    chaps = cour.chapter_set.all()
-    chapters = []
-    for chap in chaps:
-        chap_dict = model_to_dict(chap)
-        # 得到所有的小节
-        sects = chap.section_set.all().values()
-        chap_dict['sections'] = list(sects)
-        chapters.append(chap_dict)
-    # hotcourses = getHotCourse()
-'''
-
-
 # 个人中心页（获取免费课程）
-#
+#最近学习
 def getFreeCourse(request, tel):
-    print(tel)
     try:
         cursor = connection.cursor()  # cursor = connections['default'].cursor()
-        cursor.execute("""select cs.id,cs.name,ch.watchtime from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs
-on u.id = ch.user_id and ch.section_id = cs.id
-where u.telephone=%s ORDER BY ch.watchtime desc limit 3""", [14796686075])
+        cursor.execute("""select cs.id as section_id,cs.name as section_name,ch.watchtime as history_watchtime,ccou.name as course_name,
+ccou.learn as course_learn from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs 
+INNER JOIN course_chapter as cc INNER JOIN course_course as ccou
+on u.id = ch.user_id and ch.section_id = cs.id and cs.chapter_id=cc.id and cc.course_id=ccou.id
+where u.telephone=%s ORDER BY ch.watchtime """, [tel])
         row = dictfetchall(cursor)
         print(row)
+        section_id=row[0]["section_id"]
         return JsonResponse({"nextstudy":row})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code":404})
 
+ # 个人中心最近学习删除节
+def deleteFreeCourse(request, courid):
+    print(courid)
+    try:
+        delete_section = models.history.objects.filter(section_id=courid).delete()
+        # print(delete_section)
+        if delete_section[0]:
+            return JsonResponse({"code":"888"})
+        else:
+            return JsonResponse({"code": "444"})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+# 课程收藏页
+def getCollectCourse(request, tel):
+    try:
+        collectall={}
+        cursor = connection.cursor()  # cursor = connections['default'].cursor()
+        cursor.execute("""select DISTINCT(ccou.id) as course_id,ccou.name as course_name,ccou.price as course_price
+from user_user as u INNER JOIN course_collection as cco INNER JOIN course_section as cs 
+INNER JOIN course_chapter as cc INNER JOIN course_course as ccou
+on u.id = cco.user_id and cco.section_id = cs.id and cs.chapter_id=cc.id and cc.course_id=ccou.id
+where u.telephone=%s
+ORDER BY cco.collecttime""", [tel])
+        row = dictfetchall(cursor)
+        for ro in row:
+            course_id=ro['course_id']
+            cursor.execute("""select count(section_id)as collectnum ,cco.collecttime as collecttime,cco.section_id as sectionid from user_user as u INNER JOIN course_collection as cco INNER JOIN course_section as cs 
+INNER JOIN course_chapter as cc INNER JOIN course_course as ccou
+on u.id = cco.user_id and cco.section_id = cs.id and cs.chapter_id=cc.id and cc.course_id=ccou.id where ccou.id=%s""",[course_id])
+            sectionid=dictfetchall(cursor)
+            ro['collectnum'] = sectionid[0]['collectnum']
+            ro['collecttime'] = sectionid[0]['collecttime']
+            ro['sectionid'] = sectionid[0]['sectionid']
+        collectall["collectcourse"] = row
+        return JsonResponse(collectall)
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+ # 个人中心课程收藏删除节
+def deleteCollectCourse(request, courid):
+    try:
+        delete_section = models.collection.objects.filter(section__chapter__course_id=courid).delete()
+        if delete_section[0]:
+            return JsonResponse({"code":"888"})
+        else:
+            return JsonResponse({"code": "444"})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+
+# 课程详情页收藏课程
+def getCollectCourse(request,courid,tel):
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        collect={
+            "collecttime":datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "section_id":section_id,
+            "user_id":user_id
+        }
+        res=models.collection.objects.create(**collect)
+        return JsonResponse({"code": 888})  #收藏成功
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+# 判断是否收藏
+def collectJudge(request,courid,tel):
+    print(courid)
+    print(tel)
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        res=models.collection.objects.filter(section_id=section_id,user_id=user_id).values().count()
+        print(res)
+        if res:
+            return JsonResponse({"code":888}) # 收藏状态
+        else:
+            return JsonResponse({"code": 444})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+
+# s删除收藏课程
+def deteleCollectCourse(request,courid,tel):
+    try:
+        sectionid=models.section.objects.filter(chapter__course_id=courid).values('id')
+        section_id=list(sectionid)[0]['id']   #得到课程的第一节
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        res=models.collection.objects.filter(section_id=section_id,user_id=user_id).values().count()
+        if res:
+            affected_rows = models.collection.objects.filter(section_id=section_id, user_id=user_id).delete()
+            if affected_rows[0]:
+                return JsonResponse({"code": "888"})  #删除成功
+            else:
+                return JsonResponse({"code": "444"})
+        else:
+            return JsonResponse({"code": 414})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
