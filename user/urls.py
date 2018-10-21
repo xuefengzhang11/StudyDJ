@@ -9,4 +9,6 @@ urlpatterns = [
     path('set/', views.set, name='set'),  # 个人设置页
     url(r'login', views.login, name='login'),  # 用户登录页
     url(r'register', views.register, name='register'),  # 用户登录页
+    url(r'getjob', views.getjob, name='getjob'),  # 查找工作
+    url(r'update', views.update, name='update'),  # 修改用户信息
 ]
