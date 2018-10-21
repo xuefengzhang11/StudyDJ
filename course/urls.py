@@ -27,4 +27,10 @@ urlpatterns = [
     url(r'deletenextstudy/(?P<courid>\w*)', views.deleteFreeCourse, name='deletenextstudy'),  # 个人中心页课程删除
     url(r'getcollectcourse/(?P<tel>\w*)', views.getCollectCourse, name='getcollectcourse'),  # 个人中心页课程收藏
     url(r'deletecollectcourse/(?P<courid>\w*)', views.deleteCollectCourse, name='deletecollectcourse'),  # 个人中心页
+
+#     课程详情页收藏课程
+    url(r'collectcourse/(?P<courid>\w*)/(?P<tel>\w*)', views.getCollectCourse, name='collectcourse'),  # 收藏课程
+    url(r'collectJudge/(?P<courid>\w*)/(?P<tel>\w*)', views.collectJudge, name='collectJudge'),  # 收藏课程
+    url(r'deteleCollectCourse/(?P<courid>\w*)/(?P<tel>\w*)', views.deteleCollectCourse, name='deteleCollectCourse'),  # 删除课程
+
 ]
