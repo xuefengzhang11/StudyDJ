@@ -16,6 +16,11 @@ urlpatterns = [
     url(r'getCourse/(?P<id>\d*)', views.getCourseDetail, name='getCourseDetail'),  # 得到课程详情
 
     # ---
+    # 个人中心
+    url(r'getnextstudy/(?P<tel>\w*)', views.getFreeCourse, name='getnextstudy'),  # 个人中心页最近学习
+    url(r'deletenextstudy/(?P<courid>\w*)', views.deleteFreeCourse, name='deletenextstudy'),  # 个人中心页课程删除
+    url(r'getcollectcourse/(?P<tel>\w*)', views.getCollectCourse, name='getcollectcourse'),  # 个人中心页课程收藏
+    url(r'deletecollectcourse/(?P<courid>\w*)', views.deleteCollectCourse, name='deletecollectcourse'),  # 个人中心页
 
     # url(r'getCourseDetail/(?P<id>\d*)', views.getCourseDetail, name='getCourseDetail'),  # 得到课程详情
 
@@ -23,6 +28,6 @@ urlpatterns = [
     # url(r'getCourse/degr/(?P<id>\d*)', views.getCourseByDegreeId, name='getCourseByDegreeId'),  # 根据课程难度ID得到视频
 
     # 个人中心
-    url(r'getnextstudy/(?P<tel>\w*)', views.getFreeCourse, name='getnextstudy'),  # 个人中心页
+    # url(r'getnextstudy/(?P<tel>\w*)', views.getFreeCourse, name='getnextstudy'),  # 个人中心页
     # url(r'deletenextstudy/(?P<courid>\w*)', views.deleteFreeCourse, name='deletenextstudy'),  # 个人中心页
 ]

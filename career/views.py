@@ -66,12 +66,14 @@ def getSectionByChapter(chap):
 
 # 通过职业id获取详细课程
 def getCareerDetail(request,careerid):
+    careers = career.objects.get(id=careerid)
+    careers=model_to_dict(careers)
     care = career.objects.get(id=careerid)
     course_all={}
     courses_list = getCourseByCareer(care)
     course_all['courses'] = courses_list
+    course_all['careers'] = careers
     return JsonResponse({"careers": course_all}, json_dumps_params={'ensure_ascii': False})
-
 
 
 
