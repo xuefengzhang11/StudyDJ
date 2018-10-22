@@ -79,21 +79,26 @@ def getCollectArticle(request, tel):
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = models.article.objects.filter(id = list(arts)[a]['article_id']).order_by('-id').values('id','title','introduce','upload','userinfo__name','like')[0]
+        arttitle = \
+        models.article.objects.filter(id=list(arts)[a]['article_id']).order_by('-id').values('id', 'title', 'introduce',
+                                                                                             'upload', 'userinfo__name',
+                                                                                             'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
- # 删除收藏文章
+
+# 删除收藏文章
 def deleteArticle(request, id):
     try:
         delete_section = models.article_collection.objects.filter(article_id=id).delete()
         if delete_section[0]:
-            return JsonResponse({"code":"888"})
+            return JsonResponse({"code": "888"})
         else:
             return JsonResponse({"code": "444"})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
 
 # 根据用户的tel获取用户写的文章
 def getMyArticle(request, tel):
@@ -103,17 +108,20 @@ def getMyArticle(request, tel):
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = models.article.objects.filter(id = list(arts)[a]['id']).order_by('-id').values('id','title','introduce','upload','like')[0]
+        arttitle = \
+        models.article.objects.filter(id=list(arts)[a]['id']).order_by('-id').values('id', 'title', 'introduce',
+                                                                                     'upload', 'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
- # 删除个人文章
+
+# 删除个人文章
 def deleteUserArticle(request, id):
     try:
         delete_section = models.article.objects.filter(id=id).delete()
         # print(delete_section)
         if delete_section[0]:
-            return JsonResponse({"code":"888"})
+            return JsonResponse({"code": "888"})
         else:
             return JsonResponse({"code": "444"})
     except Exception as ex:
@@ -122,33 +130,50 @@ def deleteUserArticle(request, id):
 
 
 # 获取文章的所有评论（根据文章ID）
-def getComment(request, artid):
+def getComment(request, artid, usertel):
     res = {}
     comments = models.comment.objects.order_by('-uptime').filter(article_id=artid)
     com_list = []
     for comm in comments:
         com_dict = model_to_dict(comm)
         del com_dict['article']
+        # 是否点赞状态
+        like_flag = False
+        if usertel:
+            uid = userdetail.objects.get(telephone=usertel).id
+            count = models.comment_like.objects.filter(comment_id=comm.id, user_id=uid).count()
+            like_flag = count == 1 if True else False
+        com_dict['like_flag'] = like_flag
         # 调用方法,通过用户id 获取用户name,iconurl，返回一个字典，封装到com_dict['user']
         com_dict['user'] = getUserByid(com_dict['user'])
         # 通过文章评论(comm),获取二级评论，返回一个列表，封装到com_dict['replys']
-        com_dict['replys'] = getCommentByComId(comm)
+        com_dict['replys'] = getCommentByComId(comm, usertel)
         com_list.append(com_dict)
     # 当前文章id
     res['article_id'] = artid
     # 当前文章的一级评论、二级评论
     res['comments'] = com_list
 
-
     return JsonResponse(res)
+
+
 # 通过评论ID(com_dict['id']),获取二级评论，返回一个列表
-def getCommentByComId(comm):
+def getCommentByComId(comm, usertel):
     res = []
     comments = comm.comment_comment_set.all()
     for com in comments:
         com_dict = model_to_dict(com)
         # 删除评论ID，数据冗余
         del com_dict['comment']
+        # 是否点赞状态
+        like_flag = False
+        if usertel:
+            uid = userdetail.objects.get(telephone=usertel).id
+            print(uid)
+            print(comm.id)
+            count = models.comment_comment_like.objects.filter(comment_comment_id=comm.id, user_id=uid).count()
+            like_flag = count == 1 if True else False
+        com_dict['like_flag'] = like_flag
         # 获得回帖人信息
         com_dict['user'] = getUserByid(com_dict['user'])
         res.append(com_dict)
@@ -157,4 +182,4 @@ def getCommentByComId(comm):
 
 # 调用方法,通过用户id 获取用户name,iconurl
 def getUserByid(id):
-    return userdetail.objects.filter(id=id).values('id','name','icon__iconurl')[0]
+    return userdetail.objects.filter(id=id).values('id', 'name', 'icon__iconurl')[0]

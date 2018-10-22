@@ -22,13 +22,6 @@ urlpatterns = [
     # 得到课程详情
     url(r'getCourse/(?P<id>\d*)', views.getCourseDetail, name='getCourseDetail'),
 
-    # ---
-
-    # url(r'getCourseDetail/(?P<id>\d*)', views.getCourseDetail, name='getCourseDetail'),  # 得到课程详情
-
-    # url(r'getCourse/dire/(?P<id>\d*)', views.getCourseByDirectionId, name='getCourseByDirectionId'),  # 根据课程方向ID得到视频
-    # url(r'getCourse/degr/(?P<id>\d*)', views.getCourseByDegreeId, name='getCourseByDegreeId'),  # 根据课程难度ID得到视频
-
     # 个人中心
     url(r'getFreeCoursePersonal/(?P<tel>\w*)', views.getFreeCoursePersonal, name='getFreeCoursePersonal'),  # 个人中心页最近学习
     url(r'deleteFreeCoursePersonal/(?P<courid>\w*)', views.deleteFreeCoursePersonal, name='deleteFreeCoursePersonal'),
@@ -38,13 +31,13 @@ urlpatterns = [
     url(r'deleteCollectCoursePersonal/(?P<courid>\w*)', views.deleteCollectCoursePersonal,
         name='deleteCollectCoursePersonal'),  # 个人中心页
 
-    #     课程详情页收藏课程
+    # 课程详情页收藏课程
     url(r'insertCollectCourse/(?P<course_id>\w*)/(?P<tel>\w*)', views.insertCollectCourse, name='collectcourse'),
     # 收藏课程
     url(r'collectJudge/(?P<course_id>\w*)/(?P<tel>\w*)', views.collectJudge, name='collectJudge'),  # 判断收藏课程
     url(r'deteleCollectCourse/(?P<course_id>\w*)/(?P<tel>\w*)', views.deteleCollectCourse, name='deteleCollectCourse'),
     # 删除课程
 
-    #     视频页
+    # 视频页
     url(r'getSectiondata/(?P<sectid>\w*)/(?P<careerid>\w*)', views.getSectiondata, name='getSectiondata'),
 ]
