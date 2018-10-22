@@ -17,5 +17,5 @@ urlpatterns = [
 
     # 测试
     path('test/', views.test, name='test'),  # 用户随机更换头像
-
+    url(r'update', views.update, name='update'),  # 修改用户信息
 ]
