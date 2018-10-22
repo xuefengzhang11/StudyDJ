@@ -88,6 +88,27 @@ def getUser(request, usertel):
 def set(request):
     return HttpResponse('个人设置页')
 
+# 得到用户密码
+def updatePwd(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            telephone = data['usertel']
+            oldpassword = data['oldpwd']
+            newpassword = data['newpwd']
+            uu = models.user.objects.filter(telephone=telephone).values('password')
+            if list(uu)[0]['password'] == oldpassword:
+                upwduser = models.user.objects.filter(telephone=telephone).update(password=newpassword)
+                if upwduser:
+                    res = '修改成功'
+                else:
+                    res = '修改失败'
+            else:
+                res = '与原密码不符'
+            return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
+
 
 # 修改用户信息
 def update(request):
