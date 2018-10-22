@@ -248,3 +248,28 @@ def deteleCollectCourse(request,course_id,tel):
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
+# 视频页得到数据
+def getSectiondata(request,sectid,careerid):
+    print(sectid)
+    print(careerid)
+    try:
+        sections=[]
+        cours=[]
+        all={}
+        section_data=models.section.objects.filter(id=sectid).values()
+        sectiondata=list(section_data)
+        # print(sectiondata[0])
+        collectcourse=models.collection.objects.filter(course_id=careerid).count()
+        course_data=models.course.objects.filter(id=careerid).values()
+        coursedata=list(course_data)
+        cours.append(coursedata)
+        # print(coursedata)
+        sectiondata[0]['coursenum']=collectcourse
+        sectiondata[0]['coursedata']=cours[0]
+        # print(sectiondata)
+        return JsonResponse({'data':sectiondata})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+

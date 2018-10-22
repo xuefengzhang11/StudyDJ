@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'collectJudge/(?P<course_id>\w*)/(?P<tel>\w*)', views.collectJudge, name='collectJudge'),  # 判断收藏课程
     url(r'deteleCollectCourse/(?P<course_id>\w*)/(?P<tel>\w*)', views.deteleCollectCourse, name='deteleCollectCourse'),  # 删除课程
 
+#     视频页
+    url(r'getSectiondata/(?P<sectid>\w*)/(?P<careerid>\w*)', views.getSectiondata, name='getSectiondata'),
 ]
