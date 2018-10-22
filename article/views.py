@@ -84,7 +84,7 @@ def getCollectArticle(request, tel):
         arti.append(arttitle)
     return JsonResponse(res)
 
- # 个人中心删除节
+ # 删除收藏文章
 def deleteArticle(request, id):
     try:
         delete_section = models.article_collection.objects.filter(article_id=id).delete()
@@ -107,6 +107,19 @@ def getMyArticle(request, tel):
         arttitle = article.objects.filter(id = list(arts)[a]['id']).order_by('-id').values('id','title','introduce','upload','like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
+
+ # 删除个人文章
+def deleteUserArticle(request, id):
+    try:
+        delete_section = models.article.objects.filter(id=id).delete()
+        # print(delete_section)
+        if delete_section[0]:
+            return JsonResponse({"code":"888"})
+        else:
+            return JsonResponse({"code": "444"})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
 
 
 # 获取文章的所有评论（根据文章ID）

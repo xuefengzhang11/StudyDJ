@@ -73,7 +73,7 @@ def regist(tel, pwd, validate):
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values(
-        'name', 'gender__name', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
+        'name','gender__name','gender_id','job_id','job__name','introduce','icon__iconurl','city','birthday'
     )
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
@@ -84,7 +84,59 @@ def set(request):
 
 # 修改用户信息
 def update(request):
-    return HttpResponse('修改用户信息')
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            name = data['name']
+            telephone = data['usertel']
+            city = data['city']
+            birthday = data['birthday']
+            introduce = data['introduce']
+            gender__name = data['gender']
+            job__name = data['job']
+            job_id = None
+            uu = models.job.objects.all().values('id', 'name')
+            for u in uu:
+                if job__name == u['name']:
+                    job_id = u['id']
+
+            upuser = models.userdetail.objects.filter(telephone=telephone).update(name=name, birthday=birthday,
+                                                                                  city=city, introduce=introduce,
+                                                                                  gender_id=gender__name, job_id=job_id)
+            print(upuser)
+            if upuser:
+                res = '修改成功'
+            else:
+                res = '修改失败'
+
+            return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
+
+
+
+    #
+    #     pwd = request.POST['pwd']
+    #     validate = request.POST['validate']
+
+    # try:
+    #     qid = request.GET['id']
+    #     affected_rows = models.userdetail.objects.filter(com_id=qid).update(salary_min='3')
+    #     print(affected_rows[0])
+    #     if affected_rows[0]:
+    #         return JsonResponse({"code": "888"})
+    #     else:
+    #         return JsonResponse({"code": "444"})
+    # except Exception as ex:
+    #     print(ex)
+    #     return JsonResponse({"code": "445"})
+
+
+# 查找职业
+def getjob(request):
+    jobs = models.job.objects.all().values()
+
+    return JsonResponse({"job": list(jobs)}, json_dumps_params={'ensure_ascii': False})
 
 
 # 用户上传头像（保存头像文件名称）（更改用户头像）
