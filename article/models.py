@@ -24,6 +24,7 @@ class article_collection(models.Model):
     article = models.ForeignKey(to='article', to_field='id', on_delete=True)
     userinfo = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
 
+
 # 文章评论表
 class comment(models.Model):
     content = models.CharField(max_length=255)
@@ -33,10 +34,12 @@ class comment(models.Model):
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
     article = models.ForeignKey(to='article', to_field='id', on_delete=True)
 
+
 # 评论点赞表
 class comment_like(models.Model):
     comment = models.ForeignKey(to='comment', to_field='id', on_delete=True)
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
+
 
 # 评论评论表
 class comment_comment(models.Model):
@@ -46,6 +49,7 @@ class comment_comment(models.Model):
     # 点赞数
     like = models.IntegerField(null=False, default=0)
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
+
 
 # 评论评论点赞表
 class comment_comment_like(models.Model):
