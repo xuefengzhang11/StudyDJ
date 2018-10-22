@@ -1,14 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 from django.forms.models import model_to_dict
-
-from user.models import user  #导入user模块
+from django.db import connection
+from datetime import datetime
+# ---导入与自定义模块
+from user.models import user
 from . import models
-
 from utils.utils import dictfetchall
-from django.db import connection, connections
-from datetime import datetime,timedelta
-# from . import models
-# 导入模型
 from course.models import course, direction, category, degree
 
 
@@ -90,7 +87,7 @@ def getCoursesCount(request, direid, cateid, degrid, con):
 
 # 得到热门课程
 def getHotCourse(request):
-    hotCourses = course.objects.order_by('-learn').all().values(
+    hotCourses = course.objects.order_by('?').all().values(
         'id', 'name', 'imgurl', 'introduce', 'cs_degree__name', 'learn')[0:4]
     return JsonResponse({"hotCourses": list(hotCourses)}, json_dumps_params={'ensure_ascii': False})
 

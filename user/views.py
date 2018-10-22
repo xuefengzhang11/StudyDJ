@@ -17,7 +17,11 @@ def login(request):
         tel_email = request.POST['tel_email']
         pwd = request.POST['pwd']
         res = MyAuth().authenticate(tel_email, pwd)
-        res['tel_email'] = tel_email
+        if str(tel_email).find('@') != -1:
+            # 通过用户邮箱查找用户电话号码
+            res['tel_email'] = models.user.objects.get(email=tel_email).telephone
+        else:
+            res['tel_email'] = tel_email
         return JsonResponse(res)
 
 
