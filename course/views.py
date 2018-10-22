@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
-import json
 from django.forms.models import model_to_dict
+
 from user.models import user  #导入user模块
 from . import models
 

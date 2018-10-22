@@ -1,10 +1,10 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from . import models
-import json
 import uuid
 from qiniu import Auth
+
+from . import models
 import random
+from utils.auth import MyAuth
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -16,58 +16,20 @@ def login(request):
     if request.method == 'POST':
         tel_email = request.POST['tel_email']
         pwd = request.POST['pwd']
-        if str(tel_email).find('@') != -1:
-            # 邮箱登录
-            res = loginEmail(tel_email, pwd)
-        else:
-            # 电话号码登录
-            res = loginTel(tel_email, pwd)
-        return JsonResponse({"res": res})
+        res = MyAuth().authenticate(tel_email, pwd)
+        res['tel_email'] = tel_email
+        return JsonResponse(res)
 
 
-# 邮箱登录
-def loginEmail(email, pwd):
-    uu = models.user.objects.filter(email=email)
-    if uu:
-        if uu[0].password == pwd:
-            res = '登录成功', uu[0].telephone
-        else:
-            res = '用户邮箱或密码错误'
-        pass
-    else:
-        res = '该用户未注册'
-    return res
-
-
-# 电话登录
-def loginTel(tel, pwd):
-    uu = models.user.objects.filter(telephone=tel)
-    if uu:
-        if uu[0].password == pwd:
-            res = '登录成功', uu[0].telephone
-        else:
-            res = '电话号或密码错误'
-        pass
-    else:
-        res = '该用户未注册'
-    return res
-
-
-# 用户注册
+# 用户注册(手机号注册)
 def register(request):
     res = None
     if request.method == 'POST':
         tel = request.POST['tel']
         pwd = request.POST['pwd']
         validate = request.POST['validate']
-        res = regist(tel, pwd, validate)
-
+        # res = regist(tel, pwd, validate)
         return JsonResponse({"res": res})
-
-
-# 注册方法
-def regist(tel, pwd, validate):
-    pass
 
 
 # 个人信息页(通过手机号码获取用户信息)
@@ -76,6 +38,7 @@ def getUser(request, usertel):
         'name', 'gender__name', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
+
 
 # 个人设置页
 def set(request):
@@ -99,12 +62,22 @@ def upIcon(request, fname, tel):
         print(e)
         return JsonResponse({"res": "修改失败"}, json_dumps_params={'ensure_ascii': False})
 
+
 # 用户随机更换头像
 def randomIcon(request):
     allicon = models.icon.objects.all().values_list('iconurl')
     # 随机数据库icon表中的用户头像
-    usericon = list(allicon)[random.randint(0,len(allicon))][0]
-    return JsonResponse({"userIcon":usericon})
+    usericon = list(allicon)[random.randint(0, len(allicon))][0]
+    return JsonResponse({"userIcon": usericon})
+
+
+# 用户登录随机获取验证码图片
+def randomValidate(request):
+    # 获取所有验证码图片路径
+    allpics = models.validate.objects.all().values_list('name', 'url')
+    # 随机一个
+    onepic = list(allpics)[random.randint(0, len(allpics))]
+    return JsonResponse({"validateIcon": onepic})
 
 
 # 七牛云token
@@ -123,3 +96,9 @@ def sendToken(request):
         return JsonResponse({"token": token, "filename": key})
 
 
+# 测试方法
+def test(request):
+    if request.method == 'POST':
+        token = request.POST['token']
+        res = MyAuth().identify(token)
+        return HttpResponse('测试路由')

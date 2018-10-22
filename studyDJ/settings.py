@@ -113,12 +113,13 @@ DATABASES = {
 }
 '''
 DATABASES = {
+    # 192.168.2.43
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dj_study',
         'USER': 'we',
         'PASSWORD': '123456',
-        'HOST': '192.168.2.43',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
@@ -164,3 +165,5 @@ STATICFILES_DIRS = [
 ]
 
 # 解决跨域
+
+SECRET_KEY = 'STUDY'

@@ -1,14 +1,13 @@
 from django.http import JsonResponse
-from .models import article
-from .models import article_collection
 from django.forms import model_to_dict
+
 from . import models
 from user.models import userdetail
 
 
 # 根据ID得到文章信息
 def getArticleById(request, id):
-    art = article.objects.get(id=id)
+    art = models.article.objects.get(id=id)
     art_dict = model_to_dict(art)
     art_dict['upload'] = art.upload.strftime("%Y-%m-%d %H:%M:%S")
     # 获取用户信息
@@ -21,7 +20,7 @@ def getArticleById(request, id):
 
 # 根据文章id取出文章作者共写了多少文章和相关文章
 def getUserArticle(request, id):
-    uu = article.objects.get(id=id).userinfo
+    uu = models.article.objects.get(id=id).userinfo
     uu_articles = uu.article_set.all().values('id', 'title')[0:3]
     nums = uu.article_set.all().count()
     return JsonResponse({"nums": nums, "uu_articles": list(uu_articles)}, json_dumps_params={'ensure_ascii': False})
@@ -37,7 +36,7 @@ def getArticle(request, con, pageIndex):
     if con:
         all_con['title__icontains'] = con
     try:
-        articles = article.objects.filter(**all_con).order_by('id').values(
+        articles = models.article.objects.filter(**all_con).order_by('id').values(
             'id', 'title', 'introduce', 'upload', 'userinfo__name', 'userinfo__icon__iconurl', 'like')[start:end]
         return JsonResponse({"articles": list(articles)}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
@@ -60,7 +59,7 @@ def acount(request, con):
 # 获取热门文章
 def hotArticle(request):
     arts = []
-    articles = article.objects.all().order_by('-like')[0:4]
+    articles = models.article.objects.all().order_by('-like')[0:4]
     for art in articles:
         art_dict = model_to_dict(art)
         # 获取用户头像
@@ -76,11 +75,11 @@ def hotArticle(request):
 def getCollectArticle(request, tel):
     res = {}
     userid = userdetail.objects.filter(telephone=tel).values('id')
-    arts = article_collection.objects.filter(userinfo_id=list(userid)[0]['id']).values('article_id')
+    arts = models.article_collection.objects.filter(userinfo_id=list(userid)[0]['id']).values('article_id')
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = article.objects.filter(id = list(arts)[a]['article_id']).order_by('-id').values('id','title','introduce','upload','userinfo__name','like')[0]
+        arttitle = models.article.objects.filter(id = list(arts)[a]['article_id']).order_by('-id').values('id','title','introduce','upload','userinfo__name','like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
@@ -100,11 +99,11 @@ def deleteArticle(request, id):
 def getMyArticle(request, tel):
     res = {}
     userid = userdetail.objects.filter(telephone=tel).values('id')
-    arts = article.objects.filter(userinfo_id=list(userid)[0]['id']).values('id')
+    arts = models.article.objects.filter(userinfo_id=list(userid)[0]['id']).values('id')
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = article.objects.filter(id = list(arts)[a]['id']).order_by('-id').values('id','title','introduce','upload','like')[0]
+        arttitle = models.article.objects.filter(id = list(arts)[a]['id']).order_by('-id').values('id','title','introduce','upload','like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 

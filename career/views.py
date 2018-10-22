@@ -1,10 +1,7 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-from django.core import serializers
 from django.forms.models import model_to_dict
 # 导入模型
 from career.models import career
-import json
 
 # 热门职业
 def hotCareer(request):

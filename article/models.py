@@ -7,6 +7,7 @@ class article(models.Model):
     introduce = models.CharField(max_length=255)
     content = models.TextField()
     upload = models.DateTimeField(auto_now_add=True)
+    # 点赞数
     like = models.IntegerField(null=False, default=0)
     userinfo = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
 
@@ -27,6 +28,8 @@ class article_collection(models.Model):
 class comment(models.Model):
     content = models.CharField(max_length=255)
     uptime = models.DateTimeField(auto_now_add=True)
+    # 点赞数
+    like = models.IntegerField(null=False, default=0)
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
     article = models.ForeignKey(to='article', to_field='id', on_delete=True)
 
@@ -40,4 +43,11 @@ class comment_comment(models.Model):
     content = models.CharField(max_length=255)
     uptime = models.DateTimeField(auto_now_add=True)
     comment = models.ForeignKey(to='comment', to_field='id', on_delete=True)
+    # 点赞数
+    like = models.IntegerField(null=False, default=0)
+    user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
+
+# 评论评论点赞表
+class comment_comment_like(models.Model):
+    comment_comment = models.ForeignKey(to='comment_comment', to_field='id', on_delete=True)
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
