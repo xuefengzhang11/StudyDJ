@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'deleteUserArticle/(?P<id>\w*)', views.deleteUserArticle, name='deleteUserArticle'),  # 删除个人文章
     url(r'insertArticleLike/(?P<articleid>\w*)/(?P<tel>\d+)', views.insertArticleLike, name='insertArticleLike'),  # 添加文章点赞
     url(r'deteleArticleLike/(?P<articleid>\w*)/(?P<tel>\d+)', views.deteleArticleLike, name='deteleArticleLike'),  # 删除文章点赞
-    url(r'insertCommentLike/(?P<commid>\w*)/(?P<tel>\d+)', views.insertCommentLike, name='insertCommentLike'),  # 添加评论点赞
-    url(r'insertReplyLike/(?P<replyid>\w*)/(?P<tel>\d+)', views.insertReplyLike, name='insertReplyLike'),  # 添加评论评论点赞
+    url(r'insertCommentLike/(?P<commid>\w*)/(?P<tel>\d+)', views.insertCommentLike, name='insertCommentLike'),  # 添加或者删除评论点赞
+    url(r'insertReplyLike/(?P<replyid>\w*)/(?P<tel>\d+)', views.insertReplyLike, name='insertReplyLike'),  # 添加或者删除评论评论点赞
+    url(r'insertArticleCommet/', views.insertArticleCommet, name='insertArticleCommet'),  # 添加文章评论内容
+    url(r'insertCommentContent/', views.insertCommentContent, name='insertCommentContent'),  # 添加评论回复内容
 ]

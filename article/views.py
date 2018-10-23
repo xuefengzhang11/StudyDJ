@@ -3,7 +3,8 @@ from django.forms import model_to_dict
 from django.db.models import F
 from . import models
 from user.models import userdetail
-
+import json
+from datetime import datetime
 
 # 根据ID得到文章信息
 def getArticleById(request, id, tel):
@@ -16,7 +17,7 @@ def getArticleById(request, id, tel):
     user_dict['user_job'] = user.job.name
     user_dict['user_img'] = user.icon.iconurl
     islike = False
-    if tel:
+    if tel != 'null':
         userid=userdetail.objects.get(telephone=tel).id
         count = models.article_like.objects.filter(user_id=userid,article_id=id).count()
         islike = count == 1 if True else False
@@ -258,6 +259,55 @@ def insertReplyLike(request,replyid,tel):
             if addart_like:
                 addart=models.comment_comment.objects.filter(id=replyid).update(like=F('like')+1)
             return JsonResponse({"code":999})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加文章评论内容
+def insertArticleCommet(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            telephone = data['usertel']
+            articleid = data['articleid']
+            comment_article = data['comment_content']
+            userid = userdetail.objects.get(telephone=telephone).id
+            article_comment = {
+                'content': comment_article,
+                'uptime':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'article_id':articleid,
+                'user_id':userid
+            }
+            insertcomment=models.comment.objects.create(**article_comment)
+            if insertcomment:
+                return JsonResponse({"code":888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加评论回复内容
+def insertCommentContent(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            print(1)
+            telephone = data['usertel']
+            print(2)
+            commentid = data['commentid']
+            print(commentid)
+            print(3)
+            print(commentid)
+            comment_content = data['comment_content']
+            userid = userdetail.objects.get(telephone=telephone).id
+            comment = {
+                'content': comment_content,
+                'uptime':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'comment_id':commentid,
+                'user_id':userid
+            }
+            insertcomment=models.comment_comment.objects.create(**comment)
+            if insertcomment:
+                return JsonResponse({"code":888})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code":404})
