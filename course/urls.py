@@ -44,4 +44,11 @@ urlpatterns = [
     # 课程节获取所有评论，一级评论、二级评论
     url(r'getComment/(?P<sectid>\d+)/(?P<usertel>\d*)', views.getComment, name='getComment'),  # 通过文章ID获取文章所有评论
 
+    # 添加或者删除评论点赞
+    url(r'insertCommentLike/(?P<commid>\w*)/(?P<tel>\d+)', views.insertCommentLike, name='insertCommentLike'),
+
+    # 添加或者删除评论评论点赞
+    url(r'insertReplyLike/(?P<replyid>\w*)/(?P<tel>\d+)', views.insertReplyLike, name='insertReplyLike'),
+     # 添加文章评论内容
+    url(r'insertSectionCommet/', views.insertSectionCommet, name='insertSectionCommet'),
 ]
