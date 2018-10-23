@@ -6,6 +6,7 @@ from user.models import userdetail
 import json
 from datetime import datetime
 
+
 # 根据ID得到文章信息
 def getArticleById(request, id, tel):
     art = models.article.objects.get(id=id)
@@ -17,11 +18,11 @@ def getArticleById(request, id, tel):
     user_dict['user_job'] = user.job.name
     user_dict['user_img'] = user.icon.iconurl
     islike = False
-    if tel != 'null':
-        userid=userdetail.objects.get(telephone=tel).id
-        count = models.article_like.objects.filter(user_id=userid,article_id=id).count()
+    if tel:
+        userid = userdetail.objects.get(telephone=tel).id
+        count = models.article_like.objects.filter(user_id=userid, article_id=id).count()
         islike = count == 1 if True else False
-    art_dict['like_flag']=islike
+    art_dict['like_flag'] = islike
     return JsonResponse({"article": art_dict, "user": user_dict}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -87,9 +88,11 @@ def getCollectArticle(request, tel):
     res['article'] = arti
     for a in range(len(arts)):
         arttitle = \
-        models.article.objects.filter(id=list(arts)[a]['article_id']).order_by('-id').values('id', 'title', 'introduce',
-                                                                                             'upload', 'userinfo__name',
-                                                                                             'like')[0]
+            models.article.objects.filter(id=list(arts)[a]['article_id']).order_by('-id').values('id', 'title',
+                                                                                                 'introduce',
+                                                                                                 'upload',
+                                                                                                 'userinfo__name',
+                                                                                                 'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
@@ -116,8 +119,8 @@ def getMyArticle(request, tel):
     res['article'] = arti
     for a in range(len(arts)):
         arttitle = \
-        models.article.objects.filter(id=list(arts)[a]['id']).order_by('-id').values('id', 'title', 'introduce',
-                                                                                     'upload', 'like')[0]
+            models.article.objects.filter(id=list(arts)[a]['id']).order_by('-id').values('id', 'title', 'introduce',
+                                                                                         'upload', 'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
@@ -188,39 +191,43 @@ def getCommentByComId(comm, usertel):
 
 # 调用方法,通过用户id 获取用户name,iconurl
 def getUserByid(id):
-    return userdetail.objects.filter(id=id).values('id','name','telephone','icon__iconurl')[0]
+    return userdetail.objects.filter(id=id).values('id', 'name', 'telephone', 'icon__iconurl')[0]
+
 
 # 添加文章点赞
-def insertArticleLike(request,articleid,tel):
+def insertArticleLike(request, articleid, tel):
     try:
-        userid=userdetail.objects.get(telephone=tel).id
-        articlelike={
-            "user_id":userid,
-            "article_id":articleid
+        userid = userdetail.objects.get(telephone=tel).id
+        articlelike = {
+            "user_id": userid,
+            "article_id": articleid
         }
-        addart_like=models.article_like.objects.create(**articlelike)
+        addart_like = models.article_like.objects.create(**articlelike)
         if addart_like:
-            addart=models.article.objects.filter(id=articleid).update(like=F('like')+1)
-        return JsonResponse({"code":999})
+            addart = models.article.objects.filter(id=articleid).update(like=F('like') + 1)
+        return JsonResponse({"code": 999})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})
+
+
 #  删除文章点赞
-def deteleArticleLike(request,articleid,tel):
+def deteleArticleLike(request, articleid, tel):
     try:
-        userid=userdetail.objects.get(telephone=tel).id
-        addart_like=models.article_like.objects.filter(user_id=userid,article_id=articleid).delete()
+        userid = userdetail.objects.get(telephone=tel).id
+        addart_like = models.article_like.objects.filter(user_id=userid, article_id=articleid).delete()
         if addart_like:
-            addart=models.article.objects.filter(id=articleid).update(like=F('like')-1)
-        return JsonResponse({"code":999})
+            addart = models.article.objects.filter(id=articleid).update(like=F('like') - 1)
+        return JsonResponse({"code": 999})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})
+
 
 # 评论点赞
-def insertCommentLike(request,commid,tel):
+def insertCommentLike(request, commid, tel):
     try:
-        userid=userdetail.objects.get(telephone=tel).id
+        userid = userdetail.objects.get(telephone=tel).id
         com_like = models.comment_like.objects.filter(comment_id=commid, user_id=userid).count()
         if com_like:
             addart_like = models.comment_like.objects.filter(user_id=userid, comment_id=commid).delete()
@@ -228,23 +235,24 @@ def insertCommentLike(request,commid,tel):
                 addart = models.comment.objects.filter(id=commid).update(like=F('like') - 1)
             return JsonResponse({"code": 999})
         else:
-            commentlike={
-                "user_id":userid,
-                "comment_id":commid
+            commentlike = {
+                "user_id": userid,
+                "comment_id": commid
             }
-            addart_like=models.comment_like.objects.create(**commentlike)
+            addart_like = models.comment_like.objects.create(**commentlike)
             if addart_like:
-                addart=models.comment.objects.filter(id=commid).update(like=F('like')+1)
-            return JsonResponse({"code":888})
+                addart = models.comment.objects.filter(id=commid).update(like=F('like') + 1)
+            return JsonResponse({"code": 888})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})
+
 
 # 添加评论评论点赞
-def insertReplyLike(request,replyid,tel):
+def insertReplyLike(request, replyid, tel):
     try:
-        userid=userdetail.objects.get(telephone=tel).id
-        rep_like=models.comment_comment_like.objects.filter(comment_comment_id=replyid,user_id=userid)
+        userid = userdetail.objects.get(telephone=tel).id
+        rep_like = models.comment_comment_like.objects.filter(comment_comment_id=replyid, user_id=userid)
         if rep_like:
             addart_like = models.comment_comment_like.objects.filter(user_id=userid,
                                                                      comment_comment_id=replyid).delete()
@@ -252,17 +260,18 @@ def insertReplyLike(request,replyid,tel):
                 addart = models.comment_comment.objects.filter(id=replyid).update(like=F('like') - 1)
             return JsonResponse({"code": 999})
         else:
-            replylike={
-                "user_id":userid,
-                "comment_comment_id":replyid
+            replylike = {
+                "user_id": userid,
+                "comment_comment_id": replyid
             }
-            addart_like=models.comment_comment_like.objects.create(**replylike)
+            addart_like = models.comment_comment_like.objects.create(**replylike)
             if addart_like:
-                addart=models.comment_comment.objects.filter(id=replyid).update(like=F('like')+1)
-            return JsonResponse({"code":999})
+                addart = models.comment_comment.objects.filter(id=replyid).update(like=F('like') + 1)
+            return JsonResponse({"code": 999})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})
+
 
 # 添加文章评论内容
 def insertArticleCommet(request):
@@ -275,16 +284,17 @@ def insertArticleCommet(request):
             userid = userdetail.objects.get(telephone=telephone).id
             article_comment = {
                 'content': comment_article,
-                'uptime':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                'article_id':articleid,
-                'user_id':userid
+                'uptime': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'article_id': articleid,
+                'user_id': userid
             }
-            insertcomment=models.comment.objects.create(**article_comment)
+            insertcomment = models.comment.objects.create(**article_comment)
             if insertcomment:
-                return JsonResponse({"code":888})
+                return JsonResponse({"code": 888})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})
+
 
 # 添加评论回复内容
 def insertCommentContent(request):
@@ -302,13 +312,13 @@ def insertCommentContent(request):
             userid = userdetail.objects.get(telephone=telephone).id
             comment = {
                 'content': comment_content,
-                'uptime':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                'comment_id':commentid,
-                'user_id':userid
+                'uptime': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'comment_id': commentid,
+                'user_id': userid
             }
-            insertcomment=models.comment_comment.objects.create(**comment)
+            insertcomment = models.comment_comment.objects.create(**comment)
             if insertcomment:
-                return JsonResponse({"code":888})
+                return JsonResponse({"code": 888})
     except Exception as ex:
         print(ex)
-        return JsonResponse({"code":404})
+        return JsonResponse({"code": 404})

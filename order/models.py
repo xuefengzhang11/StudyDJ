@@ -21,5 +21,6 @@ class status(models.Model):
 # 购物车表
 class coursecat(models.Model):
     jointime = models.DateTimeField(auto_now_add=True)
+    checked = models.BooleanField(null=False, default=False)
     course = models.ForeignKey(to_field='id', to='course.course', on_delete=True)
     user = models.ForeignKey(to_field='id', to='user.userdetail', on_delete=True)
