@@ -23,5 +23,6 @@ urlpatterns = [
     path('test/', views.test, name='test'),  # 用户随机更换头像
     path('update/', views.update, name='update'),  # 修改用户信息
     path('updatePwd/', views.updatePwd, name='updatePwd'),  # 修改用户密码
+    path('updateEmail/', views.updateEmail, name='updateEmail'),  # 修改用户密码
     path('getjob/', views.getjob, name='getjob'),  # 得到工作列表
 ]
