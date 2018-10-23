@@ -11,7 +11,11 @@ urlpatterns = [
     url(r'register', views.register, name='register'),  # 用户登录页
     url(r'upIcon/(?P<fname>.*?)/(?P<tel>\d*)', views.upIcon, name='upIcon'),  # 用户上传头像
     path('randomIcon/', views.randomIcon, name='randomIcon'),  # 用户随机更换头像
-    path('randomValidate/', views.randomValidate, name='randomValidate'),  # 用户随机更换验证码图片
+    # 用户随机更换验证码图片
+    path('randomValidate/', views.randomValidate, name='randomValidate'),
+    # 用户请求发送验证码
+    path('sendValidate/', views.sendValidate, name='sendValidate'),
+
 
     url(r'qiniutoken/', views.sendToken, name='sendToken'),  # 用户上传头像准备工作，签发七牛云token，处理文件名
 

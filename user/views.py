@@ -1,10 +1,12 @@
 from django.http import HttpResponse, JsonResponse
-import uuid
+import uuid, json, time
 from qiniu import Auth
-import json
+
 from . import models
 import random
 from utils.auth import MyAuth
+from utils.sms_api import sendIndustrySms
+from utils.randomUserName import getRandomName
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -25,21 +27,59 @@ def login(request):
         return JsonResponse(res)
 
 
+# 用户请求发送验证码
+def sendValidate(request):
+    if request.method == 'POST':
+        res = {}
+        # 获取用户电话
+        user_tel = request.POST['user_tel']
+        print(user_tel)
+        # 判断是否已经注册
+        if not len(models.user.objects.filter(telephone=user_tel)):
+            # 验证码过期时间 过期时间五分钟
+            expire = 5
+            expiretime = int(time.time()) + expire * 60
+            # 调用接口，返回状态码respCode，状态信息respDesc，验证码validate
+            res = sendIndustrySms(user_tel, expire)
+            if res['respCode'] == '00000':
+                # 请求成功  存数据库(添加或者更新)
+                if len(models.registertemp.objects.filter(telephone=user_tel)):
+                    # 修改
+                    models.registertemp.objects.filter(telephone=user_tel).update(validate=res['validate'],
+                                                                                  expiretime=expiretime)
+                else:
+                    # 添加
+                    models.registertemp.objects.create(telephone=user_tel, validate=res['validate'],
+                                                       expiretime=expiretime)
+        else:
+            res['respDesc'] = '该电话号码已被注册'
+        return JsonResponse({"msg": res['respDesc']})
+
+
 # 用户注册(手机号注册)
 def register(request):
     res = None
+    token = None
     if request.method == 'POST':
-        tel = request.POST['tel']
-        pwd = request.POST['pwd']
-        validate = request.POST['validate']
-        # res = regist(tel, pwd, validate)
-        return JsonResponse({"res": res})
+        try:
+            tel = request.POST['tel']
+            pwd = request.POST['pwd']
+            # 随机生成用户昵称
+            uname = getRandomName()
+            models.user.objects.create(telephone=tel, password=pwd, name=uname)
+            res = '注册成功'
+            # 获取token
+            token = MyAuth.encode_auth_token(tel, int(time.time()))
+        except Exception as e:
+            res = '注册失败'
+            print(e)
+        return JsonResponse({"res": res, "token": token})
 
 
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values(
-        'name','gender__name','gender_id','job_id','job__name','introduce','icon__iconurl','city','birthday'
+        'name', 'gender__name', 'gender_id', 'job_id', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
     return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
 
@@ -103,10 +143,9 @@ def update(request):
                 if job__name == u['name']:
                     job_id = u['id']
 
-            upuser = models.userdetail.objects.filter(telephone=telephone).update(name=name, birthday=birthday,
-                                                                                  city=city, introduce=introduce,
-                                                                                  gender_id=gender__name, job_id=job_id)
-            print(upuser)
+            upuser = models.userdetail.objects.filter(
+                telephone=telephone).update(name=name, birthday=birthday, city=city, introduce=introduce,
+                                            gender_id=gender__name, job_id=job_id)
             if upuser:
                 res = '修改成功'
             else:
@@ -116,10 +155,10 @@ def update(request):
     except Exception as ex:
         print(ex)
 
+
 # 查找职业
 def getjob(request):
     jobs = models.job.objects.all().values()
-
     return JsonResponse({"job": list(jobs)}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -149,7 +188,7 @@ def randomValidate(request):
     # 获取所有验证码图片路径
     allpics = models.validate.objects.all().values_list('name', 'url')
     # 随机一个
-    onepic = list(allpics)[random.randint(0, len(allpics))]
+    onepic = list(allpics)[random.randint(0, len(allpics) - 1)]
     return JsonResponse({"validateIcon": onepic})
 
 
@@ -174,4 +213,4 @@ def test(request):
     if request.method == 'POST':
         token = request.POST['token']
         res = MyAuth().identify(token)
-        return HttpResponse('测试路由')
+        return HttpResponse('测试身份鉴定')

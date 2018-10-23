@@ -1,6 +1,4 @@
-import datetime
-import time
-import jwt
+import datetime, time, jwt
 
 from studyDJ.settings import SECRET_KEY
 from user.models import user

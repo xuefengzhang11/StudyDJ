@@ -5,7 +5,7 @@ from django.db import models
 class user(models.Model):
     name = models.CharField(max_length=50, null=True)
     telephone = models.CharField(max_length=20)
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=50, null=True)
     password = models.CharField(max_length=255)
     role = models.CharField(null=False, default='user', max_length=20)
     register = models.DateTimeField(auto_now_add=True)
