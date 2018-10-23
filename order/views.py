@@ -2,6 +2,8 @@ from django.http import HttpResponse, JsonResponse
 
 from . import models
 from user.models import user
+from course.models import course
+
 
 
 # Create your views here.
@@ -33,3 +35,56 @@ def joincart(request, courid, usertel):
             models.coursecat.objects.create(course_id=courid, user_id=uid)
             res = '添加成功'
     return JsonResponse({"res": res})
+
+# 查询订单信息
+def getStatusOrder(request,usertel,status):
+    try:
+        uid = user.objects.get(telephone=usertel).id
+        res = []
+        if status == '1' or status == '2' or status == '3':
+            orders = models.order.objects.filter(user_id=uid, status_id=status).values()
+            uname = user.objects.filter(id=uid).values('name')
+            for ord in list(orders):
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
+                ord['user_name'] = uname[0]['name']
+                ord['course_name'] = ucourse[0]['name']
+                ord['course_price'] = ucourse[0]['price']
+                ord['status_name'] = ustatus[0]['name']
+                res.append(ord)
+        elif status == '4':
+            orders = models.order.objects.filter(user_id=uid).values()
+            uname = user.objects.filter(id=uid).values('name')
+            for ord in list(orders):
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
+                ord['user_name'] = uname[0]['name']
+                ord['course_name'] = ucourse[0]['name']
+                ord['course_price'] = ucourse[0]['price']
+                ord['status_name'] = ustatus[0]['name']
+                res.append(ord)
+
+        return JsonResponse({"orders": res}, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print(ex)
+
+
+
+# 查询加入购物车信息
+def getcoursecat(request,usertel):
+    try:
+        uid = user.objects.get(telephone=usertel).id
+        cats = models.coursecat.objects.filter(user_id=uid).values()
+        uname=user.objects.filter(id=uid).values('name')
+        res=[]
+        for cat in list(cats):
+            ucourse = course.objects.filter(id=cat['course_id']).values('name','price','imgurl')
+            cat['user_name'] = uname[0]['name']
+            cat['course_name'] = ucourse[0]['name']
+            cat['course_price'] = ucourse[0]['price']
+            cat['course_imgurl'] = ucourse[0]['imgurl']
+            res.append(cat)
+        print(res)
+        return JsonResponse({"cats": res}, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print(ex)
