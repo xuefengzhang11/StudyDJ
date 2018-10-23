@@ -286,7 +286,7 @@ def getComment(request, sectid, usertel):
             like_flag = count == 1 if True else False
         com_dict['like_flag'] = like_flag
         #通过用户id获取用户name, iconurl，返回一个字典，封装到com_dict['user']
-        com_dict['user'] = userdetail.objects.filter(id=com_dict['id']).values('id', 'name', 'icon__iconurl')[0]
+        com_dict['user'] = userdetail.objects.filter(id=com_dict['user']).values('id', 'name', 'icon__iconurl')[0]
         # 通过课程节评论(comm),获取二级评论，返回一个列表，封装到com_dict['replys']
         com_dict['replys'] = getCommentByComm(comm, usertel)
         com_list.append(com_dict)
@@ -309,6 +309,6 @@ def getCommentByComm(comm, usertel):
             like_flag = count == 1 if True else False
         com_dict['like_flag'] = like_flag
         # 获得恢复评论的用户信息
-        com_dict['user'] = userdetail.objects.filter(id=com_dict['id']).values('id', 'name', 'icon__iconurl')[0]
+        com_dict['user'] = userdetail.objects.filter(id=com_dict['user']).values('id', 'name', 'icon__iconurl')[0]
         res.append(com_dict)
     return res

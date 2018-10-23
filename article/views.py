@@ -18,7 +18,7 @@ def getArticleById(request, id, tel):
     user_dict['user_job'] = user.job.name
     user_dict['user_img'] = user.icon.iconurl
     islike = False
-    if tel != 'null':
+    if tel:
         userid = userdetail.objects.get(telephone=tel).id
         count = models.article_like.objects.filter(user_id=userid, article_id=id).count()
         islike = count == 1 if True else False
