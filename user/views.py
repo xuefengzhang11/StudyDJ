@@ -69,7 +69,22 @@ def updatePwd(request):
     except Exception as ex:
         print(ex)
 
-
+# 绑定邮箱
+def updateEmail(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            telephone = data['usertel']
+            email = data['email']
+            uewduser = models.user.objects.filter(telephone=telephone).update(email=email)
+            udewduser = models.userdetail.objects.filter(telephone=telephone).update(email=email)
+            if uewduser and udewduser:
+                res = '修改成功'
+            else:
+                res = '修改失败'
+            return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
 # 修改用户信息
 def update(request):
     try:
