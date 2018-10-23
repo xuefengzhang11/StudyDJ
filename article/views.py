@@ -1,12 +1,12 @@
 from django.http import JsonResponse
 from django.forms import model_to_dict
-
+from django.db.models import F
 from . import models
 from user.models import userdetail
 
 
 # 根据ID得到文章信息
-def getArticleById(request, id):
+def getArticleById(request, id, tel):
     art = models.article.objects.get(id=id)
     art_dict = model_to_dict(art)
     art_dict['upload'] = art.upload.strftime("%Y-%m-%d %H:%M:%S")
@@ -15,6 +15,12 @@ def getArticleById(request, id):
     user_dict = model_to_dict(user)
     user_dict['user_job'] = user.job.name
     user_dict['user_img'] = user.icon.iconurl
+    islike = False
+    if tel:
+        userid=userdetail.objects.get(telephone=tel).id
+        count = models.article_like.objects.filter(user_id=userid,article_id=id).count()
+        islike = count == 1 if True else False
+    art_dict['like_flag']=islike
     return JsonResponse({"article": art_dict, "user": user_dict}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -169,9 +175,7 @@ def getCommentByComId(comm, usertel):
         like_flag = False
         if usertel:
             uid = userdetail.objects.get(telephone=usertel).id
-            print(uid)
-            print(comm.id)
-            count = models.comment_comment_like.objects.filter(comment_comment_id=comm.id, user_id=uid).count()
+            count = models.comment_comment_like.objects.filter(comment_comment_id=com.id, user_id=uid).count()
             like_flag = count == 1 if True else False
         com_dict['like_flag'] = like_flag
         # 获得回帖人信息
@@ -182,4 +186,78 @@ def getCommentByComId(comm, usertel):
 
 # 调用方法,通过用户id 获取用户name,iconurl
 def getUserByid(id):
-    return userdetail.objects.filter(id=id).values('id', 'name', 'icon__iconurl')[0]
+    return userdetail.objects.filter(id=id).values('id','name','telephone','icon__iconurl')[0]
+
+# 添加文章点赞
+def insertArticleLike(request,articleid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        articlelike={
+            "user_id":userid,
+            "article_id":articleid
+        }
+        addart_like=models.article_like.objects.create(**articlelike)
+        if addart_like:
+            addart=models.article.objects.filter(id=articleid).update(like=F('like')+1)
+        return JsonResponse({"code":999})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+#  删除文章点赞
+def deteleArticleLike(request,articleid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        addart_like=models.article_like.objects.filter(user_id=userid,article_id=articleid).delete()
+        if addart_like:
+            addart=models.article.objects.filter(id=articleid).update(like=F('like')-1)
+        return JsonResponse({"code":999})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 评论点赞
+def insertCommentLike(request,commid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        com_like = models.comment_like.objects.filter(comment_id=commid, user_id=userid).count()
+        if com_like:
+            addart_like = models.comment_like.objects.filter(user_id=userid, comment_id=commid).delete()
+            if addart_like:
+                addart = models.comment.objects.filter(id=commid).update(like=F('like') - 1)
+            return JsonResponse({"code": 999})
+        else:
+            commentlike={
+                "user_id":userid,
+                "comment_id":commid
+            }
+            addart_like=models.comment_like.objects.create(**commentlike)
+            if addart_like:
+                addart=models.comment.objects.filter(id=commid).update(like=F('like')+1)
+            return JsonResponse({"code":888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加评论评论点赞
+def insertReplyLike(request,replyid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        rep_like=models.comment_comment_like.objects.filter(comment_comment_id=replyid,user_id=userid)
+        if rep_like:
+            addart_like = models.comment_comment_like.objects.filter(user_id=userid,
+                                                                     comment_comment_id=replyid).delete()
+            if addart_like:
+                addart = models.comment_comment.objects.filter(id=replyid).update(like=F('like') - 1)
+            return JsonResponse({"code": 999})
+        else:
+            replylike={
+                "user_id":userid,
+                "comment_comment_id":replyid
+            }
+            addart_like=models.comment_comment_like.objects.create(**replylike)
+            if addart_like:
+                addart=models.comment_comment.objects.filter(id=replyid).update(like=F('like')+1)
+            return JsonResponse({"code":999})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
