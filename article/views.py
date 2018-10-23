@@ -160,6 +160,7 @@ def getComment(request, artid, usertel):
 # 通过评论ID(com_dict['id']),获取二级评论，返回一个列表
 def getCommentByComId(comm, usertel):
     res = []
+    # 当前评论的所有二级评论
     comments = comm.comment_comment_set.all()
     for com in comments:
         com_dict = model_to_dict(com)
@@ -169,9 +170,7 @@ def getCommentByComId(comm, usertel):
         like_flag = False
         if usertel:
             uid = userdetail.objects.get(telephone=usertel).id
-            print(uid)
-            print(comm.id)
-            count = models.comment_comment_like.objects.filter(comment_comment_id=comm.id, user_id=uid).count()
+            count = models.comment_comment_like.objects.filter(comment_comment_id=com.id, user_id=uid).count()
             like_flag = count == 1 if True else False
         com_dict['like_flag'] = like_flag
         # 获得回帖人信息

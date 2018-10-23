@@ -3,7 +3,7 @@ from django.forms.models import model_to_dict
 from django.db import connection
 from datetime import datetime
 # ---导入与自定义模块
-from user.models import user
+from user.models import user,userdetail
 from . import models
 from utils.utils import dictfetchall
 from course.models import course, direction, category, degree
@@ -270,3 +270,45 @@ def getSectiondata(request,sectid,careerid):
         print(ex)
         return JsonResponse({"code":404})
 
+# 课程节评论部分
+def getComment(request, sectid, usertel):
+    res = {}
+    # 当前课程节id
+    res['section_id'] = sectid
+    comments = models.sectioncomment.objects.order_by('-uptime').filter(section_id=sectid)
+    com_list = []
+    for comm in comments:
+        com_dict = model_to_dict(comm)
+        like_flag = False
+        if usertel:
+            uid = userdetail.objects.get(telephone=usertel).id
+            count = models.sectioncomment_like.objects.filter(user_id=uid, sectioncomment_id=comm.id).count()
+            like_flag = count == 1 if True else False
+        com_dict['like_flag'] = like_flag
+        #通过用户id获取用户name, iconurl，返回一个字典，封装到com_dict['user']
+        com_dict['user'] = userdetail.objects.filter(id=com_dict['id']).values('id', 'name', 'icon__iconurl')[0]
+        # 通过课程节评论(comm),获取二级评论，返回一个列表，封装到com_dict['replys']
+        com_dict['replys'] = getCommentByComm(comm, usertel)
+        com_list.append(com_dict)
+    # 当前课程节的一级评论、二级评论
+    res['comments'] = com_list
+    return JsonResponse(res)
+
+# 通过一个评论获取二级评论
+def getCommentByComm(comm, usertel):
+    res = []
+    # 当前评论的所有二级评论
+    comments = comm.sectioncomment_comment_set.all()
+    for com in comments:
+        com_dict = model_to_dict(com)
+
+        like_flag = False
+        if usertel:
+            uid = userdetail.objects.get(telephone=usertel).id
+            count = models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=com.id,user_id=uid).count()
+            like_flag = count == 1 if True else False
+        com_dict['like_flag'] = like_flag
+        # 获得恢复评论的用户信息
+        com_dict['user'] = userdetail.objects.filter(id=com_dict['id']).values('id', 'name', 'icon__iconurl')[0]
+        res.append(com_dict)
+    return res

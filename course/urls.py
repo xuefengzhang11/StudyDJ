@@ -40,4 +40,8 @@ urlpatterns = [
 
     # 视频页
     url(r'getSectiondata/(?P<sectid>\w*)/(?P<careerid>\w*)', views.getSectiondata, name='getSectiondata'),
+
+    # 课程节获取所有评论，一级评论、二级评论
+    url(r'getComment/(?P<sectid>\d+)/(?P<usertel>\d*)', views.getComment, name='getComment'),  # 通过文章ID获取文章所有评论
+
 ]

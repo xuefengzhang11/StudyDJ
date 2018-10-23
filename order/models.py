@@ -17,3 +17,9 @@ class order(models.Model):
 # 订单状态表
 class status(models.Model):
     name = models.CharField(max_length=20)
+
+# 购物车表
+class coursecat(models.Model):
+    jointime = models.DateTimeField(auto_now_add=True)
+    course = models.ForeignKey(to_field='id', to='course.course', on_delete=True)
+    user = models.ForeignKey(to_field='id', to='user.userdetail', on_delete=True)
