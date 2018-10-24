@@ -51,4 +51,11 @@ urlpatterns = [
     url(r'insertReplyLike/(?P<replyid>\w*)/(?P<tel>\d+)', views.insertReplyLike, name='insertReplyLike'),
      # 添加文章评论内容
     url(r'insertSectionCommet/', views.insertSectionCommet, name='insertSectionCommet'),
+    # 添加评论回复内容
+    url(r'insertCommentContent/', views.insertCommentContent, name='insertCommentContent'),
+    # 视频评论删除
+    url(r'deleteSectionComment/(?P<sectid>\w*)/(?P<commid>\w+)', views.deleteSectionComment, name='deleteSectionComment'),
+    # 删除回复删除
+    url(r'deleteReply/(?P<comment_id>\w*)', views.deleteReply, name='deleteReply'),
+
 ]
