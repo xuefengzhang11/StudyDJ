@@ -84,3 +84,16 @@ def getCourCarts(request,usertel):
         return JsonResponse({"carts": res}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
+
+
+# 删除订单
+def deleteOrder(request, orderid):
+    try:
+        delete_order = models.order.objects.filter(id=orderid).delete()
+        if delete_order[0]:
+            res = '删除成功'
+        else:
+            res = '删除失败'
+        return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
