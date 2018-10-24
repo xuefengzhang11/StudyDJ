@@ -7,7 +7,8 @@ from user.models import user, userdetail
 from . import models
 from utils.utils import dictfetchall
 from course.models import course, direction, category, degree
-
+from django.db.models import F
+import json
 
 # 课程方向
 def getDirection(request):
@@ -205,6 +206,15 @@ def deleteCollectCoursePersonal(request, courid):
 # 课程详情页收藏课程
 def insertCollectCourse(request, course_id, tel):
     try:
+        userid=user.objects.filter(telephone=tel).values('id')
+        user_id=list(userid)[0]['id']  #得到用户的id
+        collect = {
+            "collecttime": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "course_id": course_id,
+            "user_id": user_id
+        }
+        res = models.collection.objects.create(**collect)
+        return JsonResponse({"code": 888})  # 收藏成功
         userid = user.objects.filter(telephone=tel).values('id')
         user_id = list(userid)[0]['id']  # 得到用户的id
         havecollect = models.collection.objects.filter(course_id=course_id).values()  # 判断数据库里是否收藏
@@ -244,14 +254,12 @@ def deteleCollectCourse(request, course_id, tel):
         userid = user.objects.filter(telephone=tel).values('id')
         user_id = list(userid)[0]['id']  # 得到用户的id
         res = models.collection.objects.filter(course_id=course_id, user_id=user_id).values()
-        if res:
-            affected_rows = models.collection.objects.filter(course_id=course_id, user_id=user_id).delete()
-            if affected_rows:
-                return JsonResponse({"code": "888"})  # 删除成功
-            else:
-                return JsonResponse({"code": "444"})
+        affected_rows = models.collection.objects.filter(course_id=course_id, user_id=user_id).delete()
+
+        if affected_rows:
+            return JsonResponse({"code": "888"})  #删除成功
         else:
-            return JsonResponse({"code": 414})
+            return JsonResponse({"code": "444"})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
@@ -259,8 +267,6 @@ def deteleCollectCourse(request, course_id, tel):
 
 # 视频页得到数据
 def getSectiondata(request, sectid, careerid):
-    print(sectid)
-    print(careerid)
     try:
         sections = []
         cours = []
@@ -296,6 +302,7 @@ def getComment(request, sectid, usertel):
             uid = userdetail.objects.get(telephone=usertel).id
             count = models.sectioncomment_like.objects.filter(user_id=uid, sectioncomment_id=comm.id).count()
             like_flag = count == 1 if True else False
+            res['user_id'] = uid
         com_dict['like_flag'] = like_flag
         # 通过用户id获取用户name, iconurl，返回一个字典，封装到com_dict['user']
         com_dict['user'] = userdetail.objects.filter(id=com_dict['user']).values('id', 'name', 'icon__iconurl')[0]
@@ -320,6 +327,7 @@ def getCommentByComm(comm, usertel):
             count = models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=com.id,
                                                                       user_id=uid).count()
             like_flag = count == 1 if True else False
+            print(com_dict['id'])
         com_dict['like_flag'] = like_flag
         # 获得恢复评论的用户信息
         com_dict['user'] = userdetail.objects.filter(id=com_dict['user']).values('id', 'name', 'icon__iconurl')[0]
@@ -343,3 +351,134 @@ def addSectionHistory(request, sectid, usertel):
         return JsonResponse({"res": "失败"})
     return JsonResponse({"res": "成功"})
 
+
+
+# 评论点赞
+def insertCommentLike(request,commid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        com_like = models.sectioncomment_like.objects.filter(sectioncomment_id=commid, user_id=userid).count()
+        if com_like:
+            addart_like = models.sectioncomment_like.objects.filter(user_id=userid, sectioncomment_id=commid).delete()
+            if addart_like:
+                addart = models.sectioncomment.objects.filter(id=commid).update(like=F('like') - 1)
+            return JsonResponse({"code": 999})
+        else:
+            commentlike={
+                "user_id":userid,
+                "sectioncomment_id":commid
+            }
+            addart_like=models.sectioncomment_like.objects.create(**commentlike)
+            if addart_like:
+                addart=models.sectioncomment.objects.filter(id=commid).update(like=F('like')+1)
+            return JsonResponse({"code":888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加评论评论点赞
+def insertReplyLike(request,replyid,tel):
+    try:
+        userid=userdetail.objects.get(telephone=tel).id
+        rep_like=models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=replyid,user_id=userid)
+        if rep_like:
+            addart_like = models.sectioncomment_comment_like.objects.filter(user_id=userid,sectioncomment_comment_id=replyid).delete()
+            if addart_like:
+                addart = models.sectioncomment_comment.objects.filter(id=replyid).update(like=F('like') - 1)
+            return JsonResponse({"code": 999})
+        else:
+            replylike={
+                "user_id":userid,
+                "sectioncomment_comment_id":replyid
+            }
+            addart_like=models.sectioncomment_comment_like.objects.create(**replylike)
+            if addart_like:
+                addart=models.sectioncomment_comment.objects.filter(id=replyid).update(like=F('like')+1)
+            return JsonResponse({"code":999})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加视频评论内容
+def insertSectionCommet(request):
+    try:
+        if request.method == 'POST':
+            data = request.POST
+            telephone = data['usertel']
+            sectionid = data['sectionid']
+            comment_section = data['comment_content']
+            userid = userdetail.objects.get(telephone=telephone).id
+            section_comment = {
+                'content': comment_section,
+                'uptime':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'section_id':sectionid,
+                'user_id':userid
+            }
+            insertcomment=models.sectioncomment.objects.create(**section_comment)
+            if insertcomment:
+                return JsonResponse({"code":888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code":404})
+
+# 添加评论回复内容
+def insertCommentContent(request):
+    try:
+        if request.method == 'POST':
+            data=request.POST
+            # print(type(request.body.decode()))
+            # data = json.loads(request.body.decode())
+            # data = json.loads(request.body.decode('utf-8'))
+            telephone = data['usertel']
+            commentid = data['commentid']
+            comment_content = data['comment_content']
+            userid = userdetail.objects.get(telephone=telephone).id
+            comment = {
+                'content': comment_content,
+                'uptime': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'sectioncomment_id': commentid,
+                'user_id': userid
+            }
+            insertcomment = models.sectioncomment_comment.objects.create(**comment)
+            if insertcomment:
+                return JsonResponse({"code": 888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+
+# s删除视频评论
+def deleteSectionComment(request,sectid,commid):
+    try:
+        a=models.sectioncomment_comment.objects.filter(sectioncomment_id=commid).count()
+        if a:
+            twocomment=models.sectioncomment_comment.objects.filter(sectioncomment_id=commid).values()
+            twocomment=list(twocomment)
+            if twocomment[0]['like']:
+                comment_comment_like=models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=twocomment[0]['id']).delete()
+                comment_comment=models.sectioncomment_comment.objects.filter(id=twocomment[0]['id']).delete()
+                comment_like=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
+            comment=models.sectioncomment.objects.filter(id=commid).delete()
+        else:
+            comment=models.sectioncomment.objects.filter(id=commid).values()
+            comment=list(comment)
+            if comment[0]['like']:
+                comment_like=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
+            comment=models.sectioncomment.objects.filter(id=commid).delete()
+
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})
+
+# s删除评论回复
+def deleteReply(request,comment_id):
+    try:
+        comment=models.sectioncomment_comment.objects.filter(id=comment_id).values('like')
+        comment=list(comment)
+        print(comment)
+        if comment[0]['like']>=1:
+            comment_like = models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=comment_id).delete()
+        comment = models.sectioncomment_comment.objects.filter(id=comment_id).delete()
+        return JsonResponse({"code":888})
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({"code": 404})

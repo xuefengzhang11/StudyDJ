@@ -41,6 +41,40 @@ def joincart(request, courid, usertel):
     return JsonResponse({"res": res})
 
 
+# 查询订单信息
+def getStatusOrder(request,usertel,status):
+    try:
+        uid = user.objects.get(telephone=usertel).id
+        res = []
+        if status == '1' or status == '2' or status == '3':
+            orders = models.order.objects.filter(user_id=uid, status_id=status).values()
+            uname = user.objects.filter(id=uid).values('name')
+            for ord in list(orders):
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
+                ord['user_name'] = uname[0]['name']
+                ord['course_name'] = ucourse[0]['name']
+                ord['course_price'] = ucourse[0]['price']
+                ord['status_name'] = ustatus[0]['name']
+                res.append(ord)
+        elif status == '4':
+            orders = models.order.objects.filter(user_id=uid).values()
+            uname = user.objects.filter(id=uid).values('name')
+            for ord in list(orders):
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
+                ord['user_name'] = uname[0]['name']
+                ord['course_name'] = ucourse[0]['name']
+                ord['course_price'] = ucourse[0]['price']
+                ord['status_name'] = ustatus[0]['name']
+                res.append(ord)
+
+        return JsonResponse({"orders": res}, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print(ex)
+
+
+
 # 查询用户购物车,根据用户电话号码
 # 查询加入购物车信息
 def getCourCarts(request, usertel):
@@ -125,3 +159,16 @@ def noBuy(request, usertel):
         print(e)
         return JsonResponse({"res": '失败'})
     return JsonResponse({"res": '成功'})
+
+
+# 删除订单
+def deleteOrder(request, orderid):
+    try:
+        delete_order = models.order.objects.filter(id=orderid).delete()
+        if delete_order[0]:
+            res = '删除成功'
+        else:
+            res = '删除失败'
+        return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
