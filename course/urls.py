@@ -22,7 +22,7 @@ urlpatterns = [
     # 得到课程详情
     url(r'getCourse/(?P<id>\d*)', views.getCourseDetail, name='getCourseDetail'),
 
-    # 个人中心
+    # 个人中心最近学习
     url(r'getFreeCoursePersonal/(?P<tel>\w*)', views.getFreeCoursePersonal, name='getFreeCoursePersonal'),  # 个人中心页最近学习
     url(r'deleteFreeCoursePersonal/(?P<courid>\w*)', views.deleteFreeCoursePersonal, name='deleteFreeCoursePersonal'),
     # 个人中心页课程删除
@@ -43,5 +43,8 @@ urlpatterns = [
 
     # 课程节获取所有评论，一级评论、二级评论
     url(r'getComment/(?P<sectid>\d+)/(?P<usertel>\d*)', views.getComment, name='getComment'),  # 通过文章ID获取文章所有评论
+
+    # 添加课程到最近学习
+    url(r'addSectionHistory/(?P<sectid>\d+)/(?P<usertel>\d*)', views.addSectionHistory, name='addSectionHistory')
 
 ]

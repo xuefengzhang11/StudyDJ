@@ -1,8 +1,11 @@
 from django.http import HttpResponse, JsonResponse
+from django.db.models import F
+import json
 
 from . import models
-from user.models import user
+from user.models import user, userdetail
 from course.models import course
+from utils.randomOrderNum import getordernumber
 
 
 # Create your views here.
@@ -11,6 +14,7 @@ from course.models import course
 def isBuy(request, courid, usertel):
     res = judgeBuy(courid, usertel)
     return JsonResponse({"res": res})
+
 
 # 判断是否购买方法
 def judgeBuy(courid, usertel):
@@ -21,6 +25,7 @@ def judgeBuy(courid, usertel):
     else:
         res = '未购买'
     return res
+
 
 # 加入购物车
 def joincart(request, courid, usertel):
@@ -35,18 +40,88 @@ def joincart(request, courid, usertel):
             res = '添加成功'
     return JsonResponse({"res": res})
 
+
 # 查询用户购物车,根据用户电话号码
 # 查询加入购物车信息
-def getCourCarts(request,usertel):
+def getCourCarts(request, usertel):
     try:
         uid = user.objects.get(telephone=usertel).id
         carts = models.coursecat.objects.filter(user_id=uid).values()
-        uname=user.objects.filter(id=uid).values('name')
-        res=[]
+        uname = user.objects.filter(id=uid).values('name')
+        res = []
         for cart in list(carts):
-            ucourse = course.objects.filter(id=cart['course_id']).values('id','name','price','imgurl','coursecat__checked')
-            res.append(ucourse[0])
-        print(res)
+            ucourse = \
+            course.objects.filter(id=cart['course_id']).values('id', 'name', 'price', 'imgurl', 'coursecat__checked')[0]
+            ucourse['cartid'] = cart['id']
+            res.append(ucourse)
         return JsonResponse({"carts": res}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
+
+
+# 通过id删除购物车数据
+def delCartById(request, cartid):
+    try:
+        models.coursecat.objects.filter(id=cartid).delete()
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": '删除失败'})
+    return JsonResponse({"res": '删除成功'})
+
+
+# 全选或者全不选
+def choiceAllOrNot(request, flag, usertel):
+    try:
+        uid = userdetail.objects.get(telephone=usertel).id
+        models.coursecat.objects.filter(user_id=uid).update(checked=flag)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": '失败'})
+    return JsonResponse({"res": '成功'})
+
+
+# 单个选择或取消
+def ChangeCartById(request, cartid, usertel):
+    try:
+        uid = userdetail.objects.get(telephone=usertel).id
+        nowFlag = models.coursecat.objects.get(user_id=uid, id=cartid).checked
+        models.coursecat.objects.filter(user_id=uid, id=cartid).update(checked=not nowFlag)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": '修改失败'})
+    return JsonResponse({"res": '修改成功'})
+
+# 确认购买
+def goBuy(request, usertel):
+    try:
+        print(usertel)
+        uid = userdetail.objects.get(telephone=usertel).id
+        carts = json.loads(request.body.decode())
+        for cart in carts:
+            if cart['checked']:
+                # 购买 删除购物车信息
+                models.coursecat.objects.get(course_id=cart['id']).delete()
+                # 添加到订单表中(生成订单编号)
+                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=1,user_id=uid)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": '失败'})
+    return JsonResponse({"res": '成功'})
+
+
+# 取消购买
+def noBuy(request, usertel):
+    try:
+        print(usertel)
+        uid = userdetail.objects.get(telephone=usertel).id
+        carts = json.loads(request.body.decode())
+        for cart in carts:
+            if cart['checked']:
+                # 购买 删除购物车信息
+                models.coursecat.objects.get(course_id=cart['id']).delete()
+                # 添加到订单表中(生成订单编号)
+                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=2,user_id=uid)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": '失败'})
+    return JsonResponse({"res": '成功'})

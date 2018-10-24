@@ -58,7 +58,6 @@ def sendValidate(request):
 
 # 用户注册(手机号注册)
 def register(request):
-    res = None
     token = None
     if request.method == 'POST':
         try:
