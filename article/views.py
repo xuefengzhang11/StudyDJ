@@ -322,3 +322,27 @@ def insertCommentContent(request):
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
+# 写文章
+def commitArticle(request,tel):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            userid = userdetail.objects.get(telephone=tel).id
+            print(userid)
+            art = {
+                'title': data['title'],
+                'introduce': data['introduce'],
+                'content': data['content'],
+                'userinfo_id': userid,
+                'like': 0,
+                'upload': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            }
+            commitart = models.article.objects.create(**art)
+            if commitart:
+                res = '提交成功'
+            else:
+                res = '提交失败'
+            return JsonResponse({"res": res})
+    except Exception as ex:
+        print(ex)
