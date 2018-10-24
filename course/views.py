@@ -456,15 +456,25 @@ def deleteSectionComment(request,sectid,commid):
             if twocomment[0]['like']:
                 comment_comment_like=models.sectioncomment_comment_like.objects.filter(sectioncomment_comment_id=twocomment[0]['id']).delete()
                 comment_comment=models.sectioncomment_comment.objects.filter(id=twocomment[0]['id']).delete()
-                comment_like=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
-            comment=models.sectioncomment.objects.filter(id=commid).delete()
+                comment_like=models.sectioncomment.objects.filter(id=commid).values()
+                comment_like=list(comment_like)
+                if comment_like[0]['like']>=1:
+                    comment_likes=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
+                comment=models.sectioncomment.objects.filter(id=commid).delete()
+            else:
+                deletetwo=models.sectioncomment_comment.objects.filter(id=twocomment[0]['id']).delete()
+                comment_like=models.sectioncomment.objects.filter(id=commid).values()
+                comment_like=list(comment_like)
+                if comment_like[0]['like']>=1:
+                    comment_likes=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
+                deletecomment=models.sectioncomment.objects.filter(id=commid).delete()
         else:
             comment=models.sectioncomment.objects.filter(id=commid).values()
             comment=list(comment)
             if comment[0]['like']:
                 comment_like=models.sectioncomment_like.objects.filter(sectioncomment_id=commid).delete()
             comment=models.sectioncomment.objects.filter(id=commid).delete()
-
+        return JsonResponse({"code":888})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})

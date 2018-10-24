@@ -329,13 +329,24 @@ def deleteArticleComment(request,commid,articleid):
             if two_comment[0]['like']:
                 comment_comment_like=models.comment_comment_like.objects.filter(comment_comment_id=two_comment[0]['id']).delete()
                 deletetwocomment=models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
-                comment_like=models.comment_like.objects.filter(comment_id=commid).delete()
-            deletecomment=models.comment.objects.filter(id=commid).delete()
+                comment_like=models.comment.objects.filter(id=commid).values()
+                comment_like=list(comment_like)
+                if comment_like[0]['like']>=1:
+                    comment_likes=models.comment_like.objects.filter(comment_id=commid).delete()
+                deletecomment=models.comment.objects.filter(id=commid).delete()
+            else:
+                deletetwocomment = models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
+                comment_like = models.comment.objects.filter(id=commid).values()
+                comment_like = list(comment_like)
+                print(comment_like)
+                if comment_like[0]['like']>=1:
+                    comment_likes = models.comment_like.objects.filter(comment_id=commid).delete()
+                deletecomment = models.comment.objects.filter(id=commid).delete()
         else:
             comment=models.comment.objects.filter(id=commid).values()
             comment=list(comment)
             if comment[0]['like']:
-                comment_like=models.comment_like.objects.filter(comment_id=commid).delete()
+                comment_liked=models.comment_like.objects.filter(comment_id=commid).delete()
             deletecomment = models.comment.objects.filter(id=commid).delete()
 
         return JsonResponse({"code": 888})
@@ -347,7 +358,6 @@ def deleteReply(request,comment_id):
     try:
         comment = models.comment_comment.objects.filter(id=comment_id).values('like')
         comment = list(comment)
-        print(comment)
         if comment[0]['like'] >= 1:
             comment_like = models.comment_comment_like.objects.filter(
                 comment_comment_id=comment_id).delete()

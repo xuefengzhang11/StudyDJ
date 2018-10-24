@@ -45,7 +45,7 @@ urlpatterns = [
     url(r'getComment/(?P<sectid>\d+)/(?P<usertel>\d*)', views.getComment, name='getComment'),  # 通过文章ID获取文章所有评论
 
     # 添加课程到最近学习
-    url(r'addSectionHistory/(?P<sectid>\d+)/(?P<usertel>\d*)', views.addSectionHistory, name='addSectionHistory')
+    url(r'addSectionHistory/(?P<sectid>\d+)/(?P<usertel>\d*)', views.addSectionHistory, name='addSectionHistory'),
 
     # 添加或者删除评论点赞
     url(r'insertCommentLike/(?P<commid>\w*)/(?P<tel>\d+)', views.insertCommentLike, name='insertCommentLike'),
