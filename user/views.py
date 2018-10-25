@@ -7,7 +7,7 @@ import random
 from utils.auth import MyAuth
 from utils.sms_api import sendIndustrySms
 from utils.randomUserName import getRandomName
-
+from course.models import history,course,chapter,section
 
 # 用户登录(电话号码或者邮箱登录) user表
 # tel_email pwd
@@ -77,12 +77,37 @@ def register(request):
 
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
-    uu = models.userdetail.objects.filter(telephone=usertel).values(
+    res={}
+    uu = models.userdetail.objects.filter(telephone=usertel).values('id',
         'name', 'gender__name', 'gender_id', 'job_id', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
-    return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
+    uu1=list(uu)
+    sectid = history.objects.order_by('-watchtime').filter(user_id=uu[0]['id']).values('id')
+    if sectid:
+        sectid1=sectid[0]['id']
+        res=IndexSectionId(sectid1)
+        res['sectid']=sectid1
+    res['user']=uu1
+    return JsonResponse({"code":res})
 
+def IndexSectionId(sectid):
+    res = {}
+    sec_chapterid = section.objects.get(id=sectid).chapter_id
+    chap_secs = section.objects.filter(chapter_id=sec_chapterid).values('id','name')
+    for cs in range(len(list(chap_secs))):
+        if int(sectid) == list(chap_secs)[cs]['id']:
+            section_index = cs + 1
+            res['section_index'] = section_index
+            res['section_name'] = list(chap_secs)[cs]['name']
 
+    chap_courseid = chapter.objects.get(id=sec_chapterid).course_id
+    cour_chaps = chapter.objects.filter(course_id=chap_courseid).values('id','course__name')
+    for cc in range(len(list(cour_chaps))):
+        if int(sec_chapterid) == list(cour_chaps)[cc]['id']:
+            chapter_index = cc + 1
+            res['chapter_index'] = chapter_index
+            res['course_name'] = list(cour_chaps)[cc]['course__name']
+    return res
 # 个人设置页
 def set(request):
     return HttpResponse('个人设置页')

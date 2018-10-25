@@ -24,7 +24,7 @@ urlpatterns = [
 
     # 个人中心最近学习
     url(r'getFreeCoursePersonal/(?P<tel>\w*)', views.getFreeCoursePersonal, name='getFreeCoursePersonal'),  # 个人中心页最近学习
-    url(r'deleteFreeCoursePersonal/(?P<courid>\w*)', views.deleteFreeCoursePersonal, name='deleteFreeCoursePersonal'),
+    url(r'deleteFreeCoursePersonal/(?P<sectid>\w*)', views.deleteFreeCoursePersonal, name='deleteFreeCoursePersonal'),
     # 个人中心页课程删除
     url(r'getCollectCoursePersonal/(?P<tel>\w*)', views.getCollectCoursePersonal, name='getCollectCoursePersonal'),
     # 个人中心页课程收藏
@@ -60,8 +60,7 @@ urlpatterns = [
     url(r'deleteSectionComment/(?P<sectid>\w*)/(?P<commid>\w+)', views.deleteSectionComment, name='deleteSectionComment'),
     # 删除回复删除
     url(r'deleteReply/(?P<comment_id>\w*)', views.deleteReply, name='deleteReply'),
-    # 根据用户电话查到导航揽人物用到的信息
-    url(r'getNextData/(?P<usertel>\w*)', views.getNextData, name='getNextData'),
+
 
 
 ]
