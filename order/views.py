@@ -1,6 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.db.models import F
 import json
+import time
+from datetime import datetime
 
 from . import models
 from user.models import user, userdetail
@@ -44,6 +46,7 @@ def joincart(request, courid, usertel):
 # 查询订单信息
 def getStatusOrder(request,usertel,status):
     try:
+        failureOrder(usertel)
         uid = user.objects.get(telephone=usertel).id
         res = []
         if status == '1' or status == '2' or status == '3':
@@ -172,3 +175,25 @@ def deleteOrder(request, orderid):
         return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+
+# 过三天 判定为失效
+def failureOrder(tel):
+    userid = userdetail.objects.get(telephone=tel).id
+    shop_time = models.order.objects.filter(user_id=userid).values('ordertime')
+
+    for st in list(shop_time):
+        st_time1 = str(st['ordertime']).split('+')[0]
+        st_time2 = st_time1.split('.')[0]
+        # string转化结构化时间
+        time_array = time.strptime(st_time2, "%Y-%m-%d %H:%M:%S")
+        # 结构化时间转时间戳
+        timestamp = time.mktime(time_array)
+        ntime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        now_time= time.strptime(ntime,"%Y-%m-%d %H:%M:%S")
+        nowtime = time.mktime(now_time)
+        if nowtime - 86400 * 3 > timestamp:
+            now_status = models.order.objects.filter(ordertime=st['ordertime']).update(status_id=3)
+
+
+
+
