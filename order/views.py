@@ -122,6 +122,7 @@ def ChangeCartById(request, cartid, usertel):
     try:
         uid = userdetail.objects.get(telephone=usertel).id
         nowFlag = models.coursecat.objects.get(user_id=uid, id=cartid).checked
+        print(nowFlag)
         models.coursecat.objects.filter(user_id=uid, id=cartid).update(checked=not nowFlag)
     except Exception as e:
         print(e)

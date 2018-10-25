@@ -8,6 +8,8 @@ from utils.auth import MyAuth
 from utils.sms_api import sendIndustrySms
 from utils.randomUserName import getRandomName
 from course.models import history,course,chapter,section
+from werkzeug.security import generate_password_hash
+
 
 # 用户登录(电话号码或者邮箱登录) user表
 # tel_email pwd
@@ -65,7 +67,8 @@ def register(request):
             pwd = request.POST['pwd']
             # 随机生成用户昵称
             uname = getRandomName()
-            models.user.objects.create(telephone=tel, password=pwd, name=uname)
+            sha1_password = generate_password_hash(pwd, method='pbkdf2:sha1:2000', salt_length=6)
+            models.user.objects.create(telephone=tel, password=sha1_password, name=uname)
             res = '注册成功'
             # 获取token
             token = MyAuth.encode_auth_token(tel, int(time.time()))
@@ -122,7 +125,8 @@ def updatePwd(request):
             newpassword = data['newpwd']
             uu = models.user.objects.filter(telephone=telephone).values('password')
             if list(uu)[0]['password'] == oldpassword:
-                upwduser = models.user.objects.filter(telephone=telephone).update(password=newpassword)
+                sha1_password = generate_password_hash(newpassword, method='pbkdf2:sha1:2000', salt_length=6)
+                upwduser = models.user.objects.filter(telephone=telephone).update(password=sha1_password)
                 if upwduser:
                     res = '修改成功'
                 else:
