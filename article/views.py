@@ -151,7 +151,7 @@ def getComment(request, artid, usertel):
         like_flag = False
         if usertel:
             uid = userdetail.objects.get(telephone=usertel).id
-            res['user_id']=uid
+            res['user_id'] = uid
             count = models.comment_like.objects.filter(comment_id=comm.id, user_id=uid).count()
             like_flag = count == 1 if True else False
         com_dict['like_flag'] = like_flag
@@ -324,8 +324,9 @@ def insertCommentContent(request):
         print(ex)
         return JsonResponse({"code": 404})
 
+
 # 写文章
-def commitArticle(request,tel):
+def commitArticle(request, tel):
     try:
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
@@ -348,42 +349,46 @@ def commitArticle(request,tel):
     except Exception as ex:
         print(ex)
 
+
 # s删除文章评论
-def deleteArticleComment(request,commid,articleid):
+def deleteArticleComment(request, commid, articleid):
     try:
-        a= models.comment_comment.objects.filter(comment_id=commid).count()
+        a = models.comment_comment.objects.filter(comment_id=commid).count()
         if a:
-            twocomment=models.comment_comment.objects.filter(comment_id=commid).values()
-            two_comment=list(twocomment)
+            twocomment = models.comment_comment.objects.filter(comment_id=commid).values()
+            two_comment = list(twocomment)
             if two_comment[0]['like']:
-                comment_comment_like=models.comment_comment_like.objects.filter(comment_comment_id=two_comment[0]['id']).delete()
-                deletetwocomment=models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
-                comment_like=models.comment.objects.filter(id=commid).values()
-                comment_like=list(comment_like)
-                if comment_like[0]['like']>=1:
-                    comment_likes=models.comment_like.objects.filter(comment_id=commid).delete()
-                deletecomment=models.comment.objects.filter(id=commid).delete()
+                comment_comment_like = models.comment_comment_like.objects.filter(
+                    comment_comment_id=two_comment[0]['id']).delete()
+                deletetwocomment = models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
+                comment_like = models.comment.objects.filter(id=commid).values()
+                comment_like = list(comment_like)
+                if comment_like[0]['like'] >= 1:
+                    comment_likes = models.comment_like.objects.filter(comment_id=commid).delete()
+                deletecomment = models.comment.objects.filter(id=commid).delete()
             else:
                 deletetwocomment = models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
                 comment_like = models.comment.objects.filter(id=commid).values()
                 comment_like = list(comment_like)
                 print(comment_like)
-                if comment_like[0]['like']>=1:
+                if comment_like[0]['like'] >= 1:
                     comment_likes = models.comment_like.objects.filter(comment_id=commid).delete()
                 deletecomment = models.comment.objects.filter(id=commid).delete()
         else:
-            comment=models.comment.objects.filter(id=commid).values()
-            comment=list(comment)
+            comment = models.comment.objects.filter(id=commid).values()
+            comment = list(comment)
             if comment[0]['like']:
-                comment_liked=models.comment_like.objects.filter(comment_id=commid).delete()
+                comment_liked = models.comment_like.objects.filter(comment_id=commid).delete()
             deletecomment = models.comment.objects.filter(id=commid).delete()
 
         return JsonResponse({"code": 888})
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
+
 # s删除评论回复
-def deleteReply(request,comment_id):
+def deleteReply(request, comment_id):
     try:
         comment = models.comment_comment.objects.filter(id=comment_id).values('like')
         comment = list(comment)
