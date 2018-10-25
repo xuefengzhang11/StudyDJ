@@ -143,7 +143,7 @@ def getFreeCoursePersonal(request, tel):
 ccou.learn as course_learn,ccou.imgurl as cour_imgurl from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs 
 INNER JOIN course_chapter as cc INNER JOIN course_course as ccou
 on u.id = ch.user_id and ch.section_id = cs.id and cs.chapter_id=cc.id and cc.course_id=ccou.id
-where u.telephone=%s ORDER BY ch.watchtime """, [tel])
+where u.telephone=%s ORDER BY ch.watchtime desc""", [tel])
         row = dictfetchall(cursor)
         print(row)
         section_id = row[0]["section_id"]
@@ -492,3 +492,31 @@ def deleteReply(request,comment_id):
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
+ # 根据用户电话查到导航揽人物用到的信息
+def getNextData(request,usertel):
+    userid=userdetail.objects.get(telephone=usertel).id
+    sectid=models.history.objects.order_by('-watchtime').filter(user_id=userid).values('id')
+    sectid1=sectid[0]['id']
+    res=IndexSectionId(sectid1)
+    res['sectid']=sectid1
+    return JsonResponse({"data":res})
+def IndexSectionId(sectid):
+    res = {}
+    sec_chapterid = models.section.objects.get(id=sectid).chapter_id
+    chap_secs = models.section.objects.filter(chapter_id=sec_chapterid).values('id','name')
+    for cs in range(len(list(chap_secs))):
+        if int(sectid) == list(chap_secs)[cs]['id']:
+            section_index = cs + 1
+            res['section_index'] = section_index
+            res['section_name'] = list(chap_secs)[cs]['name']
+
+    chap_courseid = models.chapter.objects.get(id=sec_chapterid).course_id
+    cour_chaps = models.chapter.objects.filter(course_id=chap_courseid).values('id','course__name')
+    for cc in range(len(list(cour_chaps))):
+        if int(sec_chapterid) == list(cour_chaps)[cc]['id']:
+            chapter_index = cc + 1
+            res['chapter_index'] = chapter_index
+            res['course_name'] = list(cour_chaps)[cc]['course__name']
+    return res
+

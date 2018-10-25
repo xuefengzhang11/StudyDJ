@@ -213,3 +213,4 @@ def test(request):
         token = request.POST['token']
         res = MyAuth().identify(token)
         return HttpResponse('测试身份鉴定')
+
