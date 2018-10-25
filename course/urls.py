@@ -60,5 +60,8 @@ urlpatterns = [
     url(r'deleteSectionComment/(?P<sectid>\w*)/(?P<commid>\w+)', views.deleteSectionComment, name='deleteSectionComment'),
     # 删除回复删除
     url(r'deleteReply/(?P<comment_id>\w*)', views.deleteReply, name='deleteReply'),
+    # 根据用户电话查到导航揽人物用到的信息
+    url(r'getNextData/(?P<usertel>\w*)', views.getNextData, name='getNextData'),
+
 
 ]
