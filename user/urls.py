@@ -25,5 +25,6 @@ urlpatterns = [
     path('updatePwd/', views.updatePwd, name='updatePwd'),  # 修改用户密码
     path('updateEmail/', views.updateEmail, name='updateEmail'),  # 修改用户密码
     path('getjob/', views.getjob, name='getjob'),  # 得到工作列表
+    url(r'emailCount/(?P<tel>\w*)', views.emailCount, name='emailCount'),  # 判断邮箱是否存在
 
 ]

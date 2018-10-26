@@ -84,13 +84,14 @@ def getUser(request, usertel):
     uu = models.userdetail.objects.filter(telephone=usertel).values('id',
         'name', 'gender__name', 'gender_id', 'job_id', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
-    uu1=list(uu)
-    sectid = history.objects.order_by('-watchtime').filter(user_id=uu[0]['id']).values('id')
-    if sectid:
-        sectid1=sectid[0]['id']
-        res=IndexSectionId(sectid1)
-        res['sectid']=sectid1
-    res['user']=uu1
+    if uu:
+        uu1=list(uu)
+        sectid = history.objects.order_by('-watchtime').filter(user_id=uu[0]['id']).values('id')
+        if sectid:
+            sectid1=list(sectid)[0]['id']
+            res=IndexSectionId(sectid1)
+            res['sectid']=sectid1
+        res['user']=uu1
     return JsonResponse({"code":res})
 
 def IndexSectionId(sectid):
@@ -153,6 +154,17 @@ def updateEmail(request):
             return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+
+# 查找邮箱
+def emailCount(request,tel):
+    emcount = models.user.objects.filter(telephone=tel).values('email')
+    if emcount:
+        res = '存在'
+    else:
+        res = '不存在'
+    return JsonResponse({"res": res})
+
+
 # 修改用户信息
 def update(request):
     try:
