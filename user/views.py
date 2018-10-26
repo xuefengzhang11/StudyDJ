@@ -7,6 +7,8 @@ import random
 from utils.auth import MyAuth
 from utils.sms_api import sendIndustrySms
 from utils.randomUserName import getRandomName
+from course.models import history,course,chapter,section
+from werkzeug.security import generate_password_hash
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -65,7 +67,8 @@ def register(request):
             pwd = request.POST['pwd']
             # 随机生成用户昵称
             uname = getRandomName()
-            models.user.objects.create(telephone=tel, password=pwd, name=uname)
+            sha1_password = generate_password_hash(pwd, method='pbkdf2:sha1:2000', salt_length=6)
+            models.user.objects.create(telephone=tel, password=sha1_password, name=uname)
             res = '注册成功'
             # 获取token
             token = MyAuth.encode_auth_token(tel, int(time.time()))
@@ -77,12 +80,37 @@ def register(request):
 
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
-    uu = models.userdetail.objects.filter(telephone=usertel).values(
+    res={}
+    uu = models.userdetail.objects.filter(telephone=usertel).values('id',
         'name', 'gender__name', 'gender_id', 'job_id', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
     )
-    return JsonResponse({"user": list(uu)}, json_dumps_params={'ensure_ascii': False})
+    uu1=list(uu)
+    sectid = history.objects.order_by('-watchtime').filter(user_id=uu[0]['id']).values('id')
+    if sectid:
+        sectid1=sectid[0]['id']
+        res=IndexSectionId(sectid1)
+        res['sectid']=sectid1
+    res['user']=uu1
+    return JsonResponse({"code":res})
 
+def IndexSectionId(sectid):
+    res = {}
+    sec_chapterid = section.objects.get(id=sectid).chapter_id
+    chap_secs = section.objects.filter(chapter_id=sec_chapterid).values('id','name')
+    for cs in range(len(list(chap_secs))):
+        if int(sectid) == list(chap_secs)[cs]['id']:
+            section_index = cs + 1
+            res['section_index'] = section_index
+            res['section_name'] = list(chap_secs)[cs]['name']
 
+    chap_courseid = chapter.objects.get(id=sec_chapterid).course_id
+    cour_chaps = chapter.objects.filter(course_id=chap_courseid).values('id','course__name')
+    for cc in range(len(list(cour_chaps))):
+        if int(sec_chapterid) == list(cour_chaps)[cc]['id']:
+            chapter_index = cc + 1
+            res['chapter_index'] = chapter_index
+            res['course_name'] = list(cour_chaps)[cc]['course__name']
+    return res
 # 个人设置页
 def set(request):
     return HttpResponse('个人设置页')
@@ -97,7 +125,8 @@ def updatePwd(request):
             newpassword = data['newpwd']
             uu = models.user.objects.filter(telephone=telephone).values('password')
             if list(uu)[0]['password'] == oldpassword:
-                upwduser = models.user.objects.filter(telephone=telephone).update(password=newpassword)
+                sha1_password = generate_password_hash(newpassword, method='pbkdf2:sha1:2000', salt_length=6)
+                upwduser = models.user.objects.filter(telephone=telephone).update(password=sha1_password)
                 if upwduser:
                     res = '修改成功'
                 else:

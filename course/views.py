@@ -143,10 +143,8 @@ def getFreeCoursePersonal(request, tel):
 ccou.learn as course_learn,ccou.imgurl as cour_imgurl from user_user as u INNER JOIN course_history as ch INNER JOIN course_section as cs 
 INNER JOIN course_chapter as cc INNER JOIN course_course as ccou
 on u.id = ch.user_id and ch.section_id = cs.id and cs.chapter_id=cc.id and cc.course_id=ccou.id
-where u.telephone=%s ORDER BY ch.watchtime """, [tel])
+where u.telephone=%s ORDER BY ch.watchtime desc""", [tel])
         row = dictfetchall(cursor)
-        print(row)
-        section_id = row[0]["section_id"]
         return JsonResponse({"nextstudy": row})
     except Exception as ex:
         print(ex)
@@ -154,11 +152,10 @@ where u.telephone=%s ORDER BY ch.watchtime """, [tel])
 
 
 # 个人中心最近学习删除节
-def deleteFreeCoursePersonal(request, courid):
-    print(courid)
+def deleteFreeCoursePersonal(request, sectid):
     try:
-        delete_section = models.history.objects.filter(section_id=courid).delete()
-        # print(delete_section)
+
+        delete_section = models.history.objects.filter(section_id=sectid).delete()
         if delete_section[0]:
             return JsonResponse({"code": "888"})
         else:
@@ -215,19 +212,6 @@ def insertCollectCourse(request, course_id, tel):
         }
         res = models.collection.objects.create(**collect)
         return JsonResponse({"code": 888})  # 收藏成功
-        userid = user.objects.filter(telephone=tel).values('id')
-        user_id = list(userid)[0]['id']  # 得到用户的id
-        havecollect = models.collection.objects.filter(course_id=course_id).values()  # 判断数据库里是否收藏
-        if havecollect:
-            return JsonResponse({"code": 444})
-        else:
-            collect = {
-                "collecttime": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "course_id": course_id,
-                "user_id": user_id
-            }
-            res = models.collection.objects.create(**collect)
-            return JsonResponse({"code": 888})  # 收藏成功
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
@@ -273,15 +257,12 @@ def getSectiondata(request, sectid, careerid):
         all = {}
         section_data = models.section.objects.filter(id=sectid).values()
         sectiondata = list(section_data)
-        # print(sectiondata[0])
         collectcourse = models.collection.objects.filter(course_id=careerid).count()
         course_data = models.course.objects.filter(id=careerid).values()
         coursedata = list(course_data)
         cours.append(coursedata)
-        # print(coursedata)
         sectiondata[0]['coursenum'] = collectcourse
         sectiondata[0]['coursedata'] = cours[0]
-        # print(sectiondata)
         return JsonResponse({'data': sectiondata})
     except Exception as ex:
         print(ex)
@@ -492,3 +473,5 @@ def deleteReply(request,comment_id):
     except Exception as ex:
         print(ex)
         return JsonResponse({"code": 404})
+
+

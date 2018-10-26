@@ -25,5 +25,4 @@ urlpatterns = [
     url(r'goBuy/(?P<usertel>\d+)', views.goBuy, name='goBuy'),
     # 取消购买
     url(r'noBuy/(?P<usertel>\d+)', views.noBuy, name='noBuy'),
-
 ]
