@@ -1,6 +1,7 @@
 from django.db import models
 
 
+# 职业计划表
 class career(models.Model):
     name = models.CharField(max_length=100)
     introduce = models.CharField(max_length=255)
@@ -8,4 +9,3 @@ class career(models.Model):
     learn = models.IntegerField(null=False, default=0)
     imgurl = models.CharField(max_length=100, null=True)
     finish = models.CharField(max_length=255)
-

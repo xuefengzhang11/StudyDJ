@@ -64,6 +64,7 @@ class category(models.Model):
 class degree(models.Model):
     name = models.CharField(max_length=30)
 
+
 # 课程节评论表(一级评论)
 class sectioncomment(models.Model):
     # 评论内容
@@ -74,10 +75,12 @@ class sectioncomment(models.Model):
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
     section = models.ForeignKey(to='section', to_field='id', on_delete=True)
 
+
 # 课程节评论点赞表
 class sectioncomment_like(models.Model):
     sectioncomment = models.ForeignKey(to='sectioncomment', to_field='id', on_delete=True)
     user = models.ForeignKey(to_field='id', to='user.userdetail', on_delete=True)
+
 
 # 课程节评论的评论(二级评论)
 class sectioncomment_comment(models.Model):
@@ -88,6 +91,7 @@ class sectioncomment_comment(models.Model):
     like = models.IntegerField(null=False, default=0)
     user = models.ForeignKey(to='user.userdetail', to_field='id', on_delete=True)
     sectioncomment = models.ForeignKey(to='sectioncomment', to_field='id', on_delete=True)
+
 
 # 课程节评论的评论的点赞
 class sectioncomment_comment_like(models.Model):

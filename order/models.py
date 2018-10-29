@@ -1,9 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
-
-
 # 订单表
 class order(models.Model):
     # 订单编号
@@ -17,6 +14,7 @@ class order(models.Model):
 # 订单状态表
 class status(models.Model):
     name = models.CharField(max_length=20)
+
 
 # 购物车表
 class coursecat(models.Model):
