@@ -1,14 +1,15 @@
+# 系统模块
 from django.http import HttpResponse, JsonResponse
 import uuid, json, time
 from qiniu import Auth
-
+from werkzeug.security import generate_password_hash
+# 用户模块
 from . import models
 import random
 from utils.auth import MyAuth
 from utils.sms_api import sendIndustrySms
 from utils.randomUserName import getRandomName
-from course.models import history,course,chapter,section
-from werkzeug.security import generate_password_hash
+from course.models import history, chapter, section
 
 
 # 用户登录(电话号码或者邮箱登录) user表
@@ -35,7 +36,6 @@ def sendValidate(request):
         res = {}
         # 获取用户电话
         user_tel = request.POST['user_tel']
-        print(user_tel)
         # 判断是否已经注册
         if not len(models.user.objects.filter(telephone=user_tel)):
             # 验证码过期时间 过期时间五分钟
@@ -47,12 +47,12 @@ def sendValidate(request):
                 # 请求成功  存数据库(添加或者更新)
                 if len(models.registertemp.objects.filter(telephone=user_tel)):
                     # 修改
-                    models.registertemp.objects.filter(telephone=user_tel).update(validate=res['validate'],
-                                                                                  expiretime=expiretime)
+                    models.registertemp.objects.filter(
+                        telephone=user_tel).update(validate=res['validate'], expiretime=expiretime)
                 else:
                     # 添加
-                    models.registertemp.objects.create(telephone=user_tel, validate=res['validate'],
-                                                       expiretime=expiretime)
+                    models.registertemp.objects.create(
+                        telephone=user_tel, validate=res['validate'], expiretime=expiretime)
         else:
             res['respDesc'] = '该电话号码已被注册'
         return JsonResponse({"msg": res['respDesc']})
@@ -80,24 +80,25 @@ def register(request):
 
 # 个人信息页(通过手机号码获取用户信息)
 def getUser(request, usertel):
-    res={}
-    uu = models.userdetail.objects.filter(telephone=usertel).values('id',
-        'name', 'gender__name', 'gender_id', 'job_id', 'job__name', 'introduce', 'icon__iconurl', 'city', 'birthday'
-    )
+    res = {}
+    uu = models.userdetail.objects.filter(telephone=usertel).values(
+        'id', 'name', 'gender__name', 'gender_id', 'job_id', 'job__name',
+        'introduce', 'icon__iconurl', 'city', 'birthday')
     if uu:
-        uu1=list(uu)
+        uu1 = list(uu)
         sectid = history.objects.order_by('-watchtime').filter(user_id=uu[0]['id']).values('id')
         if sectid:
-            sectid1=list(sectid)[0]['id']
-            res=IndexSectionId(sectid1)
-            res['sectid']=sectid1
-        res['user']=uu1
-    return JsonResponse({"code":res})
+            sectid1 = list(sectid)[0]['id']
+            res = IndexSectionId(sectid1)
+            res['sectid'] = sectid1
+        res['user'] = uu1
+    return JsonResponse({"code": res})
+
 
 def IndexSectionId(sectid):
     res = {}
     sec_chapterid = section.objects.get(id=sectid).chapter_id
-    chap_secs = section.objects.filter(chapter_id=sec_chapterid).values('id','name')
+    chap_secs = section.objects.filter(chapter_id=sec_chapterid).values('id', 'name')
     for cs in range(len(list(chap_secs))):
         if int(sectid) == list(chap_secs)[cs]['id']:
             section_index = cs + 1
@@ -105,16 +106,14 @@ def IndexSectionId(sectid):
             res['section_name'] = list(chap_secs)[cs]['name']
 
     chap_courseid = chapter.objects.get(id=sec_chapterid).course_id
-    cour_chaps = chapter.objects.filter(course_id=chap_courseid).values('id','course__name')
+    cour_chaps = chapter.objects.filter(course_id=chap_courseid).values('id', 'course__name')
     for cc in range(len(list(cour_chaps))):
         if int(sec_chapterid) == list(cour_chaps)[cc]['id']:
             chapter_index = cc + 1
             res['chapter_index'] = chapter_index
             res['course_name'] = list(cour_chaps)[cc]['course__name']
     return res
-# 个人设置页
-def set(request):
-    return HttpResponse('个人设置页')
+
 
 # 得到用户密码
 def updatePwd(request):
@@ -128,15 +127,14 @@ def updatePwd(request):
             if list(uu)[0]['password'] == oldpassword:
                 sha1_password = generate_password_hash(newpassword, method='pbkdf2:sha1:2000', salt_length=6)
                 upwduser = models.user.objects.filter(telephone=telephone).update(password=sha1_password)
-                if upwduser:
-                    res = '修改成功'
-                else:
-                    res = '修改失败'
+                res = '修改成功' if upwduser else '修改失败'
             else:
                 res = '与原密码不符'
             return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+        return JsonResponse({"res": 409})
+
 
 # 绑定邮箱
 def updateEmail(request):
@@ -147,22 +145,22 @@ def updateEmail(request):
             email = data['email']
             uewduser = models.user.objects.filter(telephone=telephone).update(email=email)
             udewduser = models.userdetail.objects.filter(telephone=telephone).update(email=email)
-            if uewduser and udewduser:
-                res = '修改成功'
-            else:
-                res = '修改失败'
+            res = '修改成功' if uewduser and udewduser else '修改失败'
             return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+        return JsonResponse({"res": 409})
+
 
 # 查找邮箱
-def emailCount(request,tel):
-    emcount = models.user.objects.filter(telephone=tel).values('email')
-    if emcount:
-        res = '存在'
-    else:
-        res = '不存在'
-    return JsonResponse({"res": res})
+def emailCount(request, tel):
+    try:
+        emcount = models.user.objects.filter(telephone=tel).values('email')
+        res = '存在' if emcount else '不存在'
+        return JsonResponse({"res": res})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": 409})
 
 
 # 修改用户信息
@@ -182,24 +180,23 @@ def update(request):
             for u in uu:
                 if job__name == u['name']:
                     job_id = u['id']
-
-            upuser = models.userdetail.objects.filter(
-                telephone=telephone).update(name=name, birthday=birthday, city=city, introduce=introduce,
-                                            gender_id=gender__name, job_id=job_id)
-            if upuser:
-                res = '修改成功'
-            else:
-                res = '修改失败'
-
+            upuser = models.userdetail.objects.filter(telephone=telephone).update(
+                name=name, birthday=birthday, city=city, introduce=introduce, gender_id=gender__name, job_id=job_id)
+            res = '修改成功' if upuser else '修改失败'
             return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+        return JsonResponse({"res": 409})
 
 
 # 查找职业
 def getjob(request):
-    jobs = models.job.objects.all().values()
-    return JsonResponse({"job": list(jobs)}, json_dumps_params={'ensure_ascii': False})
+    try:
+        jobs = models.job.objects.all().values()
+        return JsonResponse({"job": list(jobs)}, json_dumps_params={'ensure_ascii': False})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": 409})
 
 
 # 用户上传头像（保存头像文件名称）（更改用户头像）
@@ -217,19 +214,27 @@ def upIcon(request, fname, tel):
 
 # 用户随机更换头像
 def randomIcon(request):
-    allicon = models.icon.objects.all().values_list('iconurl')
-    # 随机数据库icon表中的用户头像
-    usericon = list(allicon)[random.randint(0, len(allicon) - 1)][0]
-    return JsonResponse({"userIcon": usericon})
+    try:
+        allicon = models.icon.objects.all().values_list('iconurl')
+        # 随机数据库icon表中的用户头像
+        usericon = list(allicon)[random.randint(0, len(allicon) - 1)][0]
+        return JsonResponse({"userIcon": usericon})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": 409})
 
 
 # 用户登录随机获取验证码图片
 def randomValidate(request):
-    # 获取所有验证码图片路径
-    allpics = models.validate.objects.all().values_list('name', 'url')
-    # 随机一个
-    onepic = list(allpics)[random.randint(0, len(allpics) - 1)]
-    return JsonResponse({"validateIcon": onepic})
+    try:
+        # 获取所有验证码图片路径
+        allpics = models.validate.objects.all().values_list('name', 'url')
+        # 随机一个
+        onepic = list(allpics)[random.randint(0, len(allpics) - 1)]
+        return JsonResponse({"validateIcon": onepic})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": 409})
 
 
 # 七牛云token

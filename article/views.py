@@ -1,6 +1,9 @@
+# 系统模块
 from django.http import JsonResponse
 from django.forms import model_to_dict
 from django.db.models import F
+
+# 自定义模块
 from . import models
 from user.models import userdetail
 import json
@@ -21,7 +24,7 @@ def getArticleById(request, id, tel):
     if tel:
         userid = userdetail.objects.get(telephone=tel).id
         count = models.article_like.objects.filter(user_id=userid, article_id=id).count()
-        islike = count == 1 if True else False
+        islike = True if count == 1 else False
     art_dict['like_flag'] = islike
     return JsonResponse({"article": art_dict, "user": user_dict}, json_dumps_params={'ensure_ascii': False})
 
@@ -87,12 +90,9 @@ def getCollectArticle(request, tel):
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = \
-            models.article.objects.filter(id=list(arts)[a]['article_id']).order_by('-id').values('id', 'title',
-                                                                                                 'introduce',
-                                                                                                 'upload',
-                                                                                                 'userinfo__name',
-                                                                                                 'like')[0]
+        arttitle = models.article.objects.filter(
+            id=list(arts)[a]['article_id']).order_by('-id').values(
+            'id', 'title', 'introduce', 'upload', 'userinfo__name', 'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
@@ -118,9 +118,9 @@ def getMyArticle(request, tel):
     arti = []
     res['article'] = arti
     for a in range(len(arts)):
-        arttitle = \
-            models.article.objects.filter(id=list(arts)[a]['id']).order_by('-id').values('id', 'title', 'introduce',
-                                                                                         'upload', 'like')[0]
+        arttitle = models.article.objects.filter(
+            id=list(arts)[a]['id']).order_by('-id').values(
+            'id', 'title', 'introduce', 'upload', 'like')[0]
         arti.append(arttitle)
     return JsonResponse(res)
 
@@ -129,7 +129,6 @@ def getMyArticle(request, tel):
 def deleteUserArticle(request, id):
     try:
         delete_section = models.article.objects.filter(id=id).delete()
-        # print(delete_section)
         if delete_section[0]:
             return JsonResponse({"code": "888"})
         else:
@@ -153,7 +152,7 @@ def getComment(request, artid, usertel):
             uid = userdetail.objects.get(telephone=usertel).id
             res['user_id'] = uid
             count = models.comment_like.objects.filter(comment_id=comm.id, user_id=uid).count()
-            like_flag = count == 1 if True else False
+            like_flag = True if count == 1 else False
         com_dict['like_flag'] = like_flag
         # 调用方法,通过用户id 获取用户name,iconurl，返回一个字典，封装到com_dict['user']
         com_dict['user'] = getUserByid(com_dict['user'])
@@ -182,7 +181,7 @@ def getCommentByComId(comm, usertel):
         if usertel:
             uid = userdetail.objects.get(telephone=usertel).id
             count = models.comment_comment_like.objects.filter(comment_comment_id=com.id, user_id=uid).count()
-            like_flag = count == 1 if True else False
+            like_flag = True if count == 1 else False
         com_dict['like_flag'] = like_flag
         # 获得回帖人信息
         com_dict['user'] = getUserByid(com_dict['user'])
@@ -255,8 +254,8 @@ def insertReplyLike(request, replyid, tel):
         userid = userdetail.objects.get(telephone=tel).id
         rep_like = models.comment_comment_like.objects.filter(comment_comment_id=replyid, user_id=userid)
         if rep_like:
-            addart_like = models.comment_comment_like.objects.filter(user_id=userid,
-                                                                     comment_comment_id=replyid).delete()
+            addart_like = models.comment_comment_like.objects.filter(
+                user_id=userid, comment_comment_id=replyid).delete()
             if addart_like:
                 addart = models.comment_comment.objects.filter(id=replyid).update(like=F('like') - 1)
             return JsonResponse({"code": 999})
@@ -302,13 +301,8 @@ def insertCommentContent(request):
     try:
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
-            print(1)
             telephone = data['usertel']
-            print(2)
             commentid = data['commentid']
-            print(commentid)
-            print(3)
-            print(commentid)
             comment_content = data['comment_content']
             userid = userdetail.objects.get(telephone=telephone).id
             comment = {
@@ -331,7 +325,6 @@ def commitArticle(request, tel):
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
             userid = userdetail.objects.get(telephone=tel).id
-            print(userid)
             art = {
                 'title': data['title'],
                 'introduce': data['introduce'],
@@ -341,10 +334,7 @@ def commitArticle(request, tel):
                 'upload': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             }
             commitart = models.article.objects.create(**art)
-            if commitart:
-                res = '提交成功'
-            else:
-                res = '提交失败'
+            res = '提交成功' if commitart else '提交失败'
             return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
@@ -370,7 +360,6 @@ def deleteArticleComment(request, commid, articleid):
                 deletetwocomment = models.comment_comment.objects.filter(id=two_comment[0]['id']).delete()
                 comment_like = models.comment.objects.filter(id=commid).values()
                 comment_like = list(comment_like)
-                print(comment_like)
                 if comment_like[0]['like'] >= 1:
                     comment_likes = models.comment_like.objects.filter(comment_id=commid).delete()
                 deletecomment = models.comment.objects.filter(id=commid).delete()

@@ -1,5 +1,6 @@
 from random import randint
 
+
 # 获取0-9随机数
 def rNum():
     return str(randint(0, 9))

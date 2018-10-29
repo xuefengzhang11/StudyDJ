@@ -73,9 +73,7 @@ class MyAuth():
             # 电话号码登录
             uu = user.objects.filter(telephone=tel_email).first()
         if uu:
-            # if uu.password == password:
-            if check_password_hash(uu.password,password):
-                # sha1_password = check_password_hash(password, uu.password)
+            if check_password_hash(uu.password, password):
                 login_time = int(time.time())
                 res['token'] = self.encode_auth_token(tel_email, login_time).decode()
                 res['res'] = '登录成功'

@@ -68,7 +68,7 @@ def sendIndustrySms(to, expire):
 
 
 if __name__ == '__main__':
-    sendIndustrySms('14796686075',5)
+    sendIndustrySms('14796686075', 5)
 
 # 测试
 # 18036387467  ls

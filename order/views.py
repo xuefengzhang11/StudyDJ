@@ -1,16 +1,13 @@
-from django.http import HttpResponse, JsonResponse
-from django.db.models import F
-import json
-import time
+# 系统模块
+from django.http import JsonResponse
+import json, time
 from datetime import datetime
-
+# 自定义模块
 from . import models
 from user.models import user, userdetail
 from course.models import course
 from utils.randomOrderNum import getordernumber
 
-
-# Create your views here.
 
 # 判断用户是否购买这门课程
 def isBuy(request, courid, usertel):
@@ -22,29 +19,30 @@ def isBuy(request, courid, usertel):
 def judgeBuy(courid, usertel):
     uid = user.objects.get(telephone=usertel).id
     count = models.order.objects.filter(course_id=courid, user_id=uid, status_id=1)
-    if count:
-        res = '已购买'
-    else:
-        res = '未购买'
+    res = '已购买' if count else '未购买'
     return res
 
 
 # 加入购物车
 def joincart(request, courid, usertel):
-    res = judgeBuy(courid, usertel)
-    if res == '未购买':
-        uid = user.objects.get(telephone=usertel).id
-        count = models.coursecat.objects.filter(course_id=courid, user_id=uid)
-        if count:
-            res = '不能重复添加'
-        else:
-            models.coursecat.objects.create(course_id=courid, user_id=uid)
-            res = '添加成功'
-    return JsonResponse({"res": res})
+    try:
+        res = judgeBuy(courid, usertel)
+        if res == '未购买':
+            uid = user.objects.get(telephone=usertel).id
+            count = models.coursecat.objects.filter(course_id=courid, user_id=uid)
+            if count:
+                res = '不能重复添加'
+            else:
+                models.coursecat.objects.create(course_id=courid, user_id=uid)
+                res = '添加成功'
+        return JsonResponse({"res": res})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"res": 409})
 
 
 # 查询订单信息
-def getStatusOrder(request,usertel,status):
+def getStatusOrder(request, usertel, status):
     try:
         failureOrder(usertel)
         uid = user.objects.get(telephone=usertel).id
@@ -75,7 +73,7 @@ def getStatusOrder(request,usertel,status):
         return JsonResponse({"orders": res}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
-
+        return JsonResponse({"res": 409})
 
 
 # 查询用户购物车,根据用户电话号码
@@ -87,23 +85,24 @@ def getCourCarts(request, usertel):
         uname = user.objects.filter(id=uid).values('name')
         res = []
         for cart in list(carts):
-            ucourse = \
-            course.objects.filter(id=cart['course_id']).values('id', 'name', 'price', 'imgurl', 'coursecat__checked')[0]
+            ucourse = course.objects.filter(id=cart['course_id']).values(
+                'id', 'name', 'price', 'imgurl', 'coursecat__checked')[0]
             ucourse['cartid'] = cart['id']
             res.append(ucourse)
         return JsonResponse({"carts": res}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
+        return JsonResponse({"res": 409})
 
 
 # 通过id删除购物车数据
 def delCartById(request, cartid):
     try:
         models.coursecat.objects.filter(id=cartid).delete()
+        return JsonResponse({"res": '删除成功'})
     except Exception as e:
         print(e)
         return JsonResponse({"res": '删除失败'})
-    return JsonResponse({"res": '删除成功'})
 
 
 # 全选或者全不选
@@ -122,17 +121,16 @@ def ChangeCartById(request, cartid, usertel):
     try:
         uid = userdetail.objects.get(telephone=usertel).id
         nowFlag = models.coursecat.objects.get(user_id=uid, id=cartid).checked
-        print(nowFlag)
         models.coursecat.objects.filter(user_id=uid, id=cartid).update(checked=not nowFlag)
     except Exception as e:
         print(e)
         return JsonResponse({"res": '修改失败'})
     return JsonResponse({"res": '修改成功'})
 
+
 # 确认购买
 def goBuy(request, usertel):
     try:
-        print(usertel)
         uid = userdetail.objects.get(telephone=usertel).id
         carts = json.loads(request.body.decode())
         for cart in carts:
@@ -140,7 +138,7 @@ def goBuy(request, usertel):
                 # 购买 删除购物车信息
                 models.coursecat.objects.get(course_id=cart['id']).delete()
                 # 添加到订单表中(生成订单编号)
-                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=1,user_id=uid)
+                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=1, user_id=uid)
     except Exception as e:
         print(e)
         return JsonResponse({"res": '失败'})
@@ -150,38 +148,34 @@ def goBuy(request, usertel):
 # 取消购买
 def noBuy(request, usertel):
     try:
-        print(usertel)
         uid = userdetail.objects.get(telephone=usertel).id
         carts = json.loads(request.body.decode())
         for cart in carts:
             if cart['checked']:
                 # 购买 删除购物车信息
-                models.coursecat.objects.get(course_id=cart['id']).delete()
+                models.coursecat.objects.get(course_id=cart['id'], user_id=uid).delete()
                 # 添加到订单表中(生成订单编号)
-                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=2,user_id=uid)
+                models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=2, user_id=uid)
+        return JsonResponse({"res": '成功'})
     except Exception as e:
         print(e)
         return JsonResponse({"res": '失败'})
-    return JsonResponse({"res": '成功'})
 
 
 # 删除订单
 def deleteOrder(request, orderid):
     try:
         delete_order = models.order.objects.filter(id=orderid).delete()
-        if delete_order[0]:
-            res = '删除成功'
-        else:
-            res = '删除失败'
+        res = '删除成功' if delete_order[0] else '删除失败'
         return JsonResponse({"res": res})
     except Exception as ex:
         print(ex)
+
 
 # 过三天 判定为失效
 def failureOrder(tel):
     userid = userdetail.objects.get(telephone=tel).id
     shop_time = models.order.objects.filter(user_id=userid).values('ordertime')
-
     for st in list(shop_time):
         st_time1 = str(st['ordertime']).split('+')[0]
         st_time2 = st_time1.split('.')[0]
@@ -190,11 +184,7 @@ def failureOrder(tel):
         # 结构化时间转时间戳
         timestamp = time.mktime(time_array)
         ntime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        now_time= time.strptime(ntime,"%Y-%m-%d %H:%M:%S")
+        now_time = time.strptime(ntime, "%Y-%m-%d %H:%M:%S")
         nowtime = time.mktime(now_time)
-        if nowtime - 86400 * 3 > timestamp:
+        if nowtime - 24 * 60 * 60 * 3 > timestamp:
             now_status = models.order.objects.filter(ordertime=st['ordertime']).update(status_id=3)
-
-
-
-
