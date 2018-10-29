@@ -219,7 +219,7 @@ def upIcon(request, fname, tel):
 def randomIcon(request):
     allicon = models.icon.objects.all().values_list('iconurl')
     # 随机数据库icon表中的用户头像
-    usericon = list(allicon)[random.randint(0, len(allicon))][0]
+    usericon = list(allicon)[random.randint(0, len(allicon) - 1)][0]
     return JsonResponse({"userIcon": usericon})
 
 
