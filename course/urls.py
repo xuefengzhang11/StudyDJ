@@ -37,7 +37,7 @@ urlpatterns = [
     # 删除课程
     url(r'deteleCollectCourse/(?P<course_id>\w*)/(?P<tel>\w*)', views.deteleCollectCourse, name='deteleCollectCourse'),
     # 视频页
-    url(r'getSectiondata/(?P<sectid>\w*)/(?P<careerid>\w*)', views.getSectiondata, name='getSectiondata'),
+    url(r'getSectiondata/(?P<sectid>\w*)/(?P<careerid>\w*)/(?P<usertel>\w*)', views.getSectiondata, name='getSectiondata'),
     # 课程节获取所有评论，一级评论、二级评论
     url(r'getComment/(?P<sectid>\d+)/(?P<usertel>\d*)', views.getComment, name='getComment'),
     # 添加课程到最近学习
