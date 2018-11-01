@@ -267,7 +267,7 @@ def deteleCollectCourse(request, course_id, tel):
 
 
 # 视频页得到数据
-def getSectiondata(request, sectid, careerid):
+def getSectiondata(request, sectid, careerid, usertel):
     try:
         cours = []
         section_data = models.section.objects.filter(id=sectid).values()
@@ -278,6 +278,7 @@ def getSectiondata(request, sectid, careerid):
         cours.append(coursedata)
         sectiondata[0]['coursenum'] = collectcourse
         sectiondata[0]['coursedata'] = cours[0]
+        sectiondata[0]['userimg'] = userdetail.objects.get(telephone=usertel).icon.iconurl
         return JsonResponse({'data': sectiondata})
     except Exception as ex:
         print(ex)
