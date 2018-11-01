@@ -69,6 +69,7 @@ def register(request):
             uname = getRandomName()
             sha1_password = generate_password_hash(pwd, method='pbkdf2:sha1:2000', salt_length=6)
             models.user.objects.create(telephone=tel, password=sha1_password, name=uname)
+            models.userdetail.objects.create(telephone=tel, name=uname, icon_id=22, gender_id=3, job_id=4)
             res = '注册成功'
             # 获取token
             token = MyAuth.encode_auth_token(tel, int(time.time()))

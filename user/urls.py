@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'getUser/(?P<usertel>\w*)', views.getUser, name='getUser'),
     # 用户登录页
     url(r'login', views.login, name='login'),
-    # 用户登录页
+    # 用户注册
     url(r'register', views.register, name='register'),
     # 用户上传头像
     url(r'upIcon/(?P<fname>.*?)/(?P<tel>\d*)', views.upIcon, name='upIcon'),
