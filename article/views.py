@@ -22,10 +22,14 @@ def getArticleById(request, id, tel):
     user_dict['user_img'] = user.icon.iconurl
     islike = False
     if tel:
+        user_img = userdetail.objects.get(telephone=tel).icon.iconurl
         userid = userdetail.objects.get(telephone=tel).id
         count = models.article_like.objects.filter(user_id=userid, article_id=id).count()
         islike = True if count == 1 else False
+    else:
+        user_img = '1752d869-1bb4-4a07-9169-8a10aacd7955.jpg'
     art_dict['like_flag'] = islike
+    art_dict['user_img'] = user_img
     return JsonResponse({"article": art_dict, "user": user_dict}, json_dumps_params={'ensure_ascii': False})
 
 
@@ -163,7 +167,6 @@ def getComment(request, artid, usertel):
     res['article_id'] = artid
     # 当前文章的一级评论、二级评论
     res['comments'] = com_list
-
     return JsonResponse(res)
 
 
