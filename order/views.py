@@ -80,15 +80,16 @@ def getStatusOrder(request, usertel, status):
 # 查询加入购物车信息
 def getCourCarts(request, usertel):
     try:
-        uid = user.objects.get(telephone=usertel).id
-        carts = models.coursecat.objects.filter(user_id=uid).values()
-        uname = user.objects.filter(id=uid).values('name')
         res = []
-        for cart in list(carts):
-            ucourse = course.objects.filter(id=cart['course_id']).values(
-                'id', 'name', 'price', 'imgurl', 'coursecat__checked')[0]
-            ucourse['cartid'] = cart['id']
-            res.append(ucourse)
+        if usertel != 'null':
+            uid = user.objects.get(telephone=usertel).id
+            carts = models.coursecat.objects.filter(user_id=uid).values()
+            uname = user.objects.filter(id=uid).values('name')
+            for cart in list(carts):
+                ucourse = course.objects.filter(id=cart['course_id']).values(
+                    'id', 'name', 'price', 'imgurl', 'coursecat__checked')[0]
+                ucourse['cartid'] = cart['id']
+                res.append(ucourse)
         return JsonResponse({"carts": res}, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
@@ -136,7 +137,7 @@ def goBuy(request, usertel):
         for cart in carts:
             if cart['checked']:
                 # 购买 删除购物车信息
-                models.coursecat.objects.get(course_id=cart['id']).delete()
+                models.coursecat.objects.get(course_id=cart['id'], user_id=uid).delete()
                 # 添加到订单表中(生成订单编号)
                 models.order.objects.create(number=getordernumber(), course_id=cart['id'], status_id=1, user_id=uid)
     except Exception as e:
