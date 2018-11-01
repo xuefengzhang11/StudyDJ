@@ -269,9 +269,7 @@ def deteleCollectCourse(request, course_id, tel):
 # 视频页得到数据
 def getSectiondata(request, sectid, careerid):
     try:
-        sections = []
         cours = []
-        all = {}
         section_data = models.section.objects.filter(id=sectid).values()
         sectiondata = list(section_data)
         collectcourse = models.collection.objects.filter(course_id=careerid).count()
