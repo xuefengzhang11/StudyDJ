@@ -51,23 +51,25 @@ def getStatusOrder(request, usertel, status):
             orders = models.order.objects.filter(user_id=uid, status_id=status).values()
             uname = user.objects.filter(id=uid).values('name')
             for ord in list(orders):
-                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price','imgurl')
                 ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
                 ord['user_name'] = uname[0]['name']
                 ord['course_name'] = ucourse[0]['name']
                 ord['course_price'] = ucourse[0]['price']
                 ord['status_name'] = ustatus[0]['name']
+                ord['imgurl'] = ucourse[0]['imgurl']
                 res.append(ord)
         elif status == '4':
             orders = models.order.objects.filter(user_id=uid).values()
             uname = user.objects.filter(id=uid).values('name')
             for ord in list(orders):
-                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price')
+                ucourse = course.objects.filter(id=ord['course_id']).values('name', 'price','imgurl')
                 ustatus = models.status.objects.filter(id=ord['status_id']).values('name')
                 ord['user_name'] = uname[0]['name']
                 ord['course_name'] = ucourse[0]['name']
                 ord['course_price'] = ucourse[0]['price']
                 ord['status_name'] = ustatus[0]['name']
+                ord['imgurl'] = ucourse[0]['imgurl']
                 res.append(ord)
 
         return JsonResponse({"orders": res}, json_dumps_params={'ensure_ascii': False})
