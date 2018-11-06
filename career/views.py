@@ -18,6 +18,7 @@ def hotCareer(request):
     return JsonResponse({"hotCareers": careers_list}, json_dumps_params={'ensure_ascii': False})
 
 
+# 获取所有职业计划
 def getCareer(request, pageIndex):
     pageSize = 12
     pageIndex = int(pageIndex)
@@ -83,7 +84,6 @@ def getCareerDetail(request, careerid):
     except Exception as e:
         print(e)
         return JsonResponse({"code": "409"})
-
 
 
 # 返回职业的数量
