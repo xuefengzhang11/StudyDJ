@@ -1,6 +1,7 @@
 # 系统模块
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+import json
 # 自定义模块
 from career.models import career
 
@@ -34,6 +35,12 @@ def getCareer(request, pageIndex):
         careers_list.append(care_dict)
     return JsonResponse({"careers": careers_list}, json_dumps_params={'ensure_ascii': False})
 
+# 用完删除
+def temp(request, pageIndex):
+    filename = 'career' + str(pageIndex) + '.json'
+    with open(filename, 'r',encoding='utf-8') as fp:
+        res = json.load(fp)
+    return JsonResponse(res, json_dumps_params={'ensure_ascii': False})
 
 # 通过职业计划获取所有课程
 def getCourseByCareer(care):

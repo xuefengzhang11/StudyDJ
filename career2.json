@@ -1,0 +1,1620 @@
+{
+  "careers": [
+    {
+      "id": 21,
+      "name": "Java Web基础入门",
+      "introduce": "全面学习Java Web基础知识，大量项目案例，非常适合懂Java和前端基础的你！",
+      "price": 468,
+      "learn": 714,
+      "imgurl": "0520dfa3-5eaf-44f1-963d-28da757e8476.jpg",
+      "finish": "全面学习Java Web基础知识",
+      "courses": [],
+      "coursesNum": 0
+    },
+    {
+      "id": 11,
+      "name": "Android强化：服务与通信之广播、服务、蓝牙",
+      "introduce": "广播接收者，服务，AIDL，Socket，蓝牙，NDK...助你成功迈入安卓工程师行列！",
+      "price": 468,
+      "learn": 661,
+      "imgurl": "9aae8ee0-9d32-4cdd-acaf-ac62182c3381.jpg",
+      "finish": "广播、服务、蓝牙",
+      "courses": [
+        {
+          "id": 56,
+          "name": " Android高级",
+          "introduce": "本课程将一步步教你如何搭建出一个自己的Android推送平台",
+          "price": 99,
+          "learn": 21,
+          "imgurl": "9b29b49d-2fc8-4d71-9303-8b41b8807353.jpg",
+          "cs_category": 22,
+          "cs_direction": 3,
+          "cs_degree": 4,
+          "cs_career": 11,
+          "chapters": [
+            {
+              "id": 243,
+              "name": "NDK环境搭建、目录分析",
+              "introduce": "AS中NDK环境搭建和目录分析",
+              "upload": "2018-10-02T18:22:48Z",
+              "course": 56,
+              "sections": [
+                {
+                  "id": 1046,
+                  "name": "AS中NDK环境搭建",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:23:05Z",
+                  "chapter": 243
+                },
+                {
+                  "id": 1047,
+                  "name": "AS目录分析和so介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:23:16Z",
+                  "chapter": 243
+                },
+                {
+                  "id": 1346,
+                  "name": " AS中NDK环境搭建",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:28:45Z",
+                  "chapter": 243
+                },
+                {
+                  "id": 1347,
+                  "name": "AS目录分析和so介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:29:02Z",
+                  "chapter": 243
+                },
+                {
+                  "id": 1796,
+                  "name": "AS中NDK环境搭建",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:29:10Z",
+                  "chapter": 243
+                },
+                {
+                  "id": 1797,
+                  "name": "AS目录分析和so介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:29:28Z",
+                  "chapter": 243
+                }
+              ],
+              "sectionsNum": 6
+            },
+            {
+              "id": 244,
+              "name": "JNI交互",
+              "introduce": "JNI动态调用，静态调用等",
+              "upload": "2018-10-02T18:23:45Z",
+              "course": 56,
+              "sections": [
+                {
+                  "id": 1048,
+                  "name": "JNI基础知识和方法签名",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:23:27Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1049,
+                  "name": "AS配置打印log",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:23:57Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1050,
+                  "name": "JNI调用静态方法 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:24:06Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1051,
+                  "name": "JNI调用java实例方法",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:26:58Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1348,
+                  "name": "JNI基础知识和方法签名",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:29:40Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1349,
+                  "name": "AS配置打印log",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:30:00Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1350,
+                  "name": "JNI调用静态方法",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:30:17Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1351,
+                  "name": "JNI调用java实例方法",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:30:34Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1798,
+                  "name": "JNI基础知识和方法签名",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:29:48Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1799,
+                  "name": "AS配置打印log",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:30:14Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1800,
+                  "name": "JNI调用静态方法",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:30:29Z",
+                  "chapter": 244
+                },
+                {
+                  "id": 1801,
+                  "name": "JNI调用java实例方法",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:30:44Z",
+                  "chapter": 244
+                }
+              ],
+              "sectionsNum": 12
+            }
+          ],
+          "chaptersNum": 2
+        }
+      ],
+      "coursesNum": 1
+    },
+    {
+      "id": 10,
+      "name": "Android进阶：网络与数据存储",
+      "introduce": "网络操作、数据存储、常用框架等实际项目开发必备技能，手把手教你开发真实APP！",
+      "price": 488,
+      "learn": 627,
+      "imgurl": "77ec7952-429e-4a45-bd99-b366ebbe2ad5.jpg",
+      "finish": "真实APP",
+      "courses": [
+        {
+          "id": 55,
+          "name": "Android中级",
+          "introduce": "了解Android-http网络编程应用，常见忘了请求相关应用",
+          "price": 396,
+          "learn": 14,
+          "imgurl": "b76fad19-4dd7-4254-8d5a-9c6e2c853646.jpg",
+          "cs_category": 22,
+          "cs_direction": 3,
+          "cs_degree": 3,
+          "cs_career": 10,
+          "chapters": [
+            {
+              "id": 241,
+              "name": "屏幕的UI刷新机制",
+              "introduce": "介绍帧率和刷新率并分析GPU生成帧的速度和屏幕刷新的速度不一致的情况",
+              "upload": "2018-10-02T18:20:51Z",
+              "course": 55,
+              "sections": [
+                {
+                  "id": 1042,
+                  "name": " Android系统屏幕UI刷新机制",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:21:05Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1334,
+                  "name": "什么是Http协议？",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:19:11Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1335,
+                  "name": "http协议特点",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:19:49Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1336,
+                  "name": "http1.0和1.1区别",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:20:05Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1337,
+                  "name": "HttpUrlConnection介绍 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:20:23Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1338,
+                  "name": " post、get传递参数（上）",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:20:42Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1339,
+                  "name": " post、get传递参数（下）",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:20:59Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1340,
+                  "name": " post、get传递参数对乱码的处理 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:21:17Z",
+                  "chapter": 241
+                },
+                {
+                  "id": 1792,
+                  "name": "Android系统屏幕UI刷新机制",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:26:54Z",
+                  "chapter": 241
+                }
+              ],
+              "sectionsNum": 9
+            },
+            {
+              "id": 242,
+              "name": "布局的选择",
+              "introduce": "介绍如何选择更高效的布局，介绍overdraw以及ConstaintLayout控件的优势",
+              "upload": "2018-10-02T18:21:21Z",
+              "course": 55,
+              "sections": [
+                {
+                  "id": 1043,
+                  "name": "布局的选择 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:21:37Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1044,
+                  "name": " 避免overdraw",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:21:47Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1045,
+                  "name": "ConstaintLayout",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:21:59Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1341,
+                  "name": "wrap_content",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:22:54Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1342,
+                  "name": "weight",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:23:11Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1343,
+                  "name": "使用相对布局",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:23:27Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1344,
+                  "name": "使用large限定符",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:23:48Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1345,
+                  "name": "布局别名",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:24:08Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1793,
+                  "name": "布局的选择",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:27:09Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1794,
+                  "name": "避免overdraw",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:27:22Z",
+                  "chapter": 242
+                },
+                {
+                  "id": 1795,
+                  "name": "ConstaintLayout",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:27:37Z",
+                  "chapter": 242
+                }
+              ],
+              "sectionsNum": 11
+            }
+          ],
+          "chaptersNum": 2
+        }
+      ],
+      "coursesNum": 1
+    },
+    {
+      "id": 24,
+      "name": "JavaScript基础入门",
+      "introduce": "带领你从JavaScript语法开始，一步步深入其中，并完成经典的js案例。",
+      "price": 228,
+      "learn": 543,
+      "imgurl": "e060fa73-cc56-4538-91c6-a09b0ee2795d.jpg",
+      "finish": "从JavaScript语法开始",
+      "courses": [
+        {
+          "id": 6,
+          "name": "javaScript高级",
+          "introduce": "JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基于原型的语言，内置支持类型。",
+          "price": 99,
+          "learn": 319,
+          "imgurl": "6333bcb1-fbe3-4a54-bcf1-eded6fb0f465.jpg",
+          "cs_category": 13,
+          "cs_direction": 1,
+          "cs_degree": 4,
+          "cs_career": 24,
+          "chapters": [
+            {
+              "id": 28,
+              "name": "数据类型",
+              "introduce": "介绍课程目标和学习内容，介绍JavaScript中的数据类型与常见得转换逻辑。",
+              "upload": "2018-09-14T20:59:27Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 230,
+                  "name": "JavaScript深入浅出课程介绍",
+                  "introduce": "如您没有脚本编程开发经验，学习过程有可能会受挫部分内容或示例代码，请“暂时略过不懂的部分，后面章节会阐述”，当然想透彻学习，还需大量实践来体会知识的内涵。",
+                  "upload": "2018-09-15T09:56:57Z",
+                  "chapter": 28
+                },
+                {
+                  "id": 231,
+                  "name": "Javascript六种数据类型",
+                  "introduce": "Javascript六种数据类型和数据类型转换",
+                  "upload": "2018-09-15T09:58:50Z",
+                  "chapter": 28
+                },
+                {
+                  "id": 232,
+                  "name": "JaveScript隐式转换",
+                  "introduce": "在这里，加号也有不同的涵义",
+                  "upload": "2018-09-15T10:00:03Z",
+                  "chapter": 28
+                },
+                {
+                  "id": 233,
+                  "name": "Javascript包装对象",
+                  "introduce": "number，string等都有包装类型",
+                  "upload": "2018-09-15T10:01:06Z",
+                  "chapter": 28
+                },
+                {
+                  "id": 234,
+                  "name": "Javascript类型检测",
+                  "introduce": "用typeof等判断类型",
+                  "upload": "2018-09-15T10:02:17Z",
+                  "chapter": 28
+                }
+              ],
+              "sectionsNum": 5
+            },
+            {
+              "id": 29,
+              "name": "表达式和运算符",
+              "introduce": "理解表达式、运算符，并学习常见运算符的运算规则。",
+              "upload": "2018-09-14T20:59:54Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 235,
+                  "name": "Javascript表达式",
+                  "introduce": "表达式是一种JS短语，可以使JS解释器产生一个值",
+                  "upload": "2018-09-15T10:03:45Z",
+                  "chapter": 29
+                },
+                {
+                  "id": 236,
+                  "name": "Javascript运算符",
+                  "introduce": "一元运算符、二元运算符、三元运算符",
+                  "upload": "2018-09-15T10:05:07Z",
+                  "chapter": 29
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 30,
+              "name": "语句",
+              "introduce": "介绍语句，各常见语句的坑，也会介绍严格模式。",
+              "upload": "2018-09-14T21:00:16Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 237,
+                  "name": "Javascript里block语句、var语句",
+                  "introduce": "block语句、var语句",
+                  "upload": "2018-09-15T10:07:22Z",
+                  "chapter": 30
+                },
+                {
+                  "id": 238,
+                  "name": "Javascript里try-catch语句",
+                  "introduce": "try_catch语句",
+                  "upload": "2018-09-15T10:08:08Z",
+                  "chapter": 30
+                },
+                {
+                  "id": 239,
+                  "name": "Javascript里函数、switch、循环",
+                  "introduce": "JavaScript的控制流程",
+                  "upload": "2018-09-15T10:08:42Z",
+                  "chapter": 30
+                },
+                {
+                  "id": 240,
+                  "name": "Javascript里严格模式",
+                  "introduce": "Javascript里严格模式",
+                  "upload": "2018-09-15T10:09:20Z",
+                  "chapter": 30
+                }
+              ],
+              "sectionsNum": 4
+            },
+            {
+              "id": 31,
+              "name": "对象",
+              "introduce": "介绍对象、属性描述器、原型等等。",
+              "upload": "2018-09-14T21:00:38Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 241,
+                  "name": "Javascript里对象概述",
+                  "introduce": "Javascript中的对象",
+                  "upload": "2018-09-15T10:09:45Z",
+                  "chapter": 31
+                },
+                {
+                  "id": 242,
+                  "name": "Javascript里创建对象、原型链",
+                  "introduce": "Javascript里的prototype原型对象",
+                  "upload": "2018-09-15T10:10:22Z",
+                  "chapter": 31
+                },
+                {
+                  "id": 243,
+                  "name": "Javascript里属性操作",
+                  "introduce": "Javascript里属性操作",
+                  "upload": "2018-09-15T10:10:55Z",
+                  "chapter": 31
+                },
+                {
+                  "id": 244,
+                  "name": "Javascript里get/set方法",
+                  "introduce": "Javascript里的属性封装",
+                  "upload": "2018-09-15T10:11:22Z",
+                  "chapter": 31
+                },
+                {
+                  "id": 245,
+                  "name": "Javascript里属性标签",
+                  "introduce": "Javascript里属性标签",
+                  "upload": "2018-09-15T10:11:46Z",
+                  "chapter": 31
+                },
+                {
+                  "id": 246,
+                  "name": "Javascript里对象标签、对象序列化",
+                  "introduce": "Javascript里对象标签、对象序列化",
+                  "upload": "2018-09-15T10:12:12Z",
+                  "chapter": 31
+                }
+              ],
+              "sectionsNum": 6
+            },
+            {
+              "id": 32,
+              "name": "数组",
+              "introduce": "介绍数组创建方法、常见得数组操作等等。",
+              "upload": "2018-09-14T21:01:01Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 247,
+                  "name": "Javascript里创建数组、数组操作",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:12:49Z",
+                  "chapter": 32
+                },
+                {
+                  "id": 248,
+                  "name": "Javascript运算里二维数组、稀疏数组",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:13:23Z",
+                  "chapter": 32
+                },
+                {
+                  "id": 249,
+                  "name": "Javascript里数组方法上",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:13:45Z",
+                  "chapter": 32
+                },
+                {
+                  "id": 250,
+                  "name": "Javascript里数组方法下",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:14:00Z",
+                  "chapter": 32
+                },
+                {
+                  "id": 251,
+                  "name": "Javascript里数组小结",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:14:27Z",
+                  "chapter": 32
+                }
+              ],
+              "sectionsNum": 5
+            },
+            {
+              "id": 33,
+              "name": "函数和作用域（函数、this）",
+              "introduce": "介绍函数、深入探讨函数声明、函数表达式和它们的区别，及讲解this的动态性、不同情况下this的取值逻辑。",
+              "upload": "2018-09-14T21:01:24Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 252,
+                  "name": "Javascript里函数概述",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:15:00Z",
+                  "chapter": 33
+                },
+                {
+                  "id": 253,
+                  "name": "Javascript里函数声明与表达式",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:15:25Z",
+                  "chapter": 33
+                },
+                {
+                  "id": 254,
+                  "name": "Javascript里this",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:15:56Z",
+                  "chapter": 33
+                },
+                {
+                  "id": 255,
+                  "name": "Javascript里函数属性arguments",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:16:39Z",
+                  "chapter": 33
+                }
+              ],
+              "sectionsNum": 4
+            },
+            {
+              "id": 34,
+              "name": "函数和作用域（闭包、作用域）",
+              "introduce": "理解闭包和JavaScript中的作用域。",
+              "upload": "2018-09-14T21:01:44Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 256,
+                  "name": "Javascript之理解闭包",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:17:35Z",
+                  "chapter": 34
+                },
+                {
+                  "id": 257,
+                  "name": "Javascript之作用域",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:17:59Z",
+                  "chapter": 34
+                },
+                {
+                  "id": 258,
+                  "name": "Javascript之执行上下文",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:18:17Z",
+                  "chapter": 34
+                }
+              ],
+              "sectionsNum": 3
+            },
+            {
+              "id": 35,
+              "name": " OOP（上）",
+              "introduce": "深入理解JavaScript基于原型链的继成机制，学习JavaScript的OOP实现方法，通过与Java对比了解基于原型和基于类的继成之区别与联系。",
+              "upload": "2018-09-14T21:02:06Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 259,
+                  "name": "Javascript之概念与继承",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:19:03Z",
+                  "chapter": 35
+                },
+                {
+                  "id": 260,
+                  "name": "Javascript之再谈原型链",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:19:24Z",
+                  "chapter": 35
+                },
+                {
+                  "id": 261,
+                  "name": "Javascript之prototype属性",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:19:57Z",
+                  "chapter": 35
+                },
+                {
+                  "id": 262,
+                  "name": "Javascript之instanceof",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:20:24Z",
+                  "chapter": 35
+                },
+                {
+                  "id": 263,
+                  "name": "Javascript之实现继承的方法",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:20:53Z",
+                  "chapter": 35
+                }
+              ],
+              "sectionsNum": 5
+            },
+            {
+              "id": 36,
+              "name": "OOP（下）",
+              "introduce": "深入理解JavaScript基于原型链的继成机制，学习JavaScript的OOP实现方法，通过与Java对比了解基于原型和基于类的继成之区别与联系。",
+              "upload": "2018-09-14T21:02:27Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 264,
+                  "name": "Javascript之OOP(模拟重载、链式调用、模块化)",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:21:50Z",
+                  "chapter": 36
+                },
+                {
+                  "id": 265,
+                  "name": "Javascript之探测器",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:22:08Z",
+                  "chapter": 36
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 37,
+              "name": "正则与模式匹配",
+              "introduce": "简单介绍正则表达式，以及在JavaScript中如何应用。",
+              "upload": "2018-09-14T21:02:49Z",
+              "course": 6,
+              "sections": [
+                {
+                  "id": 266,
+                  "name": "Javascript之正则表达式",
+                  "introduce": null,
+                  "upload": "2018-09-15T10:22:32Z",
+                  "chapter": 37
+                }
+              ],
+              "sectionsNum": 1
+            }
+          ],
+          "chaptersNum": 10
+        }
+      ],
+      "coursesNum": 1
+    },
+    {
+      "id": 20,
+      "name": "C++零基础入门 热门编程语言 二级考试必备",
+      "introduce": "系统化学习基础语法、指针、引用、面向对象，结合实际应用、练习、作业助你成长！",
+      "price": 428,
+      "learn": 518,
+      "imgurl": "dc9054b9-5cf2-4cf4-806d-6f7f46780a2a.jpg",
+      "finish": "学习基础语法、指针、引用、面向对象",
+      "courses": [
+        {
+          "id": 33,
+          "name": "C++入门",
+          "introduce": "本教程是C++的初级教程，是在C语言基础上的一个延伸，讲述了包括新增数据类型、命名空间等内容，最后通过一个通俗易懂的例子将所述知识点融会贯通，以达到知识灵活运用，最终得以升华的目的。",
+          "price": 297,
+          "learn": 3213,
+          "imgurl": "ddbae287-27ad-424b-9daf-92ba993223c3.jpg",
+          "cs_category": 9,
+          "cs_direction": 2,
+          "cs_degree": 1,
+          "cs_career": 20,
+          "chapters": [
+            {
+              "id": 194,
+              "name": " C++简介",
+              "introduce": "本章讲述了C++语言的来龙去脉",
+              "upload": "2018-10-02T17:15:37Z",
+              "course": 33,
+              "sections": [
+                {
+                  "id": 876,
+                  "name": "C++简介",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:15:50Z",
+                  "chapter": 194
+                }
+              ],
+              "sectionsNum": 1
+            },
+            {
+              "id": 195,
+              "name": "C++ IDE环境搭建",
+              "introduce": "本章讲述了C++语言将用到的IDE环境。",
+              "upload": "2018-10-02T17:16:15Z",
+              "course": 33,
+              "sections": [
+                {
+                  "id": 877,
+                  "name": "C++ IDE环境搭建",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:16:27Z",
+                  "chapter": 195
+                }
+              ],
+              "sectionsNum": 1
+            },
+            {
+              "id": 196,
+              "name": " C++之初体验",
+              "introduce": "编写第一个C++程序-HelloWorld",
+              "upload": "2018-10-02T17:16:41Z",
+              "course": 33,
+              "sections": [
+                {
+                  "id": 878,
+                  "name": "C++之初体验",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:16:54Z",
+                  "chapter": 196
+                }
+              ],
+              "sectionsNum": 1
+            }
+          ],
+          "chaptersNum": 3
+        },
+        {
+          "id": 34,
+          "name": "C++初级",
+          "introduce": "本课程将带领大家体会面向对象三大特性中的多态特性，讲述了虚函数、抽象类和接口类等概念，以及多态的实现原理，课程的最后引入RTTI及异常处理，使整个多态篇更加完整，更具实战指导性，本门课程是C++远征课程的高潮和经典，对于面向对象的语言的学习将大有裨益。",
+          "price": 396,
+          "learn": 3214,
+          "imgurl": "fd4dcfd2-21bb-4162-97c3-154c2b006464.jpg",
+          "cs_category": 9,
+          "cs_direction": 2,
+          "cs_degree": 2,
+          "cs_career": 20,
+          "chapters": [
+            {
+              "id": 197,
+              "name": "课程介绍",
+              "introduce": "课程介绍，带领大家走进C++多态篇的学习。",
+              "upload": "2018-10-02T17:17:29Z",
+              "course": 34,
+              "sections": [
+                {
+                  "id": 879,
+                  "name": "C++多态概述 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:17:40Z",
+                  "chapter": 197
+                }
+              ],
+              "sectionsNum": 1
+            },
+            {
+              "id": 198,
+              "name": "虚函数及实现原理",
+              "introduce": "本章讲解虚函数、虚析构函数及虚函数的实现原理。",
+              "upload": "2018-10-02T17:17:56Z",
+              "course": 34,
+              "sections": [
+                {
+                  "id": 880,
+                  "name": " [C++]虚函数",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:18:10Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 881,
+                  "name": "[C++]虚函数代码示例 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:18:21Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 882,
+                  "name": " [C++]虚析构函数",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:18:31Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 883,
+                  "name": "[C++]虚析构函数代码示例",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:18:41Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 884,
+                  "name": "[C++]虚函数与虚析构函数原理 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:18:53Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 885,
+                  "name": " [C++]虚函数表示例一",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:19:06Z",
+                  "chapter": 198
+                },
+                {
+                  "id": 886,
+                  "name": " [C++]虚函数表示例二",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:19:17Z",
+                  "chapter": 198
+                }
+              ],
+              "sectionsNum": 7
+            }
+          ],
+          "chaptersNum": 2
+        },
+        {
+          "id": 35,
+          "name": "C++中级",
+          "introduce": "本课程主要以图的存储方式，图的遍历方法，图的最小生成树为内容主体，详细讲述了图的存储方式，图的遍历和最小生成树的编程思路及实现原理，并手把手完成图的深度优先遍历算法和广度优先遍历算法，",
+          "price": 297,
+          "learn": 654,
+          "imgurl": "e7bc1447-131a-4bc1-bd68-4e5915c8895b.jpg",
+          "cs_category": 9,
+          "cs_direction": 2,
+          "cs_degree": 3,
+          "cs_career": 20,
+          "chapters": [
+            {
+              "id": 199,
+              "name": "图的基本概念",
+              "introduce": "本章讲解了图的基本概念，如：有向图、无向图、边、弧等。",
+              "upload": "2018-10-02T17:19:57Z",
+              "course": 35,
+              "sections": [
+                {
+                  "id": 887,
+                  "name": "课程概述",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:20:09Z",
+                  "chapter": 199
+                }
+              ],
+              "sectionsNum": 1
+            },
+            {
+              "id": 200,
+              "name": "图的存储结构、遍历方式及最小生成树算法原理",
+              "introduce": "本章详细讲述了图的几种常用存储结构、遍历方式及普里姆算法和克鲁斯卡尔算法的设计思路。",
+              "upload": "2018-10-02T17:20:30Z",
+              "course": 35,
+              "sections": [
+                {
+                  "id": 888,
+                  "name": "图的基本概念及存储方式（一)",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:20:41Z",
+                  "chapter": 200
+                },
+                {
+                  "id": 889,
+                  "name": "图的基本概念及存储方式（二）",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:20:51Z",
+                  "chapter": 200
+                },
+                {
+                  "id": 890,
+                  "name": " 图的遍历及最小生成树 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:21:01Z",
+                  "chapter": 200
+                }
+              ],
+              "sectionsNum": 3
+            }
+          ],
+          "chaptersNum": 2
+        }
+      ],
+      "coursesNum": 3
+    },
+    {
+      "id": 18,
+      "name": "iOS进阶：界面优化与数据存储",
+      "introduce": "视图控制器、屏幕适配、数据存储、团购实战综合案例、以及Swift核心内容！",
+      "price": 358,
+      "learn": 510,
+      "imgurl": "adb73f28-bd18-4a1a-a546-064f5bb2fbf6.jpg",
+      "finish": "视图控制器、屏幕适配",
+      "courses": [
+        {
+          "id": 59,
+          "name": "iOS中级",
+          "introduce": "本视频教程为大家带来如何使用地图组件进行基于LBS的开发",
+          "price": 198,
+          "learn": 421,
+          "imgurl": "bbc8ee37-c9e3-46cc-a909-a50a0f4b7d3a.jpg",
+          "cs_category": 23,
+          "cs_direction": 3,
+          "cs_degree": 3,
+          "cs_career": 18,
+          "chapters": [
+            {
+              "id": 249,
+              "name": "CALayer的绘制实现方式",
+              "introduce": "本章主要介绍CALayer，以及实现绘制的方式。",
+              "upload": "2018-10-02T18:37:54Z",
+              "course": 59,
+              "sections": [
+                {
+                  "id": 1067,
+                  "name": "CALayer介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:38:12Z",
+                  "chapter": 249
+                },
+                {
+                  "id": 1068,
+                  "name": "绘制实现方式 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:38:23Z",
+                  "chapter": 249
+                },
+                {
+                  "id": 1367,
+                  "name": "CALayer介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:43:16Z",
+                  "chapter": 249
+                },
+                {
+                  "id": 1368,
+                  "name": "绘制实现方式",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:43:34Z",
+                  "chapter": 249
+                },
+                {
+                  "id": 1817,
+                  "name": "CALayer介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:40:47Z",
+                  "chapter": 249
+                },
+                {
+                  "id": 1818,
+                  "name": "绘制实现方式",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:41:02Z",
+                  "chapter": 249
+                }
+              ],
+              "sectionsNum": 6
+            },
+            {
+              "id": 250,
+              "name": "CALayer绘制实战",
+              "introduce": "本章主要讲解绘制圆形进度条的实现过程，以及百分比和仪表盘的绘制。",
+              "upload": "2018-10-02T18:38:41Z",
+              "course": 59,
+              "sections": [
+                {
+                  "id": 1069,
+                  "name": "实战介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:38:53Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1070,
+                  "name": "绘制百分比文本",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:39:05Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1071,
+                  "name": " 圆弧绘制",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T18:39:16Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1369,
+                  "name": "实战介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:43:54Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1370,
+                  "name": "绘制百分比文本",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:44:10Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1371,
+                  "name": "圆弧绘制",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-22T14:44:26Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1819,
+                  "name": "实战介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:41:24Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1820,
+                  "name": "绘制百分比文本",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:41:39Z",
+                  "chapter": 250
+                },
+                {
+                  "id": 1821,
+                  "name": "圆弧绘制",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-23T10:41:52Z",
+                  "chapter": 250
+                }
+              ],
+              "sectionsNum": 9
+            }
+          ],
+          "chaptersNum": 2
+        }
+      ],
+      "coursesNum": 1
+    },
+    {
+      "id": 27,
+      "name": "Android从界面到数据存储",
+      "introduce": "适用于有Java基础，从Android入门的企业开发必备技能到开发交互性真实APP！",
+      "price": 699,
+      "learn": 499,
+      "imgurl": "b688aff3-2dd6-4206-b0f2-d9806d4cb105.jpg",
+      "finish": "适用于有Java基础",
+      "courses": [],
+      "coursesNum": 0
+    },
+    {
+      "id": 25,
+      "name": "进击JavaScript核心",
+      "introduce": "通过JavaScript进阶知识的学习，一起实现简易计算器以及表单验证案例。",
+      "price": 399,
+      "learn": 464,
+      "imgurl": "0fd64a83-c481-4ceb-b521-1e4a91a800e0.jpg",
+      "finish": "进阶知识的学习",
+      "courses": [
+        {
+          "id": 7,
+          "name": "jQuery初级",
+          "introduce": "jQuery是一个快速、简洁的JavaScript框架，是继Prototype之后又一个优秀的JavaScript代码库（或JavaScript框架）。",
+          "price": 396,
+          "learn": 1200,
+          "imgurl": "80203bc0-aa67-45a4-b03d-49c3a3232c52.jpg",
+          "cs_category": 18,
+          "cs_direction": 1,
+          "cs_degree": 2,
+          "cs_career": 25,
+          "chapters": [
+            {
+              "id": 47,
+              "name": "事件介绍",
+              "introduce": "课程介绍，通过之前的JS事件引出jQuery事件,让大家了解课程内容及事件概念。",
+              "upload": "2018-09-15T11:23:57Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 323,
+                  "name": "事件篇课程介绍",
+                  "introduce": null,
+                  "upload": "2018-09-15T13:30:30Z",
+                  "chapter": 47
+                }
+              ],
+              "sectionsNum": 1
+            },
+            {
+              "id": 48,
+              "name": "鼠标事件",
+              "introduce": "本章介绍鼠标事件，包含点击、移入、移出、双击等事件的理解及应用。",
+              "upload": "2018-09-15T11:23:58Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 324,
+                  "name": "jQuery鼠标事件之click与dbclick事件",
+                  "introduce": "用交互操作中，最简单直接的操作就是点击操作。jQuery提供了两个方法一个是click方法用于监听用户单击操作，另一个方法是dbclick方法用于监听用户双击操作。这两个方法的用法是类似的，下面以click()事件为例",
+                  "upload": "2018-09-15T13:31:00Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 325,
+                  "name": "jQuery鼠标事件之mousedown与mouseup事件",
+                  "introduce": "用户交互操作中，最简单直接的操作就是点击操作，因此jQuery提供了一个mousedown的快捷方法可以监听用户鼠标按下的操作，与其对应的还有一个方法mouseup快捷方法可以监听用户鼠标弹起的操作。",
+                  "upload": "2018-09-15T13:32:56Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 326,
+                  "name": "jQuery鼠标事件之mousemove事件\r\njQuery鼠标事件之mousemove事件",
+                  "introduce": "用交互操作中，经常需要知道用户是否有移动的操作。基于移动的机制可以做出拖动、拖拽一系列的效果出来。针对移动事件，jQuery提供了一个mousemove的快捷方法可以监听用户移动的的操作",
+                  "upload": "2018-09-15T13:43:21Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 327,
+                  "name": "jQuery鼠标事件之mouseover与mouseout事件",
+                  "introduce": "jQuery当中同样提供了这样的事件来监听用户的移入移出操作，mouseover()与mouseout()事件，两者用法类似",
+                  "upload": "2018-09-15T13:44:06Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 328,
+                  "name": "jQuery鼠标事件之mouseenter与mouseleave事件",
+                  "introduce": "用交互操作中，经常需要知道用户操作鼠标是否有移到元素内部或是元素外部，因此jQuery提供了一个mouseenter和mouseleave的快捷方法可以监听用户移动到内部的操作",
+                  "upload": "2018-09-15T13:44:44Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 329,
+                  "name": "jQuery鼠标事件之hover事件",
+                  "introduce": "学了mouseover、mouseout、mouseenter、mouseleave事件，也理解了四个事件的相同点与不同点，现在可以用来给元素做一个简单的切换效果",
+                  "upload": "2018-09-15T13:45:07Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 330,
+                  "name": "jQuery鼠标事件之focusin事件",
+                  "introduce": "当一个元素，或者其内部任何一个元素获得焦点的时候，例如：input元素，用户在点击聚焦的时候，如果开发者需要捕获这个动作的时候，jQuery提供了一个focusin事件",
+                  "upload": "2018-09-15T13:45:33Z",
+                  "chapter": 48
+                },
+                {
+                  "id": 331,
+                  "name": "jQuery鼠标事件之focusout事件",
+                  "introduce": "当一个元素，或者其内部任何一个元素失去焦点的时候，比如input元素，用户在点击失去焦的时候，如果开发者需要捕获这个动作，jQuery提供了一个focusout事件",
+                  "upload": "2018-09-15T13:46:09Z",
+                  "chapter": 48
+                }
+              ],
+              "sectionsNum": 8
+            },
+            {
+              "id": 49,
+              "name": "表单事件",
+              "introduce": "介绍表单中的事件，包含选择、失去焦点、获取焦点等事件理解及应用。",
+              "upload": "2018-09-15T11:23:59Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 332,
+                  "name": "jQuery表单事件之blur与focus事件",
+                  "introduce": "我们学过了表单处理事件focusin事件与focusout事件，同样用于处理表单焦点的事件还有blur与focus事件",
+                  "upload": "2018-09-15T13:46:53Z",
+                  "chapter": 49
+                },
+                {
+                  "id": 333,
+                  "name": "jQuery表单事件之change事件",
+                  "introduce": "<input>元素，<textarea>和<select>元素的值都是可以发生改变的，开发者可以通过change事件去监听这些改变的动作",
+                  "upload": "2018-09-15T13:47:19Z",
+                  "chapter": 49
+                },
+                {
+                  "id": 334,
+                  "name": "jQuery表单事件之select事件",
+                  "introduce": "当 textarea 或文本类型的 input 元素中的文本被选择时，会发生 select 事件。\r\n这个函数会调用执行绑定到select事件的所有函数，包括浏览器的默认行为。可以通过在某个绑定的函数中返回false来防止触发浏览器的默认行为。",
+                  "upload": "2018-09-15T13:47:42Z",
+                  "chapter": 49
+                },
+                {
+                  "id": 335,
+                  "name": "jQuery表单事件之submit事件",
+                  "introduce": "提交表单是一个最常见的业务需求，比如用户注册，一些信息的输入都是需要表单的提交。同样的有时候开发者需要在表单提交的时候过滤一些的数据、做一些必要的操作（例如：验证表单输入的正确性，如果错误就阻止提交，从新输入）此时可以通过submit事件，监听下提交表单的这个动作",
+                  "upload": "2018-09-15T13:48:08Z",
+                  "chapter": 49
+                }
+              ],
+              "sectionsNum": 4
+            },
+            {
+              "id": 50,
+              "name": "键盘事件",
+              "introduce": "介绍获取键盘的事件，包含按键按下、抬起等事件的使用。",
+              "upload": "2018-09-15T11:24:00Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 336,
+                  "name": "jQuery键盘事件之keydown()与keyup()事件",
+                  "introduce": "鼠标有mousedown,mouseup之类的事件，这是根据人的手势动作分解的2个触发行为。相对应的键盘也有这类事件，将用户行为分解成2个动作，键盘按下与松手，针对这样的2种动作，jQuery分别提供了对应keydown与keyup方法来监听",
+                  "upload": "2018-09-15T13:48:51Z",
+                  "chapter": 50
+                },
+                {
+                  "id": 337,
+                  "name": "jQuery键盘事件之keypress()事件",
+                  "introduce": "keydown事件触发在文字还没敲进文本框，这时如果在keydown事件中输出文本框中的文本，得到的是触发键盘事件前的文本，而keyup事件触发时整个键盘事件的操作已经完成，获得的是触发键盘事件后的文本",
+                  "upload": "2018-09-15T13:49:32Z",
+                  "chapter": 50
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 51,
+              "name": "事件的绑定和解绑",
+              "introduce": "本章介绍事件的绑定和解绑知识，掌握如何对相应元素进行事件的绑定和解绑。",
+              "upload": "2018-09-15T11:24:01Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 338,
+                  "name": "on()的多事件绑定",
+                  "introduce": "之前学的鼠标事件，表单事件与键盘事件都有个特点，就是直接给元素绑定一个处理函数，所有这类事件都是属于快捷处理。翻开源码其实可以看到，所有的快捷事件在底层的处理都是通过一个\"on\"方法来实现的。jQuery on()方法是官方推荐的绑定事件的一个方法。",
+                  "upload": "2018-09-15T13:50:01Z",
+                  "chapter": 51
+                },
+                {
+                  "id": 339,
+                  "name": "on()的高级用法",
+                  "introduce": "针对自己处理机制中，不仅有on方法，还有根据on演变出来的live方法(1.7后去掉了)，delegate方法等等。这些方法的底层实现部分 还是on方法，这是利用了on的另一个事件机制委托的机制衍变而来的",
+                  "upload": "2018-09-15T13:50:22Z",
+                  "chapter": 51
+                },
+                {
+                  "id": 340,
+                  "name": "卸载事件off()方法",
+                  "introduce": "根据on绑定事件的一些特性，off方法也可以通过相应的传递组合的事件名，名字空间，选择器或处理函数来移除绑定在元素上指定的事件处理函数。当有多个过滤参数时，只有与这些参数完全匹配的事件处理函数才会被移除",
+                  "upload": "2018-09-15T13:50:44Z",
+                  "chapter": 51
+                }
+              ],
+              "sectionsNum": 3
+            },
+            {
+              "id": 52,
+              "name": "事件对象的使用",
+              "introduce": "介绍事件对象的概念和作用，掌握对象的属性及使用方法。",
+              "upload": "2018-09-15T11:24:02Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 341,
+                  "name": "jQuery事件对象的作用",
+                  "introduce": "事件中的Event对象容易被初学者忽略掉，可能大多时候初学者不知道怎么去用它，但有些时候它还是非常有用的",
+                  "upload": "2018-09-15T13:51:09Z",
+                  "chapter": 52
+                },
+                {
+                  "id": 342,
+                  "name": "jQuery事件对象的属性和方法",
+                  "introduce": "事件对象的属于与方法有很多，但是我们经常用的只有那么几个，这里我主要说下作用与区别",
+                  "upload": "2018-09-15T13:51:38Z",
+                  "chapter": 52
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 53,
+              "name": "自定义事件",
+              "introduce": "前面章介绍的mousedown、click、keydown等类型的事件都是浏览器提供的，本章介绍如何自定义事件，更灵活的实现相应效果。",
+              "upload": "2018-09-15T11:24:03Z",
+              "course": 7,
+              "sections": [
+                {
+                  "id": 343,
+                  "name": "jQuery自定义事件之trigger事件",
+                  "introduce": "众所周知类似于mousedown、click、keydown等等这类型的事件都是浏览器提供的，通俗叫原生事件，这类型的事件是需要有交互行为才能被触发。",
+                  "upload": "2018-09-15T13:52:11Z",
+                  "chapter": 53
+                },
+                {
+                  "id": 344,
+                  "name": "jQuery自定义事件之triggerHandler事件",
+                  "introduce": "trigger事件还有一个特性：会在DOM树上冒泡，所以如果要阻止冒泡就需要在事件处理程序中返回false或调用事件对象中的.stopPropagation() 方法可以使事件停止冒泡",
+                  "upload": "2018-09-15T13:52:29Z",
+                  "chapter": 53
+                }
+              ],
+              "sectionsNum": 2
+            }
+          ],
+          "chaptersNum": 7
+        }
+      ],
+      "coursesNum": 1
+    },
+    {
+      "id": 14,
+      "name": "PHP进阶：面向对象及TP5框架初识",
+      "introduce": "完善PHP知识体系，运用TP5框架进行实战案例开发，助你从菜鸟到独立项目开发完美蜕变。",
+      "price": 599,
+      "learn": 448,
+      "imgurl": "2db334b9-04d1-4a68-a0eb-ad4c49fce828.jpg",
+      "finish": "运用TP5框架进行实战案例开发",
+      "courses": [],
+      "coursesNum": 0
+    },
+    {
+      "id": 12,
+      "name": "Android深化：多媒体之动画、游戏、音视频",
+      "introduce": "智能手机怎么能少得了多媒体？动画，音频，视频，照像机、录音机等待你的学习",
+      "price": 499,
+      "learn": 390,
+      "imgurl": "47428f19-05db-4db3-b0fb-ac48bab38d3a.jpg",
+      "finish": "动画，音频，视频，照像机、录音机",
+      "courses": [],
+      "coursesNum": 0
+    },
+    {
+      "id": 16,
+      "name": "ECShop3从基本使用到二次开发",
+      "introduce": "基本使用到独立模块定制开发，深入解析ECShop源码，打造你的大型网上商城！",
+      "price": 318,
+      "learn": 385,
+      "imgurl": "8e0ba845-b2d3-4934-9131-050c7485bf40.jpg",
+      "finish": "深入解析ECShop源码",
+      "courses": [],
+      "coursesNum": 0
+    },
+    {
+      "id": 26,
+      "name": "PHP小白零基础入门",
+      "introduce": "前端页面设计到后台PHP开发，助你从零基础到掌握主流开发语言，迈出职场第一步。",
+      "price": 628,
+      "learn": 328,
+      "imgurl": "c4846728-9e90-4152-a32d-a06a03eab60a.jpg",
+      "finish": "后台PHP开发",
+      "courses": [
+        {
+          "id": 29,
+          "name": "PHP中级",
+          "introduce": "本课程主要讲解了git在各平台的安装和基本使用，Git能够帮助我们解决文件的提交、检出、回溯历史、冲突解决、多人协作模式等问题，并且大大提升我们的工作效率。",
+          "price": 198,
+          "learn": 213,
+          "imgurl": "7d0d4cba-cbe0-481f-8a9c-c79e2532d6bd.jpg",
+          "cs_category": 7,
+          "cs_direction": 2,
+          "cs_degree": 3,
+          "cs_career": 26,
+          "chapters": [
+            {
+              "id": 186,
+              "name": "实现原理",
+              "introduce": "短信发送实现的原理",
+              "upload": "2018-10-02T17:05:03Z",
+              "course": 29,
+              "sections": [
+                {
+                  "id": 845,
+                  "name": "课程介绍",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:05:15Z",
+                  "chapter": 186
+                },
+                {
+                  "id": 846,
+                  "name": "实现原理",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:05:26Z",
+                  "chapter": 186
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 187,
+              "name": " 短信接口介绍及实现",
+              "introduce": "短信接口介绍以及跨域请求发送短信验证",
+              "upload": "2018-10-02T17:05:41Z",
+              "course": 29,
+              "sections": [
+                {
+                  "id": 847,
+                  "name": "api接口发送短信介绍 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:05:54Z",
+                  "chapter": 187
+                },
+                {
+                  "id": 848,
+                  "name": "课file函数认识",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:06:09Z",
+                  "chapter": 187
+                },
+                {
+                  "id": 849,
+                  "name": "跨域发送核心代码 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:06:20Z",
+                  "chapter": 187
+                },
+                {
+                  "id": 850,
+                  "name": "前端ajax融合发送短信功能",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:06:31Z",
+                  "chapter": 187
+                }
+              ],
+              "sectionsNum": 4
+            }
+          ],
+          "chaptersNum": 2
+        },
+        {
+          "id": 30,
+          "name": "PHP高级",
+          "introduce": "通过使用微信JS-SDK，网页开发者可借助微信高效地使用拍照、选图、语音、位置等手机系统的能力，为微信用户提供更优质的网页体验。",
+          "price": 99,
+          "learn": 55,
+          "imgurl": "b1e3797b-155e-4888-90cb-ec303a92e323.jpg",
+          "cs_category": 7,
+          "cs_direction": 2,
+          "cs_degree": 4,
+          "cs_career": 26,
+          "chapters": [
+            {
+              "id": 188,
+              "name": "课程介绍",
+              "introduce": "课程介绍",
+              "upload": "2018-10-02T17:07:14Z",
+              "course": 30,
+              "sections": [
+                {
+                  "id": 851,
+                  "name": "版本控制简介",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:07:31Z",
+                  "chapter": 188
+                },
+                {
+                  "id": 852,
+                  "name": " 版本控制工具简单比较 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:07:44Z",
+                  "chapter": 188
+                }
+              ],
+              "sectionsNum": 2
+            },
+            {
+              "id": 189,
+              "name": "SVN服务端及客户端环境搭建",
+              "introduce": "SVN服务端及客户端环境搭建",
+              "upload": "2018-10-02T17:08:01Z",
+              "course": 30,
+              "sections": [
+                {
+                  "id": 853,
+                  "name": " SVN的安装",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:08:14Z",
+                  "chapter": 189
+                },
+                {
+                  "id": 854,
+                  "name": "服务端命令与客户端命令",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:08:23Z",
+                  "chapter": 189
+                },
+                {
+                  "id": 855,
+                  "name": "版本库的创建与删除 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:08:33Z",
+                  "chapter": 189
+                },
+                {
+                  "id": 856,
+                  "name": "版本库配置",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:08:43Z",
+                  "chapter": 189
+                },
+                {
+                  "id": 857,
+                  "name": "版本库的访问",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:08:53Z",
+                  "chapter": 189
+                },
+                {
+                  "id": 858,
+                  "name": "SVN服务自启动 ",
+                  "introduce": "咳咳，言归正传，为了方便大家快速吸收有效知识，了解最新技术咨询。",
+                  "upload": "2018-10-02T17:09:07Z",
+                  "chapter": 189
+                }
+              ],
+              "sectionsNum": 6
+            }
+          ],
+          "chaptersNum": 2
+        }
+      ],
+      "coursesNum": 2
+    }
+  ]
+}

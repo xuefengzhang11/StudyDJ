@@ -12,6 +12,8 @@ urlpatterns = [
     # 得到职业详情页
     url(r'getcareerdetail/(?P<careerid>\d*)/', views.getCareerDetail, name='getCareerDetail'),
     # 得到所有职业
-    url(r'^getcareer/(?P<pageIndex>\d*)/', views.getCareer, name='getCareer'),
+    # url(r'^getcareer/(?P<pageIndex>\d*)/', views.getCareer, name='getCareer'),
+    # 用完删
+    url(r'^getcareer/(?P<pageIndex>\d*)/', views.temp, name='getCareer'),
 
 ]
